@@ -1,0 +1,22 @@
+{
+  "name": "examnesarbete",
+  "version": "1.0.0",
+  "description": "secure in browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hagge01/thesis-test.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "test",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hagge01/thesis-test/issues"
+  },
+  "homepage": "https://github.com/Hagge01/thesis-test#readme"
+}
