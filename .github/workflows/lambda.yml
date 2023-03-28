@@ -20,4 +20,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: eu-north-1
           function_name: THESIS-secureinbrowser
-          source: lambda/func.java
+          source: lambda/Hello.java
