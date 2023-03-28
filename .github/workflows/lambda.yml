@@ -1,27 +1,23 @@
-name: Deploy to Lambda
+name: deploy to lambda
 on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
   push:
     branches:
       - main
 jobs:
-  deploy:
+
+  deploy_source:
+    name: deploy lambda from source
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Building function code
-        run: | 
-          cd lambda
-          npm ci
-          npm run build --if-present
-      - name: ZIP function code
-        run: |
-          zip -r function.zip *
-        working-directory: lambda/
-      - name: Deploy to Lambda
-        run: |
-          aws lambda update-function-code --function-name THESIS-secureinbrowser --zip-file fileb://function.zip
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-north-1
+      - name: checkout source code
+        uses: actions/checkout@v1
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: THESIS-secureinbrowser
+          source: lambda/func.java
