@@ -17,7 +17,7 @@ jobs:
       - name: ZIP function code
         run: | 
           zip -r ../function.zip .
-        working-directory: lambda/func.java
+        working-directory: lambda/
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code --function-name THESIS-secureinbrowser --zip-file fileb://lambda.zip
