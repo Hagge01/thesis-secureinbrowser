@@ -1,0 +1,40 @@
+name: Deploy to S3 and Lambda
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: npm install and build
+        run: |
+          npm ci
+          npm run build --if-present
+      - name: Sync to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: thesis-secureinbrowser
+          AWS_REGION: eu-north-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Building function code
+        run: | 
+          cd lambda
+          npm ci
+          npm run build
+      - name: ZIP function code
+        run: | 
+          zip -r ../function.zip .
+        working-directory: lambda/build
+      - name: Deploy to Lambda
+        run: |
+          aws lambda update-function-code --function-name THESIS-secureinbrowser --zip-file fileb://lambda.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-north-1
