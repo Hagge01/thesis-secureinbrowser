@@ -16,7 +16,7 @@ jobs:
           npm run build --if-present
       - name: ZIP function code
         run: |
-          zip -r ../function.zip *
+          zip -r function.zip *
         working-directory: lambda/
       - name: Deploy to Lambda
         run: |
