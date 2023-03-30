@@ -3,3 +3,6 @@ function myFunction(event, context, callback) {
     callback(null, "Success");
   }
   
+  module.exports = {
+    myFunction: myFunction
+  };
