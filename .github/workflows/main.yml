@@ -23,5 +23,5 @@ jobs:
 
       - name: Sync to S3
         run: |
-          aws s3 sync ./pages/ s3://thesis-secureinbrowser/pages/ --delete
-          aws s3 sync ./js/ s3://thesis-secureinbrowser/js/ --delete
+          aws s3 sync ./pages/ s3://thesis-secureinbrowser/pages/
+          aws s3 sync ./js/ s3://thesis-secureinbrowser/js/
