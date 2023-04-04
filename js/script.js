@@ -1,4 +1,5 @@
 
+
 import { Auth } from 'aws-amplify';
 
 // Add an event listener to the sign-out button or link

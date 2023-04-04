@@ -7,21 +7,29 @@
     <h1>Logga in</h1>
     <p>Testar cognito2/p>
     <button id="sign-out-button"> logga ut</button>
-    <script>
+    <script src="../js/script.js">
         import { Auth } from 'aws-amplify';
 
-// Add an event listener to the sign-out button or link
-document.getElementById('sign-out-button').addEventListener('click', () => {
-  // Call the Auth.signOut() method to sign the user out
-  Auth.signOut()
-    .then(() => {
-      // Redirect the user to a different page or display a message
-      window.location.href = '/pages/sida2.html';
-    })
-    .catch((error) => {
-      console.log('Error signing out:', error);
-    });
-});
+        Auth.configure({
+            Auth: {
+                region: 'eu-north-1',
+                userPoolId: 'eu-north-1_gFRRs0pAX',
+                userPoolWebClientId: '7r2bam11ounrq97okspbpjrtv0',
+            },
+        });
+
+        // Add an event listener to the sign-out button or link
+        document.getElementById('sign-out-button').addEventListener('click', () => {
+          // Call the Auth.signOut() method to sign the user out
+          Auth.signOut()
+            .then(() => {
+              // Redirect the user to a different page or display a message
+              window.location.href = '/pages/sida2.html';
+            })
+            .catch((error) => {
+              console.log('Error signing out:', error);
+            });
+        });
 
     </script>
     
