@@ -9,9 +9,10 @@
     <p>Testar cognito2/p>
     <button id="sign-out-button"> logga ut</button>
     <script>
+        const Amplify = window['aws-amplify'];
 
 // Configure the AWS Amplify library with your User Pool ID and App client ID
-        aws_amplify.configure({
+        Amplify.configure({
           Auth: {
                         region: 'eu-north-1',
                         userPoolId: 'eu-north-1_gFRRs0pAX',
