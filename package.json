@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Hagge01/thesis-test/issues"
   },
-  "homepage": "https://github.com/Hagge01/thesis-test#readme"
+  "homepage": "https://github.com/Hagge01/thesis-test#readme",
+  "dependencies": {
+    "aws-amplify": "^5.0.23"
+  }
 }
