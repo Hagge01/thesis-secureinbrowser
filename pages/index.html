@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My First Web Page</title>
+    <title>My First2 Web Page</title>
+      <script src="https://unpkg.com/aws-amplify@3.4.2/dist/aws-amplify.min.js"></script>
 </head>
 <body>
     <h1>Logga in</h1>
     <p>Testar cognito2/p>
     <button id="sign-out-button"> logga ut</button>
     <script src="../js/script.js">
-        import { Auth } from 'aws-amplify';
 
-        Auth.configure({
-            Auth: {
+// Configure the AWS Amplify library with your User Pool ID and App client ID
+Amplify.configure({
+  Auth: {
                 region: 'eu-north-1',
                 userPoolId: 'eu-north-1_gFRRs0pAX',
-                userPoolWebClientId: '7r2bam11ounrq97okspbpjrtv0',
-            },
-        });
+                userPoolWebClientId: '7r2bam11ounrq97okspbpjrtv0'
+  }
+});
 
         // Add an event listener to the sign-out button or link
         document.getElementById('sign-out-button').addEventListener('click', () => {
