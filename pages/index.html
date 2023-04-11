@@ -15,7 +15,7 @@
             $(document).ready(function () {
                 $("#sign-out-button").click(function () {
                     $.ajax({
-                        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser",
+                        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/test.js",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify({
@@ -40,7 +40,7 @@
 
     <script>
         // JavaScript code for fetching data from Lambda function and updating the DOM
-        fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser')
+        fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/test.js')
             .then(response => response.json())
             .then(data => {
                 // Access the keys and values from the JSON response
