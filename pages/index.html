@@ -33,6 +33,30 @@
                 });
             });
         </script>
+    <h1>Keys from Lambda Function</h1>
+    <p>Key1: <span id="key1"></span></p>
+    <p>Key2: <span id="key2"></span></p>
+    <p>Key3: <span id="key3"></span></p>
+
+    <script>
+        // JavaScript code for fetching data from Lambda function and updating the DOM
+        fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser')
+            .then(response => response.json())
+            .then(data => {
+                // Access the keys and values from the JSON response
+                const key1 = data.key1;
+                const key2 = data.key2;
+                const key3 = data.key3;
+
+                // Update the DOM with the keys and values
+                document.getElementById('key1').innerText = key1;
+                document.getElementById('key2').innerText = key2;
+                document.getElementById('key3').innerText = key3;
+            })
+            .catch(error => {
+                console.error("Error: ", error);
+            });
+    </script>
 
     
 </body>
