@@ -10,10 +10,16 @@
         
     <button id="sign-out-button"> logga ut</button>
 
+    <h1>Keys from Lambda Function</h1>
+    <p>Key1: <span id="key1"></span></p>
+    <p>Key2: <span id="key2"></span></p>
+    <p>Key3: <span id="key3"></span></p>
+    <button id="get-keys"> logga ut</button>
+
     <script>
             // ajax
             $(document).ready(function () {
-                $("#sign-out-button").click(function () {
+                $("#get-keys").click(function () {
                     $.ajax({
                         url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/myFunction2",
                         type: "POST",
@@ -33,10 +39,7 @@
                 });
             });
         </script>
-    <h1>Keys from Lambda Function</h1>
-    <p>Key1: <span id="key1"></span></p>
-    <p>Key2: <span id="key2"></span></p>
-    <p>Key3: <span id="key3"></span></p>
+
 
     <script>
         // JavaScript code for fetching data from Lambda function and updating the DOM
