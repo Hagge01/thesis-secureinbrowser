@@ -2,13 +2,48 @@
 <html>
 <head>
     <title>My First2 Web Page</title>
+    <script src="https://unpkg.com/browse/aws-amplify@4.3.46/dist/aws-amplify.min.js"></script>
+    <script src="https://www.unpkg.com/browse/aws-sdk@2.1354.0/dist/aws-sdk.min.js"></script>
 </head>
 <body>
     <h1>Välkommen!</h1>
     <p>Testar cognito/p>
-        
+
     <button id="sign-out-button"> logga ut</button>
 
-    
+    <script>
+
+        const AWS = require('aws-sdk');
+        const Amplify = require('aws-amplify');
+
+        AWS.config.update({
+            region: 'eu-north-1',
+            credentials: new AWS.Credentials(process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY)
+        });
+
+        Amplify.configure({
+        Auth: {
+            region: 'eu-north-1',
+            userPoolId: 'eu-north-1_gFRRs0pAX',
+            userPoolWebClientId: '7r2bam11ounrq97okspbpjrtv0'
+        }
+        });
+
+        // Now you can use the Auth module
+        // Add an event listener to the sign-out button or link
+    document.getElementById('sign-out-button').addEventListener('click', () => {
+    // Call the Auth.signOut() method to sign the user out
+    Auth.signOut()
+    .then(() => {
+      // Redirect the user to a different page or display a message
+      window.location.href = '/pages/sida2.html';
+    })
+    .catch((error) => {
+      console.log('Error signing out:', error);
+    });
+});
+
+
+    </script>
 </body>
 </html>
