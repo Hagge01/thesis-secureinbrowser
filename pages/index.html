@@ -3,12 +3,13 @@
 <head>
     <title>My First2 Web Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1356.0.min.js"></script>
+
 </head>
 <body>
     <h1>Välkommen!</h1>
     <p>Testar cognito/p>
-
-    <button id="sign-out-button" > logga ut</button>
+    
     <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/logout?client_id=7r2bam11ounrq97okspbpjrtv0&logout_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html">logga ut</a>
     <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/login?response_type=code&client_id=7r2bam11ounrq97okspbpjrtv0&redirect_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html&state=STATE">Logga in</a>
 
@@ -19,36 +20,21 @@
     <button id="get-keys"> logga ut</button>
 
     <script>
-        /*
-     // Configure Amplify with your AWS resources
-     Amplify.configure({
-        Auth: {
-          region: 'eu-north-1',
-          userPoolId: 'eu-north-1_gFRRs0pAX',
-          userPoolWebClientId: '7r2bam11ounrq97okspbpjrtv0',
-        },
-      });
+        AWS.config.region = 'eu-north-1';
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'your-identity-pool-id'
+        });
 
-      // Sign out the current user
-      Auth.signOut()
-        .then(() => console.log('User signed out'))
-        .catch((error) => console.log('Error signing out:', error));
+        var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
+        apiVersion: '2016-04-18',
+        region: 'eu-north-1'
+        });
 
-      // Add an event listener to the sign-out button or link
-      document.getElementById('sign-out-button').addEventListener('click', () => {
-        // Call the Auth.signOut() method to sign the user out
-        Auth.signOut()
-          .then(() => {
-            // Redirect the user to a different page or display a message
-            window.location.href = '/pages/sida2.html';
-          })
-          .catch((error) => {
-            console.log('Error signing out:', error);
-          });
-      });*/
+        var userPool = new AWSCognito.CognitoUserPool({
+        UserPoolId: 'your-user-pool-id',
+        ClientId: 'your-client-id'
+        });
 
-
-  
    
             // ajax
             $(document).ready(function () {
