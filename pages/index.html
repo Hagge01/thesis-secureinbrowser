@@ -9,7 +9,9 @@
 <body>
     <h1>Välkommen!</h1>
     <p>Testar cognito/p>
-    
+        <button onclick="signIN()">Sign In</button>
+
+
     <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/logout?client_id=7r2bam11ounrq97okspbpjrtv0&logout_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html">logga ut</a>
     <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/login?response_type=code&client_id=7r2bam11ounrq97okspbpjrtv0&redirect_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html&state=STATE">Logga in</a>
 
@@ -20,20 +22,21 @@
     <button id="get-keys"> logga ut</button>
 
     <script>
-        AWS.config.region = 'eu-north-1';
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'your-identity-pool-id'
-        });
+        function signIN(){
+            var data = {
+            ClientId: '7r2bam11ounrq97okspbpjrtv0', // Your app client ID here
+            RedirectUri: 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html', // Your callback URL here
+            ResponseType: 'code',
+            Scope: 'openid email' // Optional scopes here
+            };
+            var cognitoHostedDomain = 'thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com';
+            var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + Object.keys(data).map(function(key) {
+                return key + '=' + encodeURIComponent(data[key]);
+            }).join('&');
+            window.location.assign(loginUrl);
+        }
+       
 
-        var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
-        apiVersion: '2016-04-18',
-        region: 'eu-north-1'
-        });
-
-        var userPool = new AWSCognito.CognitoUserPool({
-        UserPoolId: 'your-user-pool-id',
-        ClientId: 'your-client-id'
-        });
 
    
             // ajax
