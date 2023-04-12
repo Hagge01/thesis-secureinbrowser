@@ -6,5 +6,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="aws-amplify" level="application" />
+    <orderEntry type="library" name="aws-sdk" level="application" />
+    <orderEntry type="library" name="browse" level="application" />
   </component>
 </module>

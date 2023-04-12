@@ -26,3 +26,4 @@ jobs:
         run: |
           aws s3 sync --acl public-read ./pages/ s3://thesis-secureinbrowser/pages/ --delete
           aws s3 sync --acl public-read ./js/ s3://thesis-secureinbrowser/js/ --delete
+          aws s3 sync --acl public-read ./amplify/ s3://thesis-secureinbrowser/amplify/ --delete
