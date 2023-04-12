@@ -5,33 +5,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Keys from Lambda Function</h1>
+    <h1>Välkommen!</h1>
+    <p>Testar cognito/p>
+
+    <button id="sign-out-button" > logga ut</button>
+    <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/logout?client_id=7r2bam11ounrq97okspbpjrtv0&logout_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html">logga ut</a>
+    <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/login?response_type=code&client_id=7r2bam11ounrq97okspbpjrtv0&redirect_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html&state=STATE">Logga in</a>
+
+      <h1>Keys from Lambda Function</h1>
     <p>Key1: <span id="key1"></span></p>
     <p>Key2: <span id="key2"></span></p>
     <p>Key3: <span id="key3"></span></p>
-    <button id="get-keys">Get Keys</button>
-    <br>
-    <button id="sign-out-button">Logout</button>
-    <br>
-    <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/login?response_type=code&client_id=7r2bam11ounrq97okspbpjrtv0&redirect_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html&state=STATE">Login</a>
+    <button id="get-keys"> logga ut</button>
+
     <script>
-    // JavaScript code for handling login and logout
-
-    // Function to handle getting keys from Lambda function
-    document.getElementById('get-keys').addEventListener('click', function() {
-        // Add your logic to get keys from Lambda function here
-        // and update the key elements accordingly
-        document.getElementById('key1').textContent = 'Value1';
-        document.getElementById('key2').textContent = 'Value2';
-        document.getElementById('key3').textContent = 'Value3';
-    });
-
-    // Function to handle logout
-    document.getElementById('sign-out-button').addEventListener('click', function() {
-        // Add your logic to perform logout here, e.g. redirect to logout URL
-        window.location.href = 'https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/logout?client_id=7r2bam11ounrq97okspbpjrtv0&logout_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html';
-    });
-
         /*
      // Configure Amplify with your AWS resources
      Amplify.configure({
@@ -59,9 +46,6 @@
             console.log('Error signing out:', error);
           });
       });*/
-
-
-            import Amplify, { Auth } from 'aws-amplify';
    
             // ajax
             $(document).ready(function () {
