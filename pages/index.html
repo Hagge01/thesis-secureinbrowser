@@ -18,28 +18,23 @@
 
 
     <script>
-        import Amplify, { Auth } from 'aws-amplify';
+      import Amplify from 'aws-amplify';
 
 // Configure Amplify with your AWS resources
-        Amplify.configure({
-        Auth: {
-            region: 'eu-north-1',
-            userPoolId: 'eu-north-1_gFRRs0pAX',
-            userPoolWebClientId: '7r2bam11ounrq97okspbpjrtv0',
-        },
-});
+Amplify.configure(awsconfig);
+
+// Import the Auth module from the Amplify library
+import { Auth } from 'aws-amplify';
 
 // Sign out the current user
 Auth.signOut()
   .then(() => console.log('User signed out'))
   .catch((error) => console.log('Error signing out:', error));
 
-
-        // Now you can use the Auth module
-        // Add an event listener to the sign-out button or link
-    document.getElementById('sign-out-button').addEventListener('click', () => {
-    // Call the Auth.signOut() method to sign the user out
-    Auth.signOut()
+// Add an event listener to the sign-out button or link
+document.getElementById('sign-out-button').addEventListener('click', () => {
+  // Call the Auth.signOut() method to sign the user out
+  Auth.signOut()
     .then(() => {
       // Redirect the user to a different page or display a message
       window.location.href = '/pages/sida2.html';
@@ -48,6 +43,7 @@ Auth.signOut()
       console.log('Error signing out:', error);
     });
 });
+
 
   
    
