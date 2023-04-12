@@ -9,7 +9,7 @@ jobs:
   sync-to-s3:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout code2
         uses: actions/checkout@v2
 
       - name: Install Amplify CLI
