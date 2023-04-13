@@ -4,7 +4,7 @@
     <title>My First2 Web Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1356.0.min.js"></script>
-    
+    <script src="/js/amazon-cognito-identity.js"></script>
 
 </head>
 <body>
@@ -21,7 +21,7 @@
     <p>Key2: <span id="key2"></span></p>
     <p>Key3: <span id="key3"></span></p>
     <button id="get-keys"> logga ut</button>
-    <script src="/js/amazon-cognito-identity.js">
+    <script>
         function signIN(){
            
            var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
@@ -44,7 +44,7 @@
                // Handle sign-out error
    });
 }
-   
+   /*
             // ajax
             $(document).ready(function () {
                 $("#get-keys").click(function () {
@@ -85,7 +85,7 @@
                 console.error("Error: ", error);
             });
    
-
+*/
 
     </script>
 
