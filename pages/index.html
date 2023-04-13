@@ -54,6 +54,7 @@
                 console.log('refresh token + ' + result.getRefreshToken().getToken());
 
                 // Redirect to a different page or do something else after successful authentication
+                
             },
 
             onFailure: function(err) {
@@ -83,6 +84,7 @@
         if (cognitoUser) {
             cognitoUser.signOut();
             console.log('User signed out');
+            window.location.href = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html';
         }
     }
 
