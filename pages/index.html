@@ -43,6 +43,7 @@
         var currentUser = userPool.getCurrentUser();
 
         function signOut() {
+            console.log(currentUser);
             if (currentUser) {
                 currentUser.signOut();
                 console.log('User signed out');
