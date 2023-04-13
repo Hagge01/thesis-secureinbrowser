@@ -33,17 +33,22 @@
            var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
            window.location.assign(loginUrl);
        }
-       function signOut() {
-           Auth.signOut()
-               .then(() => {
-               console.log('User signed out');
-               // Redirect the user to the sign-in page or do any other post-sign-out actions
-               })
-               .catch((error) => {
-               console.log('Error signing out:', error);
-               // Handle sign-out error
-   });
-}
+       var poolData = {
+            UserPoolId: 'eu-north-1_gFRRs0pAX',
+            ClientId: '7r2bam11ounrq97okspbpjrtv0'
+        };
+        var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+        var currentUser = userPool.getCurrentUser();
+
+        function signOut() {
+            if (currentUser) {
+                currentUser.signOut();
+                console.log('User signed out');
+            }
+        }
+
+
    /*
             // ajax
             $(document).ready(function () {
