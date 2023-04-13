@@ -10,6 +10,8 @@
 <body>
     <h1>Välkommen!</h1>
     <p>Testar cognito/p>
+    <p>Username: <input type="text" id="username"></p>
+    <p>Password: <input type="password" id="password"></p>
        
 
 
@@ -23,6 +25,69 @@
     <button id="get-keys"> logga ut</button>
     <script src="/js/script.js"></script>
     <script>
+    var poolData = {
+        UserPoolId: 'eu-north-1_gFRRs0pAX',
+        ClientId: '7r2bam11ounrq97okspbpjrtv0'
+    };
+
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+    function signIN() {
+        var authenticationData = {
+            Username: document.getElementById("username").value,
+            Password: document.getElementById("password").value
+        };
+
+        var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+
+        var userData = {
+            Username: authenticationData.Username,
+            Pool: userPool
+        };
+
+        var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+        cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess: function(result) {
+                console.log('access token + ' + result.getAccessToken().getJwtToken());
+                console.log('id token + ' + result.getIdToken().getJwtToken());
+                console.log('refresh token + ' + result.getRefreshToken().getToken());
+
+                // Redirect to a different page or do something else after successful authentication
+            },
+
+            onFailure: function(err) {
+                console.error(err);
+                alert(err.message);
+            },
+
+            newPasswordRequired: function(userAttributes, requiredAttributes) {
+                // User was signed up by an admin and must provide new
+                // password and required attributes, if any, to complete
+                // authentication.
+
+                // userAttributes: object, which is the user's current profile. It will list all attributes that are associated with the user.
+                // RequiredAttributes: list of attributes that must be set by the user along with new password to complete the authentication.
+
+                // Get these details and call
+                // newPassword: password that user has given
+                // attributesData: object with key as attribute name and value that the user has given.
+                cognitoUser.completeNewPasswordChallenge('password123', {}, this);
+            }
+        });
+    }
+
+    function signOut() {
+        var cognitoUser = userPool.getCurrentUser();
+
+        if (cognitoUser) {
+            cognitoUser.signOut();
+            console.log('User signed out');
+        }
+    }
+
+
+        /*
         function signIN(){
            
            var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
@@ -50,7 +115,7 @@
             }
         }
 
-
+*/
    /*
             // ajax
             $(document).ready(function () {
