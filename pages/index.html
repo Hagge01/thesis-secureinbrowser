@@ -4,6 +4,7 @@
     <title>My First2 Web Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1356.0.min.js"></script>
+    <script src="./js/amazon-cognito-identity.js"></script>
 
 </head>
 <body>
@@ -33,10 +34,7 @@
             var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
             window.location.assign(loginUrl);
         }
-       
-
-
-   
+            
             // ajax
             $(document).ready(function () {
                 $("#get-keys").click(function () {
@@ -59,16 +57,16 @@
                 });
             });
         
-        // JavaScript code for fetching data from Lambda function and updating the DOM
+        // JavaScript code for fetching data
         fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/myFunction2')
             .then(response => response.json())
             .then(data => {
-                // Access the keys and values from the JSON response
+            
                 const key1 = data.key1;
                 const key2 = data.key2;
                 const key3 = data.key3;
 
-                // Update the DOM with the keys and values
+                
                 document.getElementById('key1').innerText = key1;
                 document.getElementById('key2').innerText = key2;
                 document.getElementById('key3').innerText = key3;
