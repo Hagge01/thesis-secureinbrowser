@@ -11,10 +11,11 @@
     <h1>Välkommen!</h1>
     <p>Testar cognito/p>
         <button onclick="signIN()">Sign In</button>
+        <button onclick="signOut()">Sign Out</button>
 
 
-    <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/logout?client_id=7r2bam11ounrq97okspbpjrtv0&logout_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html">logga ut</a>
-    <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/login?response_type=code&client_id=7r2bam11ounrq97okspbpjrtv0&redirect_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html&state=STATE">Logga in</a>
+    <!--<a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/logout?client_id=7r2bam11ounrq97okspbpjrtv0&logout_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html">logga ut</a>
+    <a href="https://thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com/login?response_type=code&client_id=7r2bam11ounrq97okspbpjrtv0&redirect_uri=https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html&state=STATE">Logga in</a>-->
 
       <h1>Keys from Lambda Function2</h1>
     <p>Key1: <span id="key1"></span></p>
@@ -24,6 +25,7 @@
 
     <script>
         import {AmazonCognitoIdentity} from "../js/amazon-cognito-identity";
+        import {Auth} from "../js/amazon-cognito-identity";
         const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
         function signIN(){
            
@@ -36,6 +38,17 @@
             var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
             window.location.assign(loginUrl);
         }
+        function signOut() {
+            Auth.signOut()
+                .then(() => {
+                console.log('User signed out');
+                // Redirect the user to the sign-in page or do any other post-sign-out actions
+                })
+                .catch((error) => {
+                console.log('Error signing out:', error);
+                // Handle sign-out error
+    });
+}
 
             // ajax
             $(document).ready(function () {
