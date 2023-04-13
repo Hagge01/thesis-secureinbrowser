@@ -18,6 +18,14 @@
             <input type="button" value="Logga in" onclick="signIN()">
         </form>
 
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <input type="button" value="Registrera" onclick="signUP()">
+        </form>
+
        
 
 
@@ -93,6 +101,26 @@
             window.location.href = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html';
         }
     }
+
+    function signUp(username, email, password) {
+    var attributeList = [];
+    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email', Value: email }));
+    userPool.signUp(username, password, attributeList, null, function(err, result){
+        if (err) {
+            console.log(err);
+            return;
+        }
+        var cognitoUser = result.user;
+        console.log('username is ' + cognitoUser.getUsername());
+        // Check if user needs to verify email
+        if (result.userConfirmed === false) {
+            // Redirect user to email verification page
+            window.location.href = 'verify-email.html?username=' + cognitoUser.getUsername();
+
+        }
+    });
+}
+
 
    /*
             // ajax
