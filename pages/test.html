@@ -41,43 +41,40 @@
       </details>
     </section>
   </div>
+  <button onclick="signIN()">Sign Out</button>
+  <button onclick="signOut()">Sign Out</button>
 
   <p class="systemError"></p>
 </div>
 <script>
   const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
+  function signIN(){
 
-  /**
-   * A simple way to control how debug content is written to a debug console element
-   */
-  function printDebug(elemDebug, title, output) {
-    if (elemDebug.innerHTML !== '') {
-      elemDebug.innerHTML += '\n';
+    var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
+    var RedirectUri = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/test.html'; // Your callback URL here
+    var ResponseType= 'code';
+    //Scope: 'openid email' // Optional scopes here
+
+    var cognitoHostedDomain = 'thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com';
+    var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
+    window.location.assign(loginUrl);
+  }
+  var poolData = {
+    UserPoolId: 'eu-north-1_gFRRs0pAX',
+    ClientId: '7r2bam11ounrq97okspbpjrtv0'
+  };
+  var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+  var currentUser = userPool.getCurrentUser();
+
+  function signOut() {
+    console.log(currentUser);
+    if (currentUser) {
+      currentUser.signOut();
+      console.log('User signed out');
     }
-    elemDebug.innerHTML += `// ${title}\n`;
-    elemDebug.innerHTML += `${output}\n`;
   }
 
-  /**
-   * A function to return a configured CognitoUserPool object for signing up and authenticating users
-   */
-  let userPool;
-  async function getAmazonCognitoUserPool() {
-
-    // We only need to create this object once, so let's only do so if we haven't already
-    if (!userPool) {
-      // A neat trick, we can determine the dynamically generated UserPoolId and ClientId from this page's headers (S3 Object Metadata)
-      const cognitoMetadataResp = await fetch('', {
-        method: 'HEAD',
-      });
-
-      userPool = new CognitoUserPool({
-        UserPoolId: cognitoMetadataResp.headers.get('x-amz-meta-userpoolid'),
-        ClientId: cognitoMetadataResp.headers.get('x-amz-meta-clientid')
-      });
-    }
-    return userPool;
-  }
 
 
 </script>
