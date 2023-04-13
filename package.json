@@ -4,7 +4,8 @@
   "description": "secure in browser",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "deployFrontEnd": "aws s3 sync ./ s3://thesis-secureinbrowser --delete"
   },
   "repository": {
     "type": "git",
@@ -23,3 +24,4 @@
     "aws-amplify": "^5.0.23"
   }
 }
+
