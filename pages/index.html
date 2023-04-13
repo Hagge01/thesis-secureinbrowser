@@ -4,7 +4,7 @@
     <title>My First2 Web Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1356.0.min.js"></script>
-    <script src="/js/amazon-cognito-identity.js"></script>
+    
 
 </head>
 <body>
@@ -22,33 +22,34 @@
     <p>Key2: <span id="key2"></span></p>
     <p>Key3: <span id="key3"></span></p>
     <button id="get-keys"> logga ut</button>
-
-    <script>
-        import {AmazonCognitoIdentity} from "../js/amazon-cognito-identity";
-        import {Auth} from "../js/amazon-cognito-identity";
-        const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
+    <script src="/js/amazon-cognito-identity.js">
         function signIN(){
            
-            var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
-            var RedirectUri = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html'; // Your callback URL here
-            var ResponseType= 'code';
-            //Scope: 'openid email' // Optional scopes here
-           
-            var cognitoHostedDomain = 'thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com';
-            var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
-            window.location.assign(loginUrl);
-        }
-        function signOut() {
-            Auth.signOut()
-                .then(() => {
-                console.log('User signed out');
-                // Redirect the user to the sign-in page or do any other post-sign-out actions
-                })
-                .catch((error) => {
-                console.log('Error signing out:', error);
-                // Handle sign-out error
-    });
+           var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
+           var RedirectUri = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html'; // Your callback URL here
+           var ResponseType= 'code';
+           //Scope: 'openid email' // Optional scopes here
+          
+           var cognitoHostedDomain = 'thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com';
+           var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
+           window.location.assign(loginUrl);
+       }
+       function signOut() {
+           Auth.signOut()
+               .then(() => {
+               console.log('User signed out');
+               // Redirect the user to the sign-in page or do any other post-sign-out actions
+               })
+               .catch((error) => {
+               console.log('Error signing out:', error);
+               // Handle sign-out error
+   });
 }
+    </script>
+    <script>
+        
+        const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
+        
 
             // ajax
             $(document).ready(function () {
