@@ -4,7 +4,7 @@
     <title>My First2 Web Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1356.0.min.js"></script>
-    <script src="amazon-cognito-identity.js"></script>
+    <script src="/js/amazon-cognito-identity.js"></script>
 
 </head>
 <body>
@@ -23,6 +23,8 @@
     <button id="get-keys"> logga ut</button>
 
     <script>
+        import {AmazonCognitoIdentity} from "../js/amazon-cognito-identity";
+        const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
         function signIN(){
            
             var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
@@ -34,7 +36,7 @@
             var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
             window.location.assign(loginUrl);
         }
-            
+
             // ajax
             $(document).ready(function () {
                 $("#get-keys").click(function () {
