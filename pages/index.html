@@ -10,8 +10,14 @@
 <body>
     <h1>Välkommen!</h1>
     <p>Testar cognito/p>
-    <p>Username: <input type="text" id="username"></p>
-    <p>Password: <input type="password" id="password"></p>
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <input type="button" value="Logga in" onclick="signIN()">
+        </form>
+
        
 
 
@@ -88,36 +94,6 @@
         }
     }
 
-
-        /*
-        function signIN(){
-           
-           var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
-           var RedirectUri = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html'; // Your callback URL here
-           var ResponseType= 'code';
-           //Scope: 'openid email' // Optional scopes here
-          
-           var cognitoHostedDomain = 'thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com';
-           var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
-           window.location.assign(loginUrl);
-       }
-       var poolData = {
-            UserPoolId: 'eu-north-1_gFRRs0pAX',
-            ClientId: '7r2bam11ounrq97okspbpjrtv0'
-        };
-        var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
-        var currentUser = userPool.getCurrentUser();
-
-        function signOut() {
-            console.log(currentUser);
-            if (currentUser) {
-                currentUser.signOut();
-                console.log('User signed out');
-            }
-        }
-
-*/
    /*
             // ajax
             $(document).ready(function () {
