@@ -115,14 +115,14 @@
         // Check if user needs to verify email
         if (result.userConfirmed === false) {
             // Redirect user to email verification page
-            window.location.href = 'verify-email.html?username=' + cognitoUser.getUsername();
+            window.location.href = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/verify-email.html?username=' + cognitoUser.getUsername();
 
         }
     });
 }
 
 
-   /*
+   
             // ajax
             $(document).ready(function () {
                 $("#get-keys").click(function () {
@@ -163,7 +163,7 @@
                 console.error("Error: ", error);
             });
    
-*/
+
 
     </script>
 
