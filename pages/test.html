@@ -41,12 +41,24 @@
       </details>
     </section>
   </div>
+  <button onclick="signIN()">Sign Out</button>
   <button onclick="signOut()">Sign Out</button>
 
   <p class="systemError"></p>
 </div>
 <script>
   const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
+  function signIN(){
+
+    var ClientId = '7r2bam11ounrq97okspbpjrtv0';// Your app client ID here
+    var RedirectUri = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html'; // Your callback URL here
+    var ResponseType= 'code';
+    //Scope: 'openid email' // Optional scopes here
+
+    var cognitoHostedDomain = 'thesis-secureinbrowsertest.auth.eu-north-1.amazoncognito.com';
+    var loginUrl = 'https://' + cognitoHostedDomain + '/login?' + 'response_type=' + ResponseType + '&client_id=' + ClientId + '&redirect_uri=' + RedirectUri;
+    window.location.assign(loginUrl);
+  }
   var poolData = {
     UserPoolId: 'eu-north-1_gFRRs0pAX',
     ClientId: '7r2bam11ounrq97okspbpjrtv0'
