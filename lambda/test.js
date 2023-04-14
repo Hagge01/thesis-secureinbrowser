@@ -3,11 +3,11 @@
 exports.handler = async (event, context) => {
     try {
         const path = event.path; // Convert path to lowercase for case-insensitive comparison
-        const functionName = path.substring(path.lastIndexOf('/') + 1); // Extract function name from the path
+        const functionName = event.functionName; // Extract function name from the path
 
-        if (functionName === 'myfunction') {
+        if (functionName === 'myFunction') {
             return myFunction(event, context);
-        } else if (functionName === 'myfunction2') {
+        } else if (functionName === 'myFunction2') {
             return myFunction2(event, context);
         } else {
             return {
