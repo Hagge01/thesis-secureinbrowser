@@ -2,7 +2,7 @@
 
 exports.handler = async (event, context) => {
     try {
-        const path = event.path.toLowerCase(); // Convert path to lowercase for case-insensitive comparison
+        const path = event.path; // Convert path to lowercase for case-insensitive comparison
         const functionName = path.substring(path.lastIndexOf('/') + 1); // Extract function name from the path
 
         if (functionName === 'myfunction') {
