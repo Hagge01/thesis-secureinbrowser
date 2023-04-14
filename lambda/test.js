@@ -5,10 +5,10 @@ exports.handler = async (event, context) => {
         const path = event.path; // Convert path to lowercase for case-insensitive comparison
         const functionName = path.substring(path.lastIndexOf('/') + 1); // Extract function name from the path
 
-        if (functionName === 'myFunction') {
-            return myFunction(event, context);
-        } else if (functionName === 'myFunction2') {
-            return myFunction2(event, context);
+        if (functionName === 'myfunction') {
+            return myfunction(event, context);
+        } else if (functionName === 'myfunction2') {
+            return myfunction2(event, context);
         } else {
             return {
                 statusCode: 500,
@@ -25,7 +25,7 @@ exports.handler = async (event, context) => {
 };
 
 
-const myFunction = async (event, context) => {
+const myfunction = async (event, context) => {
     const key1 = event.key1;
     const key2 = event.key2;
     const key3 = event.key3;
@@ -40,7 +40,7 @@ const myFunction = async (event, context) => {
     };
 };
 
-const myFunction2 = async (event, context) => {
+const myfunction2 = async (event, context) => {
     const key4 = event.key4;
     const key5 = event.key5;
     const key6 = event.key6;
