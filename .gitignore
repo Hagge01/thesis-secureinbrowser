@@ -21,3 +21,5 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 lambda.zip
+/lambda/test.js
+/lambda/node_modules
