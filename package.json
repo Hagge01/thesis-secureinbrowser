@@ -6,9 +6,8 @@
   "scripts": {
     "test": "test",
     "deployFrontEnd": "aws s3 sync ./ s3://thesis-secureinbrowser --delete",
-    "zipLambda": "zip -r lambda.zip ./lambda",
-    "deployLambda": "aws lambda update-function-code --function-name THESIS-secureinbrowser --s3-bucket thesis-secureinbrowser --s3-key lambda.zip && rm lambda.zip",
-    "deployZip2S3": "aws s3 cp ./lambda.zip s3://thesis-secureinbrowser/lambda.zip"
+    "deployToLambda": "zip -r lambda.zip ./lambda && aws s3 cp ./lambda.zip s3://thesis-secureinbrowser/lambda.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser --s3-bucket thesis-secureinbrowser --s3-key lambda.zip && rm lambda.zip"
+
     
     
 
