@@ -15,12 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout source code
-        uses: actions/checkout@v1
-      - name: default deploy
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: eu-north-1
-          function_name: THESIS-secureinbrowser
-          source: lambda/test.js
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+        working-directory: lambda
+      - name: Deploy to Lambda
+        run: aws lambda update-function-code --function-name THESIS-secureinbrowser --zip-file fileb://lambda.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: eu-north-1
+      - name: Cleanup
+        run: rm lambda.zip

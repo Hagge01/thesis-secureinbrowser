@@ -36,7 +36,7 @@ const myFunction = async (event, context) => {
 
     return {
         statusCode: 200,
-        body: JSON.stringify({ message: "Keys successfully accessed in myFunction" }),
+        body: JSON.stringify({ message: "Keys successfully accessed in myFunction2" }),
     };
 };
 
