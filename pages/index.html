@@ -143,7 +143,7 @@
             $(document).ready(function () {
                 $("#get-keys").click(function () {
                     $.ajax({
-                        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myFunction2",
+                        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myfunction2",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify({
@@ -162,7 +162,7 @@
             });
         
         // JavaScript code for fetching data
-        fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myFunction2')
+        fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myfunction2')
             .then(response => response.json())
             .then(data => {
             
