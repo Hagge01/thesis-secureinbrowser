@@ -9,6 +9,7 @@ var cognito = new CognitoIdentityServiceProvider();
 // ORIGIN_DOMAIN_NAME should be populated with the CloudFront domain that was generated
 const rpID = process.env.ORIGIN_DOMAIN_NAME || '';
 
+const test = "HLELELELELE";
 // The URL at which attestations and assertions should occur
 const origin = `https://${rpID}`;
 

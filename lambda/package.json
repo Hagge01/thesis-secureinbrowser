@@ -1,9 +1,9 @@
 {
   "scripts": {
     "test": "test",
-    "deployToLambda": "zip -r lambda.zip test node_modules && aws s3 cp lambda.zip s3://thesis-secureinbrowser/lambda.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser --s3-bucket thesis-secureinbrowser --s3-key lambda.zip && rm lambda.zip",
-    "deployToLambdaCreate": "zip -r lambdaCreate.zip /createAuth /node_modules && aws s3 cp lambdaCreate.zip s3://thesis-secureinbrowser/lambdaCreate.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser-createAuth --s3-bucket thesis-secureinbrowser --s3-key lambdaCreate.zip && rm lambdaCreate.zip",
-    "windowdeployToLambda": "7z a -tzip -mx=1 -mmt=off lambdaVerify.zip /verifyAuth && aws s3 cp lambdaVerify.zip s3://thesis-secureinbrowser/lambdaVerify.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser-verifyAuth --s3-bucket thesis-secureinbrowser --s3-key lambdaVerify.zip && del lambdaVerify.zip"
+    "deployToLambda": "zip -r lambda.zip test node_modules && aws s3 cp lambda.zip s3://thesis-secureinbrowser/lambda.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser --s3-bucket thesis-secureinbrowser --s3-key lambda.zip",
+    "deployToLambdaCreate": "zip -r lambdaCreate.zip createAuth node_modules && aws s3 cp lambdaCreate.zip s3://thesis-secureinbrowser/lambdaCreate.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser-createAuth --s3-bucket thesis-secureinbrowser --s3-key lambdaCreate.zip",
+    "windowdeployToLambda": "7z a -tzip -mx=1 -mmt=off lambdaVerify.zip verifyAuth node_modules && aws s3 cp lambdaVerify.zip s3://thesis-secureinbrowser/lambdaVerify.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser-verifyAuth --s3-bucket thesis-secureinbrowser --s3-key lambdaVerify.zip"
 
   },
 
