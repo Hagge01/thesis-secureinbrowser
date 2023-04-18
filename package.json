@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "deployFrontEnd": "aws s3 sync ./ s3://thesis-secureinbrowser --delete",
-    "deployToLambda": "zip -r lambda.zip ./lambda/test ./lambda/node_modules && aws s3 cp ./lambda.zip s3://thesis-secureinbrowser/lambda.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser --s3-bucket thesis-secureinbrowser --s3-key lambda.zip && rm lambda.zip",
-    "deployToLambdaCreate": "zip -r lambdaCreate.zip ./lambda/createAuth ./lambda/node_modules && aws s3 cp ./lambdaCreate.zip s3://thesis-secureinbrowser/lambdaCreate.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser-createAuth --s3-bucket thesis-secureinbrowser --s3-key lambdaCreate.zip && rm lambdaCreate.zip",
-    "windowdeployToLambda": "7z a -tzip -mx=1 -mmt=off lambda.zip ./lambda && aws s3 cp lambda.zip s3://thesis-secureinbrowser/lambda.zip && aws lambda update-function-code --function-name THESIS-secureinbrowser --s3-bucket thesis-secureinbrowser --s3-key lambda.zip && del lambda.zip"
-
+    "deployFrontEnd": "aws s3 sync ./ s3://thesis-secureinbrowser --delete"
   },
   "repository": {
     "type": "git",
@@ -24,8 +20,6 @@
     "url": "https://github.com/Hagge01/thesis-test/issues"
   },
   "homepage": "https://github.com/Hagge01/thesis-test#readme",
-  "dependencies": {
-    "aws-amplify": "^5.0.23"
-  }
+
 }
 
