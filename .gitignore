@@ -23,3 +23,7 @@ amplifytools.xcconfig
 lambda.zip
 lambda/node_modules
 lambda/test.js
+lambda/lambdaDefine.zip
+lambda/lambda.zip
+lambda/lambdaAuth.zip
+lambda/lambdaVerify.zip
