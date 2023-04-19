@@ -1,8 +1,3 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
-import { Context, Callback } from 'aws-lambda';
-import { verifyRegistrationResponse, verifyAuthenticationResponse, VerifiedRegistrationResponse, VerifiedAuthenticationResponse, MetadataService } from '@simplewebauthn/server';
-import { CognitoVerifyAuthEvent, Authenticator } from './local-types';
-import base64url from 'base64url';
 
 var cognito = new CognitoIdentityServiceProvider();
 
