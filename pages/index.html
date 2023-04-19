@@ -51,6 +51,12 @@
                         </form>
                                 </div>
                         </div>
+                    <p id="regSuccess" class="success"></p>
+                    <p id="regError" class="error"></p>
+                    <details open>
+                        <summary>Console</summary>
+                        <textarea id="regDebug" spellcheck="false"></textarea>
+                    </details>
                         
                 </div>
             </div>
@@ -140,6 +146,16 @@
 const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 function signUpWithWebAuthN(){
+
+    const elemSuccess = document.querySelector('#regSuccess');
+    const elemError = document.querySelector('#regError');
+    const elemDebug = document.querySelector('#regDebug');
+
+    // Reset success/error messages
+    elemSuccess.innerHTML = '';
+    elemError.innerHTML = '';
+    elemDebug.innerHTML = '';
+
     var username = document.getElementById("username2").value;
     var email = document.getElementById("email2").value;
     var attributeList = [];
