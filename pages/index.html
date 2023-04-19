@@ -83,20 +83,18 @@
 
 
     let userPool;
-      async function getAmazonCognitoUserPool() {
+      function getAmazonCognitoUserPool() {
 
         // We only need to create this object once, so let's only do so if we haven't already
-        if (!userPool) {
-          // A neat trick, we can determine the dynamically generated UserPoolId and ClientId from this page's headers (S3 Object Metadata)
-          const cognitoMetadataResp = await fetch('', {
-            method: 'HEAD',
-          });
 
-          userPool = new CognitoUserPool({
-            UserPoolId: 'eu-north-1_gFRRs0pAX',
-            ClientId: '7r2bam11ounrq97okspbpjrtv0'
-          });
-        }
+          // A neat trick, we can determine the dynamically generated UserPoolId and ClientId from this page's headers (S3 Object Metadata)
+          var poolData = {
+              UserPoolId: 'eu-north-1_gFRRs0pAX',
+              ClientId: '7r2bam11ounrq97okspbpjrtv0'
+          };
+
+          userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
         return userPool;
       }
 /*
