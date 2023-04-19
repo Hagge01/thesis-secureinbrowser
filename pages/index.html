@@ -35,10 +35,10 @@
                             <div class="border p-4 rounded">
                         <h2 class="text-center my-4">Registrera</h2>
                         <form>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="username2">Username:</label>
                                 <input type="text" id="username2" name="username" class="form-control">
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="email2">Email:</label>
                                 <input type="email" id="email2" name="email" class="form-control">
@@ -170,16 +170,16 @@ function signUpWithWebAuthN(){
     var email = document.getElementById("email2").value;
     var attributeList = [];
     attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email', Value: email }));
-    userPool.signUp(document.getElementById('username2').value, 'passwordD123!', [new CognitoUserAttribute({
+    userPool.signUp(document.getElementById('email2').value, 'passwordD123!', [new CognitoUserAttribute({
         Name: 'email',
-        Value: document.getElementById('username2').value
+        Value: document.getElementById('email2').value
     })] , null, function(err, result){
         if (err) {
             console.log(err);
             return;
         }
     });
-    var cognitoUser = new CognitoUser({ Username: document.getElementById("username2").value, Pool: userPool });
+    var cognitoUser = new CognitoUser({ Username: document.getElementById("email2").value, Pool: userPool });
     console.log(cognitoUser);
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
     cognitoUser.initiateAuth(new AuthenticationDetails({
