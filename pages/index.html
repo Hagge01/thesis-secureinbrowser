@@ -76,7 +76,7 @@
           // A neat trick, we can determine the dynamically generated UserPoolId and ClientId from this page's headers (S3 Object Metadata)
           var poolData = {
               UserPoolId: 'eu-north-1_gFRRs0pAX',
-              ClientId: '7r2bam11ounrq97okspbpjrtv0'
+              ClientId: '3onsqg184qblqdvdrbt7hgqqav'
           };
 
           userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
@@ -212,6 +212,5 @@ function AuthUser(){
 
     </script>
 
-<button onclick="signOut()">Sign Out</button>
 </body>
 </html>
