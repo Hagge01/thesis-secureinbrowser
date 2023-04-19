@@ -1,12 +1,11 @@
+const AWS = require('aws-sdk');
+const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
+const { verifyRegistrationResponse, verifyAuthenticationResponse, VerifiedRegistrationResponse, VerifiedAuthenticationResponse, MetadataService } = require('@simplewebauthn/server');
 
 var cognito = new CognitoIdentityServiceProvider();
 
-// ORIGIN_DOMAIN_NAME should be populated with the CloudFront domain that was generated
-const rpID = process.env.ORIGIN_DOMAIN_NAME || '';
-
 const test = "HLELELELELE";
 // The URL at which attestations and assertions should occur
-const origin = `https://${rpID}`;
 
 exports.handler = async function(event, context, callback) {
     let eventResponse = {
@@ -38,7 +37,6 @@ exports.handler = async function(event, context, callback) {
             credential: challengeAnswer,
             expectedChallenge: event.request.privateChallengeParameters.assertionChallenge,
             expectedOrigin: origin,
-            expectedRPID: rpID,
             authenticator,
         });
 
@@ -79,7 +77,6 @@ exports.handler = async function(event, context, callback) {
             credential: challengeAnswer,
             expectedChallenge: event.request.privateChallengeParameters.attestationChallenge,
             expectedOrigin: origin,
-            expectedRPID: rpID,
         });
 
         // Can register new authenticator?
