@@ -1,7 +1,6 @@
 const { generateRegistrationOptions, generateAuthenticationOptions } = require('@simplewebauthn/server');
 
 const rpName = 'SimpleWebAuthn Example';
-const rpID = process.env.ORIGIN_DOMAIN_NAME || '';
 
 exports.handler = async (event, context, callback) => {
   event.response.publicChallengeParameters = {};
@@ -33,7 +32,6 @@ exports.handler = async (event, context, callback) => {
 
   const options = generateRegistrationOptions({
     rpName,
-    rpID,
     userID: event.request.userAttributes.email,
     userName: event.request.userAttributes.email,
     timeout: 60000,
