@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!--<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1356.0.min.js"></script>-->
     <script src="/js/amazon-cognito-identity.js"></script>
+    <script src="/js/script.js"></script>
     <script src="https://unpkg.com/@simplewebauthn/browser/dist/bundle/index.es5.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
@@ -43,14 +44,15 @@
                                 <label for="email2">Email:</label>
                                 <input type="email" id="email2" name="email" class="form-control">
                             </div>
-                            <div class="form-group">
+                           <!--<div class="form-group">
                                 <label for="password2">Password:</label>
                                 <input type="password" id="password2" name="password" class="form-control">
-                            </div>
-                            <input type="button" value="Registrera" onclick="signUp()" class="btn btn-primary mt-2">
+                            </div>-->
+                            <input type="button" value="Registrera" onclick="signUpWithWebAuthN()" class="btn btn-primary mt-2">
                         </form>
                                 </div>
                         </div>
+                        
                 </div>
             </div>
         </div>
@@ -61,7 +63,6 @@
     <p>Key2: <span id="key2"></span></p>
     <p>Key3: <span id="key3"></span></p>
     <button id="get-keys">Call Lambda Function</button>
-    <script src="/js/script.js"></script>
     <script>
     var poolData = {
         UserPoolId: 'eu-north-1_gFRRs0pAX',
@@ -137,6 +138,54 @@
         }
     });
 }
+const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
+const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
+function signUpWithWebAuthN(){
+    var username = document.getElementById("username2").value;
+    var email = document.getElementById("email2").value;
+    var attributeList = [];
+    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email', Value: email }));
+    userPool.signUp(username, 'PassWord123!', attributeList, null, function(err, result){
+    if (err) {
+        console.log(err);
+        return;
+    }
+    });
+    var cognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+    cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+    cognitoUser.initiateAuth(new AuthenticationDetails({
+        Username: cognitoUser.getUsername(),
+    }), {
+        customChallenge: async function(challengeParameters) {
+
+            let attResp;
+            try {
+              const opts = JSON.parse(challengeParameters.attestationChallenge);
+              printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
+              attResp = await startRegistration(opts);
+              printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
+            } catch (error) {
+              if (error.name === 'InvalidStateError') {
+                elemError.innerText = 'Error: Authenticator was probably already registered by user';
+              } else {
+                elemError.innerText = error;
+              }
+
+              throw error;
+            }
+
+            // Send the authenticators response
+            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
+        },
+        onSuccess: function (result) {
+            console.log('access token + ' + result.getAccessToken().getJwtToken());
+        }
+    });
+    
+
+
+
+};
 
 
    
