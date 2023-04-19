@@ -69,7 +69,18 @@
     <p>Key3: <span id="key3"></span></p>
     <button id="get-keys">Call Lambda Function</button>
     <script>
-    var poolData = {
+        /**
+         * A simple way to control how debug content is written to a debug console element
+         */
+        function printDebug(elemDebug, title, output) {
+            if (elemDebug.innerHTML !== '') {
+                elemDebug.innerHTML += '\n';
+            }
+            elemDebug.innerHTML += `// ${title}\n`;
+            elemDebug.innerHTML += `${output}\n`;
+        }
+
+        var poolData = {
         UserPoolId: 'eu-north-1_gFRRs0pAX',
         ClientId: '7r2bam11ounrq97okspbpjrtv0'
     };
