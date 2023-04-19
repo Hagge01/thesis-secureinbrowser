@@ -1,6 +1,7 @@
 const { generateRegistrationOptions, generateAuthenticationOptions } = require('@simplewebauthn/server');
 
 const rpName = 'SimpleWebAuthn Example';
+const rpID = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages'
 
 exports.handler = async (event, context, callback) => {
   event.response.publicChallengeParameters = {};
@@ -32,6 +33,7 @@ exports.handler = async (event, context, callback) => {
 
   const options = generateRegistrationOptions({
     rpName,
+    rpID,
     userID: event.request.userAttributes.email,
     userName: event.request.userAttributes.email,
     timeout: 60000,
