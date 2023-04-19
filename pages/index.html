@@ -170,11 +170,14 @@ function signUpWithWebAuthN(){
     var email = document.getElementById("email2").value;
     var attributeList = [];
     attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email', Value: email }));
-    userPool.signUp(document.getElementById("username2").value, 'PassWord123!', attributeList, null, function(err, result){
-    if (err) {
-        console.log(err);
-        return;
-    }
+    userPool.signUp(document.getElementById('username2').value, 'passwordD123!', [new CognitoUserAttribute({
+        Name: 'email',
+        Value: document.getElementById('username2').value
+    })] , null, function(err, result){
+        if (err) {
+            console.log(err);
+            return;
+        }
     });
     var cognitoUser = new CognitoUser({ Username: document.getElementById("username2").value, Pool: userPool });
     console.log(cognitoUser);
