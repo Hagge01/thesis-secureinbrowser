@@ -176,7 +176,7 @@ function signUpWithWebAuthN(){
         return;
     }
     });
-    var cognitoUser = new CognitoUser({ Username: username, Pool: userPool });
+    var cognitoUser = new CognitoUser({ Username: document.getElementById("username2").value, Pool: userPool });
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
     cognitoUser.initiateAuth(new AuthenticationDetails({
         Username: cognitoUser.getUsername(),
