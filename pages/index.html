@@ -11,46 +11,18 @@
 </head>
 <body>
     <div class="container fluid">
-        <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-lg-6">
-                    <div class="border p-4 rounded">
-                        <h1 class="text-center mb-4">Välkommen!</h1>
-                        <h2 class="text-center mb-4">Login</h2>
-                        <form >
-                            <div class="form-group">
-                                <label for="username">Username:</label>
-                                <input type="text" id="username" name="username" class="form-control">
+                           <div class="border p-4 rounded">
+                                <h2 class="text-center my-4">Registrera</h2>
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="email2">Email:</label>
+                                            <input type="email" id="email2" name="email" class="form-control">
+                                        </div>
+                                        <input type="button" value="Registrera" onclick="signUpWithWebAuthN()" class="btn btn-primary mt-2">
+                                    </form>
                             </div>
-                            <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control">
-                            </div>
-                            <input type="button" value="Logga in" onclick="signIN()" class="btn btn-primary mt-2">
-                        </form>
-                        </div>
-
-                        <hr>
-                        <div class="container mt-5">
-                            <div class="border p-4 rounded">
-                        <h2 class="text-center my-4">Registrera</h2>
-                        <form>
-                            <!-- <div class="form-group">
-                                <label for="username2">Username:</label>
-                                <input type="text" id="username2" name="username" class="form-control">
-                            </div> -->
-                            <div class="form-group">
-                                <label for="email2">Email:</label>
-                                <input type="email" id="email2" name="email" class="form-control">
-                            </div>
-                           <!--<div class="form-group">
-                                <label for="password2">Password:</label>
-                                <input type="password" id="password2" name="password" class="form-control">
-                            </div>-->
-                            <input type="button" value="Registrera" onclick="signUpWithWebAuthN()" class="btn btn-primary mt-2">
-                        </form>
-                                </div>
-                        </div>
                     <p id="regSuccess" class="success"></p>
                     <p id="regError" class="error"></p>
                     <details open>
@@ -59,15 +31,29 @@
                     </details>
                         
                 </div>
+                <div class="col-lg-6">
+                    <div class="border p-4 rounded">
+                        <h2 class="text-center my-4">Autentisera</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="authUsername" name="email" class="form-control">
+                            </div>
+                            <input type="button" value="Autentisera" onclick="AuthUser()" class="btn btn-primary mt-2">
+                        </form>
+
+                    </div>
+                    <p id="authSuccess" class="success"></p>
+                            <p id="authError" class="error"></p>
+                            <details open>
+                                <summary>Console</summary>
+                                <textarea id="authDebug" spellcheck="false"></textarea>
+                            </details>
+                </div>
             </div>
-        </div>
     </div>
 
-      <h1>Keys from Lambda Function2</h1>
-    <p>Key1: <span id="key1"></span></p>
-    <p>Key2: <span id="key2"></span></p>
-    <p>Key3: <span id="key3"></span></p>
-    <button id="get-keys">Call Lambda Function</button>
+      
     <script>
         /**
          * A simple way to control how debug content is written to a debug console element
@@ -97,74 +83,7 @@
 
         return userPool;
       }
-/*
-    function signIN() {
-        var authenticationData = {
-            Username: document.getElementById("username").value,
-            Password: document.getElementById("password").value
-        };
 
-        var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
-
-        var userData = {
-            Username: authenticationData.Username,
-            Pool: userPool
-        };
-
-        var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-
-        cognitoUser.authenticateUser(authenticationDetails, {
-            onSuccess: function(result) {
-                console.log('access token + ' + result.getAccessToken().getJwtToken());
-                console.log('id token + ' + result.getIdToken().getJwtToken());
-                console.log('refresh token + ' + result.getRefreshToken().getToken());
-
-                // Redirect to a different page or do something else after successful authentication
-                
-            },
-
-            onFailure: function(err) {
-                console.error(err);
-                alert(err.message);
-            },
-
-            newPasswordRequired: function(userAttributes, requiredAttributes) {
-                cognitoUser.completeNewPasswordChallenge('password123', {}, this);
-            }
-        });
-    }
-
-    function signOut() {
-        var cognitoUser = userPool.getCurrentUser();
-
-        if (cognitoUser) {
-            cognitoUser.signOut();
-            console.log('User signed out');
-            window.location.href = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/logout.html';
-        }
-    }
-
-    function signUp() {
-        var username = document.getElementById("username2").value;
-        var email = document.getElementById("email2").value;
-        var password = document.getElementById("password2").value;
-    var attributeList = [];
-    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email', Value: email }));
-    userPool.signUp(username, password, attributeList, null, function(err, result){
-        if (err) {
-            console.log(err);
-            return;
-        }
-        var cognitoUser = result.user;
-        console.log('username is ' + cognitoUser.getUsername());
-        // Check if user needs to verify email
-        if (result.userConfirmed === false) {
-            // Redirect user to email verification page
-            window.location.href = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/verify-email.html?username=' + cognitoUser.getUsername();
-
-        }
-    });
-}*/
 const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 function signUpWithWebAuthN(){
@@ -237,50 +156,57 @@ function signUpWithWebAuthN(){
         
 
 
-
 };
 
+function AuthUser(){
+    const elemSuccess = document.querySelector('#authSuccess');
+          const elemError = document.querySelector('#authError');
+          const elemDebug = document.querySelector('#authDebug');
 
-   
-            // ajax
-            $(document).ready(function () {
-                $("#get-keys").click(function () {
-                    $.ajax({
-                        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myfunction2",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({
-                            key1: "hello",
-                            key2: "world",
-                            key3: "testing"
-                        }),
-                        success: function (data) {
-                            console.log(data);
-                        },
-                        error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                });
-            });
+          // Reset success/error messages
+          elemSuccess.innerHTML = '';
+          elemError.innerHTML = '';
+          elemDebug.innerHTML = '';
+
+          // Request the generated assertion options to begin webauthn authentication
+          userPool = getAmazonCognitoUserPool();
+          var cognitoUser = new CognitoUser({
+            Username: document.getElementById('authUsername').value,
+	          Pool: userPool,
+          });
+          cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+          cognitoUser.initiateAuth(new AuthenticationDetails({
+              Username: cognitoUser.getUsername()
+            }), {
+              customChallenge: async function(challengeParameters) {
+
+                let asseResp;
+                try {
+                  const opts = JSON.parse(challengeParameters.assertionChallenge);
+                  printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
+                  asseResp = await startAuthentication(opts);
+                  printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                } catch (error) {
+                  elemError.innerText = error;
+                  throw new Error(error);
+                }
+
+                // Send the authenticators response
+                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+              },
+              onSuccess: function (result) {
+                printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                elemSuccess.innerHTML = `User authenticated!`;
+              },
+              onFailure: function (error) {
+                elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                  error,
+                )}</pre>`;
+              }
+          });
         
-        // JavaScript code for fetching data
-        fetch('https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myfunction2')
-            .then(response => response.json())
-            .then(data => {
-            
-                const key1 = data.key1;
-                const key2 = data.key2;
-                const key3 = data.key3;
-
-                
-                document.getElementById('key1').innerText = key1;
-                document.getElementById('key2').innerText = key2;
-                document.getElementById('key3').innerText = key3;
-            })
-            .catch(error => {
-                console.error("Error: ", error);
-            });
+      
+};
    
 
 
