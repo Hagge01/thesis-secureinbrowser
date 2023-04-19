@@ -25,4 +25,55 @@ function signUpWithWebAuthN(){
 };
 
 
+    document.querySelector('#Login').addEventListener('click', async () => {
+        const elemSuccess = document.querySelector('#authSuccess');
+        const elemError = document.querySelector('#authError');
+        const elemDebug = document.querySelector('#authDebug');
+
+        // Reset success/error messages
+        elemSuccess.innerHTML = '';
+        elemError.innerHTML = '';
+        elemDebug.innerHTML = '';
+
+        // Request the generated assertion options to begin webauthn authentication
+        userPool = await getAmazonCognitoUserPool();
+        var cognitoUser = new CognitoUser({
+            Username: document.getElementById('authUsername').value,
+            Pool: userPool,
+        });
+        cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+        cognitoUser.initiateAuth(new AuthenticationDetails({
+            Username: cognitoUser.getUsername()
+        }), {
+            customChallenge: async function(challengeParameters) {
+
+                let asseResp;
+                try {
+                    const opts = JSON.parse(challengeParameters.assertionChallenge);
+                    printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
+                    asseResp = await startAuthentication(opts);
+                    printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                } catch (error) {
+                    elemError.innerText = error;
+                    throw new Error(error);
+                }
+
+                // Send the authenticators response
+                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+            },
+            onSuccess: function (result) {
+                printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                elemSuccess.innerHTML = `User authenticated!`;
+            },
+            onFailure: function (error) {
+                elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                    error,
+                )}</pre>`;
+            }
+        });
+    });
+
+
+
+
 
