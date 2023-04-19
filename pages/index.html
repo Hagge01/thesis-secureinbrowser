@@ -80,7 +80,7 @@
             elemDebug.innerHTML += `${output}\n`;
         }
 
-        var poolData = {
+    var poolData = {
         UserPoolId: 'eu-north-1_gFRRs0pAX',
         ClientId: '7r2bam11ounrq97okspbpjrtv0'
     };
@@ -167,11 +167,10 @@ function signUpWithWebAuthN(){
     elemError.innerHTML = '';
     elemDebug.innerHTML = '';
 
-    var username = document.getElementById("username2").value;
     var email = document.getElementById("email2").value;
     var attributeList = [];
     attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email', Value: email }));
-    userPool.signUp(username, 'PassWord123!', attributeList, null, function(err, result){
+    userPool.signUp(document.getElementById("username2").value, 'PassWord123!', attributeList, null, function(err, result){
     if (err) {
         console.log(err);
         return;
