@@ -81,12 +81,7 @@
       return userPool;
     }
 
-    // Hide the Begin button if the browser is incapable of using WebAuthn
-    if (!browserSupportsWebauthn()) {
-      document.querySelector('.controls').style.display = 'none';
-      document.querySelector('.systemError').innerText = "It seems this browser doesn't support WebAuthn...";
-    } else {
-
+    
       /**
        * Registration
        */
@@ -208,7 +203,7 @@
             }
         });
       });
-    }
+    
 
   </script>
 </body>
