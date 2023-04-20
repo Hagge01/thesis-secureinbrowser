@@ -10,206 +10,208 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
-    <h1>SimpleWebAuthn Example Site Using Amazon Cognito</h1>
+    <div class="container fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                           <div class="border p-4 rounded">
+                                <h2 class="text-center my-4">Registrera</h2>
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="email2">Email:</label>
+                                            <input type="email" id="email2" name="email" class="form-control">
+                                        </div>
+                                        <input type="button" value="Registrera" onclick="signUpWithWebAuthN()" class="btn btn-primary mt-2">
+                                    </form>
+                            </div>
+                    <p id="regSuccess" class="success"></p>
+                    <p id="regError" class="error"></p>
+                    <details open>
+                        <summary>Console</summary>
+                        <textarea id="regDebug" spellcheck="false"></textarea>
+                    </details>
 
-    <div class="controls">
-        <section id="registration">
-            <input type="text" id="regUsername" placeholder="Enter email address">
-            <br><br >
-            <button id="btnRegBegin">
-                <strong>🚪&nbsp;Register</strong>
-            </button>
-            <p id="regSuccess" class="success"></p>
-            <p id="regError" class="error"></p>
-            <details open>
-                <summary>Console</summary>
-                <textarea id="regDebug" spellcheck="false"></textarea>
-            </details>
-        </section>
+                </div>
+                <div class="col-lg-6">
+                    <div class="border p-4 rounded">
+                        <h2 class="text-center my-4">Autentisera</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="authUsername" name="email" class="form-control">
+                            </div>
+                            <input type="button" value="Autentisera" onclick="AuthUser()" class="btn btn-primary mt-2">
+                        </form>
 
-        <section id="authentication">
-            <input type="text" id="authUsername" placeholder="Enter email address">
-            <br><br >
-            <button id="btnAuthBegin">
-                <strong>🔐&nbsp;Authenticate</strong>
-            </button>
-            <p id="authSuccess" class="success"></p>
-            <p id="authError" class="error"></p>
-            <details open>
-                <summary>Console</summary>
-                <textarea id="authDebug" spellcheck="false"></textarea>
-            </details>
-        </section>
+                    </div>
+                    <p id="authSuccess" class="success"></p>
+                            <p id="authError" class="error"></p>
+                            <details open>
+                                <summary>Console</summary>
+                                <textarea id="authDebug" spellcheck="false"></textarea>
+                            </details>
+                </div>
+            </div>
     </div>
 
-    <p class="systemError"></p>
-</div>
-<script>
-    const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
-    const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
-    /**
-     * A simple way to control how debug content is written to a debug console element
-     */
-    function printDebug(elemDebug, title, output) {
-        if (elemDebug.innerHTML !== '') {
-            elemDebug.innerHTML += '\n';
+    <script>
+        /**
+         * A simple way to control how debug content is writteddn to a debug console element
+         */
+        function printDebug(elemDebug, title, output) {
+            if (elemDebug.innerHTML !== '') {
+                elemDebug.innerHTML += '\n';
+            }
+            elemDebug.innerHTML += `// ${title}\n`;
+            elemDebug.innerHTML += `${output}\n`;
         }
-        elemDebug.innerHTML += `// ${title}\n`;
-        elemDebug.innerHTML += `${output}\n`;
-    }
 
-    /**
-     * A function to return a configured CognitoUserPool object for signing up and authenticating users
-     */
+
+
     let userPool;
-    async function getAmazonCognitoUserPool() {
+      function getAmazonCognitoUserPool() {
 
         // We only need to create this object once, so let's only do so if we haven't already
-        if (!userPool) {
-            // A neat trick, we can determine the dynamically generated UserPoolId and ClientId from this page's headers (S3 Object Metadata)
-            const cognitoMetadataResp = await fetch('', {
-                method: 'HEAD',
-            });
 
-            userPool = new CognitoUserPool({
-                UserPoolId: cognitoMetadataResp.headers.get('x-amz-meta-userpoolid'),
-                ClientId: cognitoMetadataResp.headers.get('x-amz-meta-clientid')
-            });
-        }
+          // A neat trick, we can determine the dynamically generated UserPoolId and ClientId from this page's headers (S3 Object Metadata)
+          var poolData = {
+              UserPoolId: 'eu-north-1_Mili80FJ6',
+              ClientId: '4iq2f333ajd9ne279uqj6oqvs3'
+          };
+
+          userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
         return userPool;
-    }
+      }
 
-    // Hide the Begin button if the browser is incapable of using WebAuthn
-    if (!browserSupportsWebauthn()) {
-        document.querySelector('.controls').style.display = 'none';
-        document.querySelector('.systemError').innerText = "It seems this browser doesn't support WebAuthn...";
-    } else {
+const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
+const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
-        /**
-         * Registration
-         */
-        document.querySelector('#btnRegBegin').addEventListener('click', async () => {
-            const elemSuccess = document.querySelector('#regSuccess');
-            const elemError = document.querySelector('#regError');
-            const elemDebug = document.querySelector('#regDebug');
+function signUpWithWebAuthN(){
 
-            // Reset success/error messages
-            elemSuccess.innerHTML = '';
-            elemError.innerHTML = '';
-            elemDebug.innerHTML = '';
+    const elemSuccess = document.querySelector('#regSuccess');
+    const elemError = document.querySelector('#regError');
+    const elemDebug = document.querySelector('#regDebug');
 
-            // Register the user in Cognito
-            userPool = await getAmazonCognitoUserPool();
-            userPool.signUp(document.getElementById('regUsername').value, 'passwordD123!', [new CognitoUserAttribute({
-                Name: 'email',
-                Value: document.getElementById('regUsername').value
-            })], null, function (error, result) {
+    // Reset success/error messages
+    elemSuccess.innerHTML = '';
+    elemError.innerHTML = '';
+    elemDebug.innerHTML = '';
 
-                // We want to allow users to register multiple authenticators to a single user account, so if the Cognito "signUp" fails with user exists, that's okay, ignore it
-                if (!error || error.code == "UsernameExistsException") {
+    var email = document.getElementById("email2").value;
+    userPool = getAmazonCognitoUserPool();
+    userPool.signUp(document.getElementById('email2').value, 'passwordD123!', [new CognitoUserAttribute({
+            Name: 'email',
+            Value: document.getElementById('email2').value
+          })], null, function (error, result) {
 
-                    // Request the generated attestation options to begin webauthn enrollment
-                    var cognitoUser = new CognitoUser({
-                        Username: document.getElementById('regUsername').value,
-                        Pool: userPool,
-                    });
-                    cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
-                    cognitoUser.initiateAuth(new AuthenticationDetails({
-                        Username: cognitoUser.getUsername(),
-                    }), {
-                        customChallenge: async function(challengeParameters) {
+            // We want to allow users to register multiple authenticators to a single user account, so if the Cognito "signUp" fails with user exists, that's okay, ignore it
+            if (!error || error.code == "UsernameExistsException") {
 
-                            let attResp;
-                            try {
-                                const opts = JSON.parse(challengeParameters.attestationChallenge);
-                                printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
-                                attResp = await startRegistration(opts);
-                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
-                            } catch (error) {
-                                if (error.name === 'InvalidStateError') {
-                                    elemError.innerText = 'Error: Authenticator was probably already registered by user';
-                                } else {
-                                    elemError.innerText = error;
-                                }
-
-                                throw error;
-                            }
-
-                            // Send the authenticators response
-                            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
-                        },
-                        onSuccess: function (result) {
-                            printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
-                            elemSuccess.innerHTML = `Authenticator registered!`;
-                        },
-                        onFailure: function (error) {
-                            elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
-                                error,
-                            )}</pre>`;
-                        }
-                    });
-                } else {
-                    elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
-                        error,
-                    )}</pre>`;
-                }
-            });
-        });
-
-        /**
-         * Authentication
-         */
-        document.querySelector('#btnAuthBegin').addEventListener('click', async () => {
-            const elemSuccess = document.querySelector('#authSuccess');
-            const elemError = document.querySelector('#authError');
-            const elemDebug = document.querySelector('#authDebug');
-
-            // Reset success/error messages
-            elemSuccess.innerHTML = '';
-            elemError.innerHTML = '';
-            elemDebug.innerHTML = '';
-
-            // Request the generated assertion options to begin webauthn authentication
-            userPool = await getAmazonCognitoUserPool();
-            var cognitoUser = new CognitoUser({
-                Username: document.getElementById('authUsername').value,
+              // Request the generated attestation options to begin webauthn enrollment
+              var cognitoUser = new CognitoUser({
+                Username: document.getElementById('email2').value,
                 Pool: userPool,
-            });
-            cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
-            cognitoUser.initiateAuth(new AuthenticationDetails({
-                Username: cognitoUser.getUsername()
-            }), {
+              });
+              cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+              cognitoUser.initiateAuth(new AuthenticationDetails({
+                Username: cognitoUser.getUsername(),
+              }), {
                 customChallenge: async function(challengeParameters) {
 
-                    let asseResp;
-                    try {
-                        const opts = JSON.parse(challengeParameters.assertionChallenge);
-                        printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
-                        asseResp = await startAuthentication(opts);
-                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                    } catch (error) {
-                        elemError.innerText = error;
-                        throw new Error(error);
+                  let attResp;
+                  try {
+                    const opts = JSON.parse(challengeParameters.attestationChallenge);
+                    printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
+                    attResp = await startRegistration(opts);
+                    printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
+                  } catch (error) {
+                    if (error.name === 'InvalidStateError') {
+                      elemError.innerText = 'Error: Authenticator was probably already registered by user';
+                    } else {
+                      elemError.innerText = error;
                     }
 
-                    // Send the authenticators response
-                    cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+                    throw error;
+                  }
+
+                  // Send the authenticators response
+                  cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
                 },
                 onSuccess: function (result) {
-                    printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
-                    elemSuccess.innerHTML = `User authenticated!`;
+                  printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                  elemSuccess.innerHTML = `Authenticator registered!`;
                 },
                 onFailure: function (error) {
-                    elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
-                        error,
-                    )}</pre>`;
+                  elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                    error,
+                  )}</pre>`;
                 }
-            });
-        });
-    }
+              });
+            } else {
+              elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                error,
+              )}</pre>`;
+            }
+          });
 
-</script>
+
+
+};
+
+function AuthUser(){
+    const elemSuccess = document.querySelector('#authSuccess');
+          const elemError = document.querySelector('#authError');
+          const elemDebug = document.querySelector('#authDebug');
+
+          // Reset success/error messages
+          elemSuccess.innerHTML = '';
+          elemError.innerHTML = '';
+          elemDebug.innerHTML = '';
+
+          // Request the generated assertion options to begin webauthn authentication
+          userPool = getAmazonCognitoUserPool();
+          var cognitoUser = new CognitoUser({
+            Username: document.getElementById('authUsername').value,
+	          Pool: userPool,
+          });
+          cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+          cognitoUser.initiateAuth(new AuthenticationDetails({
+              Username: cognitoUser.getUsername()
+            }), {
+              customChallenge: async function(challengeParameters) {
+
+                let asseResp;
+                try {
+                  const opts = JSON.parse(challengeParameters.assertionChallenge);
+                  printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
+                  asseResp = await startAuthentication(opts);
+                  printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                } catch (error) {
+                  elemError.innerText = error;
+                  throw new Error(error);
+                }
+
+                // Send the authenticators response
+                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+              },
+              onSuccess: function (result) {
+                printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                elemSuccess.innerHTML = `User authenticated!`;
+              },
+              onFailure: function (error) {
+                elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                  error,
+                )}</pre>`;
+              }
+          });
+
+
+};
+
+
+
+    </script>
+
 </body>
 </html>
