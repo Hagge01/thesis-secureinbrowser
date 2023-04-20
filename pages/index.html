@@ -87,9 +87,6 @@
 const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
-if(!browserSupportsWebauthn){
-    alert("WebAuthn is not supported by this browser");
-}
 function signUpWithWebAuthN(){
 
     const elemSuccess = document.querySelector('#regSuccess');
