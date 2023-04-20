@@ -38,7 +38,7 @@ exports.handler = async function(event, context, callback) {
             credential: challengeAnswer,
             expectedChallenge: event.request.privateChallengeParameters.assertionChallenge,
             expectedOrigin: origin,
-            //expectedRPID: rpID,
+            expectedRPID: rpID,
             authenticator,
         });
 
