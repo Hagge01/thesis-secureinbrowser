@@ -4,7 +4,7 @@ const { verifyRegistrationResponse, verifyAuthenticationResponse, VerifiedRegist
 
 var cognito = new CognitoIdentityServiceProvider();
 
-const rpID = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html';
+const rpID = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
 const origin = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
 // The URL at which attestations and assertions should occur
 
