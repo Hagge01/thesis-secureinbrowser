@@ -4,7 +4,7 @@ const { verifyRegistrationResponse, verifyAuthenticationResponse, VerifiedRegist
 
 var cognito = new CognitoIdentityServiceProvider();
 
-//const rpID = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html';
+const rpID = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com/pages/index.html';
 const origin = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
 // The URL at which attestations and assertions should occur
 
@@ -79,7 +79,7 @@ exports.handler = async function(event, context, callback) {
             credential: challengeAnswer,
             expectedChallenge: event.request.privateChallengeParameters.attestationChallenge,
             expectedOrigin: origin,
-            //expectedRPID: rpID,
+            expectedRPID: rpID,
         });
 
         // Can register new authenticator?
