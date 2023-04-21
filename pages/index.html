@@ -101,7 +101,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             userPool = await getAmazonCognitoUserPool();
             userPool.signUp(document.getElementById('email2').value, 'PasswordD123!', [new CognitoUserAttribute({
                 Name: 'email',
-                Value: document.getElementById('email2e').value
+                Value: document.getElementById('email2').value
             })], null, function (error, result) {
 
                 // We want to allow users to register multiple authenticators to a single user account, so if the Cognito "signUp" fails with user exists, that's okay, ignore it
