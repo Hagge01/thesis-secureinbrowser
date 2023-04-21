@@ -135,7 +135,13 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             }
 
                             // Send the authenticators response
-                            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
+                            try {
+                                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
+                            } catch (error) {
+                                elemError.innerHTML = `Oh no, something wenddddddt wrong! Response: <pre>${JSON.stringify(error)}</pre>`;
+                                alert(error);
+                            }
+
                         },
                         onSuccess: function (result) {
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
