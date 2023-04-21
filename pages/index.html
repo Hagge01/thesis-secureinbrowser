@@ -118,7 +118,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     }), {
                         customChallenge: async function(challengeParameters) {
 
-                            let attResp;
                             try {
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
@@ -131,10 +130,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                     elemError.innerText = error;
                                 }
 
+                                console.log('Error in try block:', error); // Add a console.log statement here
+
                                 throw error;
                             }
 
-                            // Send the authenticators response
+// Send the authenticators response
                             try {
                                 cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
                             } catch (error) {
