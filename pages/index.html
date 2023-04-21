@@ -135,7 +135,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             }
 
                             // Send the authenticators response
-                            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
+                            try {
+                                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
+                            } catch (error) {
+                                elemError.innerText = error;
+                                throw error;
+                            }
                         },
                         onSuccess: function (result) {
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
@@ -205,6 +210,78 @@ function AuthUser(){
 
 };
 
+        const { createNewUser } = SimpleWebAuthnBrowser;
+
+
+
+        // Start registration when the user clicks a button
+        elemBegin.addEventListener('click', async () => {
+            // Reset success/error messages
+            elemSuccess.innerHTML = '';
+            elemError.innerHTML = '';
+
+            // GET registration options from the Lambda endpoint
+            const resp = await fetch('/generate-registration-options');
+
+            let attResp;
+            try {
+                // Pass the options to the authenticator and wait for a response
+                attResp = await createNewUser(await resp.json());
+            } catch (error) {
+                // Some basic error handling
+                if (error.name === 'InvalidStateError') {
+                    elemError.innerText = 'Error: Authenticator was probably already registered by user';
+                } else {
+                    elemError.innerText = error;
+                }
+
+                throw error;
+            }
+
+            // POST the response to the Lambda endpoint for verification
+            const verificationResp = await fetch('/verify-registration', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(attResp),
+            });
+
+            // Wait for the results of verification
+            const verificationJSON = await verificationResp.json();
+
+            // Show UI appropriate for the `verified` status
+            if (verificationJSON && verificationJSON.verified) {
+                // Register the new user with Cognito
+                const username = attResp.response.userHandle;
+                const userAttributes = [
+                    { Name: 'email', Value: 'user@example.com' },
+                ];
+                const cognitoUser = await new Promise((resolve, reject) => {
+                    const cognitoUserPool = new AmazonCognitoIdentity.CognitoUserPool({
+                        UserPoolId: userPoolId,
+                        ClientId: clientId,
+                    });
+                    const userData = {
+                        Username: username,
+                        Pool: cognitoUserPool,
+                    };
+                    const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+                    cognitoUser.signUp(username, attResp.response.clientDataJSON, userAttributes, null, (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result.user);
+                        }
+                    });
+                });
+                elemSuccess.innerHTML = 'Success!';
+            } else {
+                elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                    verificationJSON,
+                )}</pre>`;
+            }
+        });
 
 
 
