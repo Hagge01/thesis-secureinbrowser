@@ -36,7 +36,7 @@
                         <h2 class="text-center my-4">Autentisera</h2>
                         <form>
                             <div class="form-group">
-                                <label for="email">Email:</label>
+                                <label for="authUsername">Email:</label>
                                 <input type="email" id="authUsername" name="email" class="form-control">
                             </div>
                             <input type="button" value="Autentisera" onclick="AuthUser()" class="btn btn-primary mt-2">
@@ -112,7 +112,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         Username: document.getElementById('email2').value,
                         Pool: userPool,
                     });
-                    console.log(cognitoUser);
                     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
                     cognitoUser.initiateAuth(new AuthenticationDetails({
                         Username: cognitoUser.getUsername(),
@@ -136,14 +135,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             }
 
                             // Send the authenticators response
-                            try {
-                                console.log('Sending response to Cognito');
-                                console.log(attResp);
-                                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
-                            } catch (error) {
-                                elemError.innerText = error;
-                                throw error;
-                            }
+                            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
                         },
                         onSuccess: function (result) {
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
@@ -162,6 +154,58 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 }
             });
         });
+
+        /**
+         * Authentication
+         */
+        document.getElementById('authUsername').addEventListener('click', async () => {
+            const elemSuccess = document.querySelector('#authSuccess');
+            const elemError = document.querySelector('#authError');
+            const elemDebug = document.querySelector('#authDebug');
+
+            // Reset success/error messages
+            elemSuccess.innerHTML = '';
+            elemError.innerHTML = '';
+            elemDebug.innerHTML = '';
+
+            // Request the generated assertion options to begin webauthn authentication
+            userPool = await getAmazonCognitoUserPool();
+            var cognitoUser = new CognitoUser({
+                Username: document.getElementById('authUsername').value,
+                Pool: userPool,
+            });
+            cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+            cognitoUser.initiateAuth(new AuthenticationDetails({
+                Username: cognitoUser.getUsername()
+            }), {
+                customChallenge: async function(challengeParameters) {
+
+                    let asseResp;
+                    try {
+                        const opts = JSON.parse(challengeParameters.assertionChallenge);
+                        printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
+                        asseResp = await startAuthentication(opts);
+                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                    } catch (error) {
+                        elemError.innerText = error;
+                        throw new Error(error);
+                    }
+
+                    // Send the authenticators response
+                    cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+                },
+                onSuccess: function (result) {
+                    printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                    elemSuccess.innerHTML = `User authenticated!`;
+                },
+                onFailure: function (error) {
+                    elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                        error,
+                    )}</pre>`;
+                }
+            });
+        });
+
 
 
 
