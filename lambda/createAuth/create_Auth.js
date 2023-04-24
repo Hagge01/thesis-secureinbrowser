@@ -8,6 +8,9 @@ exports.handler = async (event, context, callback) => {
   event.response.privateChallengeParameters = {};
   let userAuthenticators = [];
 
+  console.log("event: ", JSON.stringify(event));
+  
+
   if (event.request.userAttributes['custom:authCreds']) {
     let cognitoAuthenticatorCreds = JSON.parse(event.request.userAttributes['custom:authCreds']);
     userAuthenticators = cognitoAuthenticatorCreds.map((authenticator) => ({
@@ -49,6 +52,8 @@ exports.handler = async (event, context, callback) => {
       transports: ['usb', 'ble', 'nfc', 'internal'],
     })),
   });
+  console.log("option: ", JSON.stringify(options));
+  
 
   event.response.publicChallengeParameters.attestationChallenge = JSON.stringify(options);
   event.response.privateChallengeParameters.attestationChallenge = options.challenge;

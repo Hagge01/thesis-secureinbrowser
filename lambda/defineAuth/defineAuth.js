@@ -1,6 +1,11 @@
 const { Context } = require('aws-lambda');
 
 exports.handler = (event, context, callback) => {
+
+    console.log(`Function name: ${context.functionName}`);
+    console.log(`Remaining time: ${context.getRemainingTimeInMillis()}`);
+    // Check if the user is already authenticated
+
     if (event.request.session.length &&
         event.request.session.slice(-1)[0].challengeName === 'CUSTOM_CHALLENGE' &&
         event.request.session.slice(-1)[0].challengeResult === true) {
