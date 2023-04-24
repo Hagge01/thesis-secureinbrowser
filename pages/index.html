@@ -137,16 +137,19 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
 // Send the authenticators response
 
-                            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), {
-                                onSuccess: function(result) {
-                                    printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
-                                    elemSuccess.innerHTML = `Authenticator registered!`;
-                                },
-                                onFailure: function(error) {
-                                    elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(error)}</pre>`;
-                                }
-                            });
+                            cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
+
+
                         },
+                        onSuccess: function (result) {
+                            printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                            elemSuccess.innerHTML = `Authenticator registered!`;
+                        },
+                        onFailure: function (error) {
+                            elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
+                                error,
+                            )}</pre>`;
+                        }
                     });
                 } else {
                     elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
