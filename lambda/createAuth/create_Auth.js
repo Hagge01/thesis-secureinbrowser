@@ -10,7 +10,8 @@ exports.handler = async (event, context, callback) => {
 
   console.log("event: ", JSON.stringify(event));
   
-
+console.log("authCreds: ", event.request.userAttributes['custom:authCreds'] || "No authCreds");
+console.log("authenicators: ", userAuthenticators);
   if (event.request.userAttributes['custom:authCreds']) {
     let cognitoAuthenticatorCreds = JSON.parse(event.request.userAttributes['custom:authCreds']);
     userAuthenticators = cognitoAuthenticatorCreds.map((authenticator) => ({

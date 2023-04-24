@@ -34,11 +34,11 @@ exports.handler = async function(event, context, callback) {
         // Using the "rawId" from the authenticator's assertion (challengeAnswer) compare with stored authenticator's credentialIDs to find the correct authenticator for verification
         let authenticator = userAuthenticators.find(({credentialID}) => (Buffer.compare(credentialID, base64url.toBuffer(challengeAnswer.rawId)) === 0)) || userAuthenticators[0];
         let verification = await verifyAuthenticationResponse({
-            response: challengeAnswer,
-            expectedChallenge: event.request.privateChallengeParameters.assertionChallenge,
-            expectedOrigin: origin,
-            expectedRPID: rpID,
-            authenticator,
+    response: challengeAnswer,
+    expectedChallenge: event.request.privateChallengeParameters.assertionChallenge,
+    expectedOrigin: origin,
+    expectedRPID: rpID,
+    authenticator,
         });
         
 
