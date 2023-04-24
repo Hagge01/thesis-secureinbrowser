@@ -183,12 +183,14 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 Username: cognitoUser.getUsername()
             }), {
                 customChallenge: async function(challengeParameters) {
-
+                    console.log('challengeParameters', challengeParameters);
+                    console.log(cognitoUser);
                     let asseResp;
                     try {
                         const opts = JSON.parse(challengeParameters.assertionChallenge);
                         printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                         asseResp = await startAuthentication(opts);
+                        console.log('asseResp', asseResp);
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                     } catch (error) {
                         elemError.innerText = error;
