@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 const { verifyRegistrationResponse, verifyAuthenticationResponse, VerifiedRegistrationResponse, VerifiedAuthenticationResponse, MetadataService } = require('@simplewebauthn/server');
+const base64url = require('base64url');
 
 var cognito = new CognitoIdentityServiceProvider();
 
@@ -9,9 +10,6 @@ const origin = 'https://thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
 // The URL at which attestations and assertions should occur
 
 exports.handler = async function(event, context, callback) {
-    let eventResponse = {
-        answerCorrect: false
-    };
 
     // Initialize MetadataService
     await MetadataService.initialize({
@@ -35,13 +33,13 @@ exports.handler = async function(event, context, callback) {
 
         // Using the "rawId" from the authenticator's assertion (challengeAnswer) compare with stored authenticator's credentialIDs to find the correct authenticator for verification
         let authenticator = userAuthenticators.find(({credentialID}) => (Buffer.compare(credentialID, base64url.toBuffer(challengeAnswer.rawId)) === 0)) || userAuthenticators[0];
-try {let verification = await verifyAuthenticationResponse({
-    response: challengeAnswer,
-    expectedChallenge: event.request.privateChallengeParameters.assertionChallenge,
-    expectedOrigin: origin,
-    expectedRPID: rpID,
-    authenticator,
-});} catch (err) {console.log("Error: ",err);}
+        let verification = await verifyAuthenticationResponse({
+            response: challengeAnswer,
+            expectedChallenge: event.request.privateChallengeParameters.assertionChallenge,
+            expectedOrigin: origin,
+            expectedRPID: rpID,
+            authenticator,
+        });
         
 
         // Pass?
@@ -66,16 +64,16 @@ try {let verification = await verifyAuthenticationResponse({
                     UserPoolId: event.userPoolId,
                     Username: event.request.userAttributes.email,
                 }).promise();
-                eventResponse.answerCorrect = true;
+                event.response.answerCorrect = true;
 
             } catch (error) {
                 console.error(error);
-                eventResponse.answerCorrect = false;
-                callback(null, eventResponse);
+                event.response.answerCorrect = false;
+                callback(null, event);
             }
         } else {
-            eventResponse.answerCorrect = false;
-            callback(null, eventResponse);
+            event.response.answerCorrect = false;
+            callback(null, event);
         }
         console.log("challengeAnswer.response.authenticatorData: ",JSON.stringify(challengeAnswer.response.authenticatorData));
     } else {
@@ -92,8 +90,11 @@ try {let verification = await verifyAuthenticationResponse({
         if(verification.verified) {
             let attestationInfo = verification;
             console.log("attestationInfo: ",JSON.stringify(attestationInfo));
-            let credentialPublicKey = JSON.stringify(attestationInfo.credentialPublicKey);
-            let credentialID = JSON.stringify(attestationInfo.credentialID);
+            const credentialIDBytes = new Uint8Array(Object.values(attestationInfo.registrationInfo.credentialID));
+            const credentialID = base64url.encode(credentialIDBytes);
+
+            const credentialPublicKeyBytes = new Uint8Array(Object.values(attestationInfo.registrationInfo.credentialPublicKey));
+            const credentialPublicKey = base64url.encode(credentialPublicKeyBytes);
             
             console.log("CredentialPublicKey: ",JSON.stringify(credentialPublicKey));
             console.log("CredentialID: ",JSON.stringify(credentialID));
@@ -104,8 +105,9 @@ try {let verification = await verifyAuthenticationResponse({
                 credentialID: credentialID,
                 credentialPublicKey: credentialPublicKey,
                 counter: 0,
-                transports: [],
+                transports: ['usb', 'nfc', 'ble', 'internal'],
             };
+            console.log("NewAuthenticator: ",JSON.stringify(newAuthenticator));
 
             // Add the new authenticator to the list of user authenticators
             userAuthenticators.push(newAuthenticator);
@@ -122,19 +124,19 @@ try {let verification = await verifyAuthenticationResponse({
                     UserPoolId: event.userPoolId,
                     Username: event.request.userAttributes.email,
                 }).promise();
-                eventResponse.answerCorrect = true;
+                event.response.answerCorrect = true;
             } catch (error) {
                 console.error(error);
-                eventResponse.answerCorrect = false;
-                callback(null, eventResponse);
+                event.response.answerCorrect = false;
+                callback(null, event);
             }
         } else {
-            eventResponse.answerCorrect = false;
-            callback(null, eventResponse);
+            event.response.answerCorrect = false;
+            callback(null, event);
         }
     }
 
 // Return the event response
-    callback(null, eventResponse);
+    callback(null, event);
 };
 
