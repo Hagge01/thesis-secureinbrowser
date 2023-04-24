@@ -25,7 +25,7 @@ exports.handler = async (event, context, callback) => {
       allowCredentials: userAuthenticators.map((authenticator) => ({
         id: authenticator.credentialID,
         type: 'public-key',
-        transports: authenticator.transports ?? ['usb', 'ble', 'nfc', 'internal'],
+        transports: ['internal', 'hybrid'],
       })),
       userVerification: 'preferred',
     });
