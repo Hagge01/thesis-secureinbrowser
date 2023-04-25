@@ -188,9 +188,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     let asseResp;
                     try {
                         const opts = JSON.parse(challengeParameters.assertionChallenge);
-                        printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
+                        printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                         asseResp = await startAuthentication(opts);
-                        printDebug(elemDebug, 'Registration Response', JSON.stringify(asseResp, null, 2));
+                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                     } catch (error) {
                         if (error.name === 'InvalidStateError') {
                             elemError.innerText = 'Error: Authenticator was probably already registered by user';
