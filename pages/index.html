@@ -189,7 +189,13 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 try {
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
-                  asseResp = await startAuthentication(opts);
+                    try {
+                        asseResp = await startAuthentication(opts);
+                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                    } catch (error) {
+                        elemError.innerText = error;
+                        throw new Error(error);
+                    }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                 } catch (error) {
                   elemError.innerText = error;
