@@ -55,6 +55,8 @@
 
 
     <script>
+        import debug from "debug";
+
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -117,7 +119,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         Username: cognitoUser.getUsername(),
                     }), {
                         customChallenge: async function(challengeParameters) {
-
+                            let attResp;
                             try {
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
@@ -187,7 +189,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
                 let asseResp;
                 try {
+                    debugger;
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
+                  console.log('opts', opts);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                     try {
                         asseResp = await startAuthentication(opts);
