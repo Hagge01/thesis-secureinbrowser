@@ -20,20 +20,28 @@ exports.handler = async (event, context, callback) => {
       credentialID: Buffer.from(authenticator.credentialID),
       credentialPublicKey: Buffer.from(authenticator.credentialPublicKey),
       counter: authenticator.counter,
-      transports: ['usb', 'ble', 'nfc', 'internal'],
+      transports: ['internal', 'hybrid'],
     }));
+    console.log("UserAuth: ", JSON.stringify(userAuthenticators));
     } catch (e) {
       console.log("Error: ", e);
+      return callback(e);
     }
-    const options = generateAuthenticationOptions({
-      timeout: 60000,
-      allowCredentials: userAuthenticators.map((authenticator) => ({
-        id: authenticator.credentialID,
-        type: 'public-key',
-        transports: authenticator.transports,
-      })),
-      userVerification: 'preferred',
-    });
+    let options;
+    try {
+      options = generateAuthenticationOptions({
+        timeout: 60000,
+        allowCredentials: userAuthenticators.map((authenticator) => ({
+          id: authenticator.credentialID,
+          type: 'public-key',
+          transports: ['internal', 'hybrid'],
+        })),
+        userVerification: 'preferred',
+      });
+    } catch (e) {
+        console.log("Error: ", e);
+        return callback(e);
+    }
 
     event.response.publicChallengeParameters.assertionChallenge = JSON.stringify(options);
     event.response.privateChallengeParameters.assertionChallenge = options.challenge;
