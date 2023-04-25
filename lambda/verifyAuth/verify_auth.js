@@ -13,7 +13,7 @@ exports.handler = async function(event, context, callback) {
 
     // Initialize MetadataService
     await MetadataService.initialize({
-        verificationMode: 'permissive',
+        verificationMode: 'required',
     });
 
     // Parse the list of stored authenticators from the Cognito user
@@ -90,22 +90,11 @@ exports.handler = async function(event, context, callback) {
         if (verification.verified) {
             let attestationInfo = verification;
             console.log("attestationInfo: ",JSON.stringify(attestationInfo));
-            const credentialIDBytes = new Uint8Array(Object.values(attestationInfo.registrationInfo.credentialID));
-            const credentialID = base64url.encode(credentialIDBytes);
-
-            const credentialPublicKeyBytes = new Uint8Array(Object.values(attestationInfo.registrationInfo.credentialPublicKey));
-            const credentialPublicKey = base64url.encode(credentialPublicKeyBytes);
-            
-            console.log("CredentialPublicKey: ",JSON.stringify(credentialPublicKey));
-            console.log("CredentialID: ",JSON.stringify(credentialID));
-
-
-        
             const newAuthenticator = {
-                credentialID: credentialID,
-                credentialPublicKey: credentialPublicKey,
+                credentialID: Buffer.from(attestationInfo.registrationInfo.credentialID),
+                credentialPublicKey: Buffer.from(attestationInfo.registrationInfo.credentialPublicKey),
                 counter: attestationInfo.registrationInfo ? attestationInfo.registrationInfo.counter : 0,
-               
+                transports: ['internal', 'hybrid'],
             };
         
             // Add the new authenticator to the list of stored authenticators for the Cognito user
