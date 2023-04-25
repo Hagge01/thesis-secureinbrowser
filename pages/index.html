@@ -182,7 +182,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             cognitoUser.initiateAuth(new AuthenticationDetails({
                 Username: cognitoUser.getUsername()
             }), 
-            console.log('cognitoUser: ', cognitoUser),
+
             {
                 customChallenge: async function(challengeParameters) {
                     console.log('challengeParameters', challengeParameters);
