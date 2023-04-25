@@ -194,6 +194,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                     } catch (error) {
                         elemError.innerText = error;
+                        console.error(error)
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
