@@ -8,12 +8,9 @@ exports.handler = async (event, context, callback) => {
   event.response.privateChallengeParameters = {};
   let userAuthenticators = [];
 
-  console.log("event: ", JSON.stringify(event));
-  
-  console.log("authCreds: ", event.request.userAttributes['custom:authCreds'] || "No authCreds");
-  console.log("authenicators: ", userAuthenticators);
   
   if (event.request.userAttributes['custom:authCreds']) {
+    console.log("User has authenticators");
     try {
     let cognitoAuthenticatorCreds = JSON.parse(event.request.userAttributes['custom:authCreds']);
     userAuthenticators = cognitoAuthenticatorCreds.map((authenticator) => ({
@@ -38,11 +35,12 @@ exports.handler = async (event, context, callback) => {
         })),
         userVerification: 'preferred',
       });
+      console.log("UserAuth: ", JSON.stringify(options));
     } catch (e) {
         console.log("Error: ", e);
-        return callback(e);
+        return callback(null, e);
     }
-
+    console.log("response public", JSON.stringify(event.response.publicChallengeParameters.assertionChallenge));
     event.response.publicChallengeParameters.assertionChallenge = JSON.stringify(options);
     event.response.privateChallengeParameters.assertionChallenge = options.challenge;
 
