@@ -22,7 +22,7 @@ exports.handler = async function(event, context, callback) {
         credentialID: Buffer.from(authenticator.credentialID),
         credentialPublicKey: Buffer.from(authenticator.credentialPublicKey),
         counter: authenticator.counter,
-        transports: authenticator.transports || [],
+        transports: ['internal', 'hybrid'],
     }));
     console.log("UserAuth: ",JSON.stringify(userAuthenticators));
     console.log("Event", JSON.stringify(event));
