@@ -135,7 +135,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 throw error;
                             }
 
-// Send the authenticators response
+                            // Send the authenticators response
 
                             cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
 
@@ -181,26 +181,21 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
             cognitoUser.initiateAuth(new AuthenticationDetails({
                 Username: cognitoUser.getUsername()
-            }), {
+            }), 
+            console.log('cognitoUser: ', cognitoUser.getUsername),
+            {
                 customChallenge: async function(challengeParameters) {
                     console.log('challengeParameters', challengeParameters);
                     console.log(cognitoUser);
                     let asseResp;
                     try {
                         const opts = JSON.parse(challengeParameters.assertionChallenge);
-                        printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
+                        printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                         asseResp = await startAuthentication(opts);
-                        printDebug(elemDebug, 'Registration Response', JSON.stringify(asseResp, null, 2));
+                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                     } catch (error) {
-                        if (error.name === 'InvalidStateError') {
-                            elemError.innerText = 'Error: Authenticator was probably already registered by user';
-                        } else {
-                            elemError.innerText = error;
-                        }
-
-                        console.log('Error in try block:', error); // Add a console.log statement here
-
-                        throw error;
+                        elemError.innerText = error;
+                        throw new Error(error);
                     }
 
                     // Send the authenticators response
