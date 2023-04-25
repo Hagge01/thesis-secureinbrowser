@@ -12,6 +12,7 @@
   "dependencies": {
     "@simplewebauthn/server": "^7.2.0",
     "aws-lambda": "^1.0.7",
-    "aws-sdk": "^2.1360.0"
+    "aws-sdk": "^2.1360.0",
+    "base64url": "^3.0.1"
   }
 }

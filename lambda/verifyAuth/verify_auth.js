@@ -87,7 +87,7 @@ exports.handler = async function(event, context, callback) {
         console.log("Verification: ",JSON.stringify(verification));
        
         // Can register new authenticator?
-        if(verification.verified) {
+        if (verification.verified) {
             let attestationInfo = verification;
             console.log("attestationInfo: ",JSON.stringify(attestationInfo));
             const credentialIDBytes = new Uint8Array(Object.values(attestationInfo.registrationInfo.credentialID));
@@ -98,39 +98,40 @@ exports.handler = async function(event, context, callback) {
             
             console.log("CredentialPublicKey: ",JSON.stringify(credentialPublicKey));
             console.log("CredentialID: ",JSON.stringify(credentialID));
-            
 
-            // Create a new authenticator object with the credentialPublicKey and credentialID
+
+        
             const newAuthenticator = {
                 credentialID: credentialID,
                 credentialPublicKey: credentialPublicKey,
-                counter: 0,
-                transports: ['usb', 'nfc', 'ble', 'internal'],
+                counter: attestationInfo.registrationInfo ? attestationInfo.registrationInfo.counter : 0,
+               
             };
-            console.log("NewAuthenticator: ",JSON.stringify(newAuthenticator));
-
-            // Add the new authenticator to the list of user authenticators
-            userAuthenticators.push(newAuthenticator);
-
-            // Update the user's Cognito attribute with the updated list of authenticators
+        
+            // Add the new authenticator to the list of stored authenticators for the Cognito user
             try {
                 await cognito.adminUpdateUserAttributes({
                     UserAttributes: [
                         {
                             Name: 'custom:authCreds',
-                            Value: JSON.stringify(userAuthenticators),
+                            Value: JSON.stringify([...cognitoAuthenticatorCreds, ...[newAuthenticator]]),
                         }
                     ],
                     UserPoolId: event.userPoolId,
                     Username: event.request.userAttributes.email,
-                }).promise();
+                }, function(err, data) {
+                    if (err) console.log(err, err.stack); // an error occurred
+                    else console.log(data); // successful response
+                });
                 event.response.answerCorrect = true;
+        
             } catch (error) {
                 console.error(error);
                 event.response.answerCorrect = false;
                 callback(null, event);
             }
-        } else {
+        }
+         else {
             event.response.answerCorrect = false;
             callback(null, event);
         }

@@ -10,29 +10,34 @@ exports.handler = async (event, context, callback) => {
 
   console.log("event: ", JSON.stringify(event));
   
-console.log("authCreds: ", event.request.userAttributes['custom:authCreds'] || "No authCreds");
-console.log("authenicators: ", userAuthenticators);
+  console.log("authCreds: ", event.request.userAttributes['custom:authCreds'] || "No authCreds");
+  console.log("authenicators: ", userAuthenticators);
+  
   if (event.request.userAttributes['custom:authCreds']) {
+    try {
     let cognitoAuthenticatorCreds = JSON.parse(event.request.userAttributes['custom:authCreds']);
     userAuthenticators = cognitoAuthenticatorCreds.map((authenticator) => ({
       credentialID: Buffer.from(authenticator.credentialID),
       credentialPublicKey: Buffer.from(authenticator.credentialPublicKey),
       counter: authenticator.counter,
-      transports: authenticator.transports || [],
+      transports: ['usb', 'ble', 'nfc', 'internal'],
     }));
-
+    } catch (e) {
+      console.log("Error: ", e);
+    }
     const options = generateAuthenticationOptions({
       timeout: 60000,
       allowCredentials: userAuthenticators.map((authenticator) => ({
         id: authenticator.credentialID,
         type: 'public-key',
-        transports: ['internal', 'hybrid'],
+        transports: authenticator.transports,
       })),
       userVerification: 'preferred',
     });
 
     event.response.publicChallengeParameters.assertionChallenge = JSON.stringify(options);
     event.response.privateChallengeParameters.assertionChallenge = options.challenge;
+
   }
 
   const options = generateRegistrationOptions({
