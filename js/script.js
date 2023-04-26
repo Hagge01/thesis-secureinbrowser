@@ -89,6 +89,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         onSuccess: function (result) {
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                             elemSuccess.innerHTML = `Authenticator registered!`;
+                            window.location.href = "../pages/auth.html";
                         },
                         onFailure: function (error) {
                             elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
