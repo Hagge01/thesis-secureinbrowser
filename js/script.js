@@ -37,6 +37,22 @@
             }
         }
 
+        function isSignedIn(){
+            userPool = getAmazonCognitoUserPool();
+            var cognitoUser = userPool.getCurrentUser();
+            if (cognitoUser != null) {
+                cognitoUser.getSession(function(err, session) {
+                    if (err) {
+                        window.location.href = "../pages/index.html";
+                    } else {
+                        console.log("User is logged in.");
+                    }
+                });
+            } else {
+                window.location.href = "../pages/index.html";
+            }
+        }
+
 const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
