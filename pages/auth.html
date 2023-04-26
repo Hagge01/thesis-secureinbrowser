@@ -18,6 +18,21 @@
          </div>
     </div>
     <script src="/js/script.js"></script>
+    <script>
+        userPool = getAmazonCognitoUserPool();
+        var cognitoUser = userPool.getCurrentUser();
+        if (cognitoUser != null) {
+            cognitoUser.getSession(function(err, session) {
+                if (err) {
+                    window.location.href = "../pages/index.html";
+                } else {
+                    console.log("User is logged in.");
+                }
+            });
+        } else {
+            console.log("User is not logged in.");
+        }
+    </script>
 </body>
 
 </html>

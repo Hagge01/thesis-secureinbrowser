@@ -37,22 +37,6 @@
             }
         }
 
-        function isLoggedIn() {
-            userPool = getAmazonCognitoUserPool();
-            var cognitoUser = userPool.getCurrentUser();
-            if (cognitoUser != null) {
-                cognitoUser.getSession(function(err, session) {
-                    if (err) {
-                        console.log("User is not logged in.");
-                    } else {
-                        console.log("User is logged in.");
-                    }
-                });
-            } else {
-                console.log("User is not logged in.");
-            }
-        }
-
 const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
