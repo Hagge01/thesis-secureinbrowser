@@ -89,7 +89,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         onSuccess: function (result) {
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                             elemSuccess.innerHTML = `Authenticator registered!`;
-                            window.location.href = "../pages/auth.html";
+                            
                         },
                         onFailure: function (error) {
                             elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
@@ -121,7 +121,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
           // Request the generated assertion options to begin webauthn authentication
           userPool = await getAmazonCognitoUserPool();
           var cognitoUser = new CognitoUser({
-            Username: document.getElementById('email3').value,
+            Username: document.getElementById('email2').value,
 	          Pool: userPool,
           });
           cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
@@ -156,6 +156,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
               onSuccess: function (result) {
                 printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
+                window.location.href = "../pages/auth.html";
               },
               onFailure: function (error) {
                 elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
