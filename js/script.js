@@ -37,6 +37,22 @@
             }
         }
 
+        function isLoggedIn() {
+            userPool = getAmazonCognitoUserPool();
+            var cognitoUser = userPool.getCurrentUser();
+            if (cognitoUser != null) {
+                cognitoUser.getSession(function(err, session) {
+                    if (err) {
+                        console.log("User is not logged in.");
+                    } else {
+                        console.log("User is logged in.");
+                    }
+                });
+            } else {
+                console.log("User is not logged in.");
+            }
+        }
+
 const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
@@ -165,6 +181,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
               onSuccess: function (result) {
                 printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
+                window.location.href = "../pages/auth.html";
               },
               onFailure: function (error) {
                 elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
