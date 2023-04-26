@@ -20,14 +20,14 @@
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
                 </div>
                 <div class="d-grid gap-2 mb-3">
-                    <input type="submit" class="btn btn-primary btn-block" id="authUsername">Log In</input>
-                    <input type="submit" class="btn btn-outline-primary btn-block" id="register-btn">Register</input>
+                    <input type="button" value="Autentisera" id="authUsername" class="btn btn-primary btn-block">
+                    <input type="button" value="Registrera" id="register-btn" class="btn btn-outline-primary btn-block">
                 </div>
             </form>
         </div>
     </div>
 </div>
-    
+   
                     <p id="regSuccess" class="success"></p>
                     <p id="regError" class="error"></p>
                     <details open>
@@ -41,7 +41,9 @@
                                 <textarea id="authDebug" spellcheck="false"></textarea>
                             </details>
 
-            
+        
+                <button id="get-keys" onclick="signOut()"> logga ut</button>
+               
 
     <script src="/js/script.js"></script>
 </body>
