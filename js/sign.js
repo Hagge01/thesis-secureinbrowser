@@ -5,7 +5,7 @@ function base64urlEncode(data) {
   
   function base64urlDecode(base64url) {
     base64url = base64url.replace(/-/g, '+').replace(/_/g, '/');
-    const padding = 4 - (base64url.length % 4);
+    let padding = 4 - (base64url.length % 4);
     if (padding === 4) {
       padding = 0;
     }
