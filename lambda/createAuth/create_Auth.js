@@ -16,7 +16,7 @@ exports.handler = async (event, context, callback) => {
 
     const cognitoAuthenticatorCreds = JSON.parse(event.request.userAttributes['custom:authCreds']);
 
-    console.log("CognitoAuth: ", JSON.stringify(cognitoAuthenticatorCreds));
+    //console.log("CognitoAuth: ", JSON.stringify(cognitoAuthenticatorCreds));
 
     for (let i = 0; i < cognitoAuthenticatorCreds.length; i++) {
       const authenticator = cognitoAuthenticatorCreds[i];
@@ -28,7 +28,7 @@ exports.handler = async (event, context, callback) => {
       userAuthenticators.push({ credentialID, credentialPublicKey, counter, transports });
     }
 
-    console.log("UserAuth map: ", JSON.stringify(userAuthenticators));
+    //console.log("UserAuth map: ", JSON.stringify(userAuthenticators));
     const options = generateAuthenticationOptions({
       // Require users to use a previously-registered authenticator
       allowCredentials: userAuthenticators.map(authenticator => ({
@@ -39,7 +39,7 @@ exports.handler = async (event, context, callback) => {
       })),
       userVerification: 'preferred',
     });
-      console.log("options Auth: ", JSON.stringify(options));
+      //console.log("options Auth: ", JSON.stringify(options));
 
     event.response.publicChallengeParameters.assertionChallenge = JSON.stringify(options);
     event.response.privateChallengeParameters.assertionChallenge = options.challenge;
@@ -64,7 +64,7 @@ exports.handler = async (event, context, callback) => {
       transports: ['internal', 'hybrid'],
     })),
   });
-  console.log("option: ", JSON.stringify(options));
+  //console.log("option: ", JSON.stringify(options));
   
 
   event.response.publicChallengeParameters.attestationChallenge = JSON.stringify(options);
