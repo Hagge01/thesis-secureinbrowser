@@ -29,6 +29,46 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     console.log('Client Data:', clientDataJSONBytes);
                     console.log('Signature:', signatureBytes);
                     console.log('User Handle:', userHandleBytes);
+
+                    const credential = new PublicKeyCredential({
+                        id: credentialIdFromWebAuthn,
+                        rawId: base64url.decode(credentialIdFromWebAuthn),
+                        response: {
+                            authenticatorData: base64url.decode(authenticatorDataBytes),
+                            clientDataJSON: base64url.decode(clientDataJSONBytes),
+                            signature: base64url.decode(signatureBytes),
+                            userHandle: base64url.decode(userHandleBytes),
+                        },
+                        type: 'public-key',
+                    });
+                    console.log('Creds: ',credentials);
+
+                    const cryptoKeyPair = await window.crypto.subtle.generateKey(
+                        {
+                            name: 'ECDSA',
+                            namedCurve: 'P-256',
+                        },
+                        true,
+                        ['sign', 'verify'],
+                    );
+                    console.log('CryptoKeyPair:', cryptoKeyPair);
+
+                    const signature2 = await window.crypto.subtle.sign(
+                        {
+                            name: 'ECDSA',
+                            hash: { name: 'SHA-256' },
+                        },
+                        cryptoKeyPair.privateKey,
+                        new TextEncoder().encode(documentToSign),
+                    );
+                    console.log('Signature:', base64url.encode(signature2));
+
+                                    /*const signedDocument = {
+                    document: documentToSign,
+                    signature: base64url.encode(signature),
+                    publicKey: await window.crypto.subtle.exportKey('raw', cryptoKeyPair.publicKey)
+                };
+                console.log('Signed Document:', signedDocument);*/
                 } catch (error) {
                     elemError.innerText = error;
                     console.log(error);
@@ -55,43 +95,3 @@ document.getElementById('signUser').addEventListener('click', async () => {
 
 
 
-
-const credential = new PublicKeyCredential({
-    id: credentialIdFromWebAuthn,
-    rawId: base64url.decode(credentialIdFromWebAuthn),
-    response: {
-        authenticatorData: base64url.decode(authenticatorDataBytes),
-        clientDataJSON: base64url.decode(clientDataJSONBytes),
-        signature: base64url.decode(signatureBytes),
-        userHandle: base64url.decode(userHandleBytes),
-    },
-    type: 'public-key',
-});
-console.log('Creds: ',credentials);
-
-const cryptoKeyPair = await window.crypto.subtle.generateKey(
-    {
-        name: 'ECDSA',
-        namedCurve: 'P-256',
-    },
-    true,
-    ['sign', 'verify'],
-);
-console.log('CryptoKeyPair:', cryptoKeyPair);
-
-const signature = await window.crypto.subtle.sign(
-    {
-        name: 'ECDSA',
-        hash: { name: 'SHA-256' },
-    },
-    cryptoKeyPair.privateKey,
-    new TextEncoder().encode(documentToSign),
-);
-console.log('Signature:', base64url.encode(signature));
-
-/*const signedDocument = {
-    document: documentToSign,
-    signature: base64url.encode(signature),
-    publicKey: await window.crypto.subtle.exportKey('raw', cryptoKeyPair.publicKey)
-};
-console.log('Signed Document:', signedDocument);*/
