@@ -16,7 +16,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 try {
                     asseResp = await startAuthentication(opts);
                     $.ajax({
-                        url: 'https://8sehj03dh7.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser-documentSign/documentSign/document_Sign.js',
+                        url: 'https://8sehj03dh7.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser-documentSign',
                         type: 'POST',
                         data: JSON.stringify(asseResp),
                         contentType: 'application/json',
