@@ -157,7 +157,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
                 let asseResp;
                 try {
-                    debugger;
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', opts);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
