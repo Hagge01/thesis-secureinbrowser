@@ -15,7 +15,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
                     asseResp = await startAuthentication(opts);
-                    $ajax({
+                    $.ajax({
                         url: 'https://8sehj03dh7.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser-documentSign/documentSign/documentSign.js',
                         type: 'POST',
                         data: JSON.stringify(asseResp),
@@ -23,7 +23,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                         dataType: 'json',
                         success: function (result) {
                             console.log(result);
-                            elemSuccess.innerHTML = `Document Signed!`;
+                            console.log('Success');
                         }
                     });
                     
