@@ -6,7 +6,27 @@ const fs = require('fs');
 const symKey = crypto.randomBytes(32);
 
 exports.handler = async (event, context, callback) => {
-    console.log("Event: ", JSON.stringify(event));
+    try {
+        const path = event.path; // Convert path to lowercase for case-insensitive comparison
+        const functionName = path.substring(path.lastIndexOf('/') + 1); // Extract function name from the path
+
+        if (functionName === 'myfunction') {
+            return myfunction(event, context);
+        } else if (functionName === 'myfunction2') {
+            return myfunction2(event, context);
+        } else {
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ error: "Invalid function name" }),
+            };
+        }
+    } catch (error) {
+        console.error("Error: ", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to process request" }),
+        };
+    }
 /*
     let credential;
     try {
@@ -48,6 +68,11 @@ exports.handler = async (event, context, callback) => {
     );
     console.log('Signature:', base64url.encode(signature2));*/
 
+};
+
+const myfunction = async (event, context) => {
+    console.log('myfunction called');
+    console.log(event);
 };
 
 
