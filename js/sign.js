@@ -30,18 +30,23 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     console.log('Client Data:', clientDataJSONBytes);
                     console.log('Signature:', signatureBytes);
                     console.log('User Handle:', userHandleBytes);
-
-                    const credential = new PublicKeyCredential({
-                        id: credentialIdFromWebAuthn,
-                        rawId: base64url.decode(credentialIdFromWebAuthn),
-                        response: {
-                            authenticatorData: base64url.decode(authenticatorDataBytes),
-                            clientDataJSON: base64url.decode(clientDataJSONBytes),
-                            signature: base64url.decode(signatureBytes),
-                            userHandle: base64url.decode(userHandleBytes),
-                        },
-                        type: 'public-key',
-                    });
+                    try {
+                        const credential = new PublicKeyCredential({
+                            id: credentialIdFromWebAuthn,
+                            rawId: base64url.decode(credentialIdFromWebAuthn),
+                            response: {
+                                authenticatorData: base64url.decode(authenticatorDataBytes),
+                                clientDataJSON: base64url.decode(clientDataJSONBytes),
+                                signature: base64url.decode(signatureBytes),
+                                userHandle: base64url.decode(userHandleBytes),
+                            },
+                            type: 'public-key',
+                        });
+                    } catch (error) {
+                        console.log(error);
+                        throw new Error(error);
+                        console.log('RIP');
+                    }
                     console.log('Creds: ',credential);
 
                     const cryptoKeyPair = await window.crypto.subtle.generateKey(
