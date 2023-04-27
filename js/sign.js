@@ -14,19 +14,13 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
                     asseResp = await startAuthentication(opts);
-                    const { response } = asseResp;
-                    const { authenticatorData, clientDataJSON, signature, userHandle } = response;
+                   // const { response } = asseResp;
+                   // const { authenticatorData, clientDataJSON, signature, userHandle } = response;
                     
                     // Store the authenticator data, client data, signature, and user handle for later use
-                    const authenticatorDataBytes = new Uint8Array(authenticatorData);
-                    const clientDataJSONBytes = new Uint8Array(clientDataJSON);
-                    const signatureBytes = new Uint8Array(signature);
-                    const userHandleBytes = new Uint8Array(userHandle);
+                    console.log('asddse', asseResp);
                     
-                    console.log('Authenticator Data:', authenticatorDataBytes);
-                    console.log('Client Data:', clientDataJSONBytes);
-                    console.log('Signature:', signatureBytes);
-                    console.log('User Handle:', userHandleBytes);
+
                 } catch (error) {
                     elemError.innerText = error;
                     console.log(error);
@@ -87,6 +81,5 @@ const signature = await window.crypto.subtle.sign(
 const signedDocument = {
     document: documentToSign,
     signature: base64url.encode(signature),
-    publicKey: await window.crypto.subtle.exportKey('raw', cryptoKeyPair.publicKey),
-
+    publicKey: await window.crypto.subtle.exportKey('raw', cryptoKeyPair.publicKey)
 };*/
