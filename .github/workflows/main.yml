@@ -4,6 +4,7 @@ on:
       - main
     paths:
       - 'pages/**'
+      - 'js/**'
 
 jobs:
   sync-to-s3:
