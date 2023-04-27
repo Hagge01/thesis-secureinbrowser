@@ -24,14 +24,10 @@ exports.handler = async function(event, context, callback) {
         counter: authenticator.counter,
         transports: ['internal', 'hybrid'],
     }));
-    //console.log("UserAuth: ",JSON.stringify(userAuthenticators));
-    //console.log("Event", JSON.stringify(event));
+
     // Determine whether the challenge answer is an assertion (authentication) or an attestation (registration)
     let challengeAnswer = JSON.parse(event.request.challengeAnswer);
-    //console.log("ChallengeAnswer: ",JSON.stringify(challengeAnswer));
     if (challengeAnswer.response.authenticatorData) {
-        //console.log("ATUHENTICATOR DATA for existing user!");
-        // Using the "rawId" from the authenticator's assertion (challengeAnswer) compare with stored authenticator's credentialIDs to find the correct authenticator for verification
         let authenticator = userAuthenticators.find(({credentialID}) => (Buffer.compare(credentialID, base64url.toBuffer(challengeAnswer.rawId)) === 0)) || userAuthenticators[0];
         let verification = await verifyAuthenticationResponse({
             response: challengeAnswer,
@@ -83,13 +79,10 @@ exports.handler = async function(event, context, callback) {
             expectedOrigin: origin,
             expectedRPID: rpID,
         });
-
-        //console.log("Verification: ",JSON.stringify(verification));
        
         // Can register new authenticator?
         if (verification.verified) {
             let attestationInfo = verification;
-            //console.log("attestationInfo: ",JSON.stringify(attestationInfo));
             const newAuthenticator = {
                 credentialID: Buffer.from(attestationInfo.registrationInfo.credentialID),
                 credentialPublicKey: Buffer.from(attestationInfo.registrationInfo.credentialPublicKey),
@@ -109,15 +102,13 @@ exports.handler = async function(event, context, callback) {
                     UserPoolId: event.userPoolId,
                     Username: event.request.userAttributes.email,
                 }, function(err, data) {
-                    if (err) console.log(err, err.stack); // an error occurred
-                    else console.log(data); // successful response
+
                 });
                 event.response.answerCorrect = true;
         
             } catch (error) {
                 console.error(error);
                 event.response.answerCorrect = false;
-                callback(null, event);
             }
         }
          else {
