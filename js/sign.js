@@ -39,11 +39,11 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     
                     // Store the authenticator data, client data, signature, and user handle for later use
 
-                    const authenticatorDataBytes = Base64urlEncode(asseResp.response.authenticatorData)
-                    const clientDataJSONBytes = Base64urlEncode(asseResp.response.clientDataJSON)
-                    const signatureBytes = Base64urlEncode(asseResp.response.signature)
-                    const userHandleBytes = Base64urlEncode(asseResp.response.userHandle)
-                    const credentialIdFromWebAuthn = Base64urlEncode(asseResp.id)
+                    const authenticatorDataBytes = base64urlEncode(asseResp.response.authenticatorData)
+                    const clientDataJSONBytes = base64urlEncode(asseResp.response.clientDataJSON)
+                    const signatureBytes = base64urlEncode(asseResp.response.signature)
+                    const userHandleBytes = base64urlEncode(asseResp.response.userHandle)
+                    const credentialIdFromWebAuthn = base64urlEncode(asseResp.id)
                     
                     console.log('Authenticator Data:', authenticatorDataBytes);
                     console.log('Client Data:', clientDataJSONBytes);
