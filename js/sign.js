@@ -1,4 +1,23 @@
-
+function base64urlEncode(data) {
+    const base64 = btoa(String.fromCharCode.apply(null, data));
+    return base64.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+  }
+  
+  function base64urlDecode(base64url) {
+    base64url = base64url.replace(/-/g, '+').replace(/_/g, '/');
+    const padding = 4 - (base64url.length % 4);
+    if (padding === 4) {
+      padding = 0;
+    }
+    const base64 = base64url + '='.repeat(padding);
+    const data = atob(base64);
+    const result = new Uint8Array(data.length);
+    for (let i = 0; i < data.length; ++i) {
+      result[i] = data.charCodeAt(i);
+    }
+    return result;
+  }
+  
 
 document.getElementById('signUser').addEventListener('click', async () => {
     userPool = await getAmazonCognitoUserPool();
@@ -20,11 +39,11 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     
                     // Store the authenticator data, client data, signature, and user handle for later use
 
-                    const authenticatorDataBytes = asseResp.response.authenticatorData
-                    const clientDataJSONBytes = asseResp.response.clientDataJSON;
-                    const signatureBytes = asseResp.response.signature
-                    const userHandleBytes = asseResp.response.userHandle
-                    const credentialIdFromWebAuthn = asseResp.rawId;
+                    const authenticatorDataBytes = Base64urlEncode(asseResp.response.authenticatorData)
+                    const clientDataJSONBytes = Base64urlEncode(asseResp.response.clientDataJSON)
+                    const signatureBytes = Base64urlEncode(asseResp.response.signature)
+                    const userHandleBytes = Base64urlEncode(asseResp.response.userHandle)
+                    const credentialIdFromWebAuthn = Base64urlEncode(asseResp.id)
                     
                     console.log('Authenticator Data:', authenticatorDataBytes);
                     console.log('Client Data:', clientDataJSONBytes);
@@ -35,12 +54,12 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     try {
                         credential = new PublicKeyCredential({
                             id: credentialIdFromWebAuthn,
-                            rawId: base64url.decode(credentialIdFromWebAuthn),
+                            rawId: base64urlDecode(credentialIdFromWebAuthn),
                             response: {
-                                authenticatorData: base64url.decode(authenticatorDataBytes),
-                                clientDataJSON: base64url.decode(clientDataJSONBytes),
-                                signature: base64url.decode(signatureBytes),
-                                userHandle: base64url.decode(userHandleBytes),
+                                authenticatorData: base64urlDecode(authenticatorDataBytes),
+                                clientDataJSON: base64urlDecode(clientDataJSONBytes),
+                                signature: base64urlDecode(signatureBytes),
+                                userHandle: base64urlDecode(userHandleBytes),
                             },
                             type: 'public-key',
                         });
