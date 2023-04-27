@@ -24,13 +24,13 @@ exports.handler = async function(event, context, callback) {
         counter: authenticator.counter,
         transports: ['internal', 'hybrid'],
     }));
-    console.log("UserAuth: ",JSON.stringify(userAuthenticators));
-    console.log("Event", JSON.stringify(event));
+    //console.log("UserAuth: ",JSON.stringify(userAuthenticators));
+    //console.log("Event", JSON.stringify(event));
     // Determine whether the challenge answer is an assertion (authentication) or an attestation (registration)
     let challengeAnswer = JSON.parse(event.request.challengeAnswer);
-    console.log("ChallengeAnswer: ",JSON.stringify(challengeAnswer));
+    //console.log("ChallengeAnswer: ",JSON.stringify(challengeAnswer));
     if (challengeAnswer.response.authenticatorData) {
-        console.log("ATUHENTICATOR DATA for existing user!");
+        //console.log("ATUHENTICATOR DATA for existing user!");
         // Using the "rawId" from the authenticator's assertion (challengeAnswer) compare with stored authenticator's credentialIDs to find the correct authenticator for verification
         let authenticator = userAuthenticators.find(({credentialID}) => (Buffer.compare(credentialID, base64url.toBuffer(challengeAnswer.rawId)) === 0)) || userAuthenticators[0];
         let verification = await verifyAuthenticationResponse({
@@ -51,7 +51,7 @@ exports.handler = async function(event, context, callback) {
 
             // Update the counter for the stored authenticator
             try {
-                console.log("AdminUserCreateAttributesValue: ",JSON.stringify(userAuthenticators.map(authenticator => [authenticator].find(updatedAuthenticator => (Buffer.compare(updatedAuthenticator.credentialID, authenticator.credentialID)) === 0) || authenticator)));
+                //console.log("AdminUserCreateAttributesValue: ",JSON.stringify(userAuthenticators.map(authenticator => [authenticator].find(updatedAuthenticator => (Buffer.compare(updatedAuthenticator.credentialID, authenticator.credentialID)) === 0) || authenticator)));
                 await cognito.adminUpdateUserAttributes({
                     UserAttributes: [
                         {
@@ -75,7 +75,7 @@ exports.handler = async function(event, context, callback) {
             event.response.answerCorrect = false;
             callback(null, event);
         }
-        console.log("challengeAnswer.response.authenticatorData: ",JSON.stringify(challengeAnswer.response.authenticatorData));
+        //console.log("challengeAnswer.response.authenticatorData: ",JSON.stringify(challengeAnswer.response.authenticatorData));
     } else {
         let verification = await verifyRegistrationResponse({
             response: challengeAnswer,
@@ -84,12 +84,12 @@ exports.handler = async function(event, context, callback) {
             expectedRPID: rpID,
         });
 
-        console.log("Verification: ",JSON.stringify(verification));
+        //console.log("Verification: ",JSON.stringify(verification));
        
         // Can register new authenticator?
         if (verification.verified) {
             let attestationInfo = verification;
-            console.log("attestationInfo: ",JSON.stringify(attestationInfo));
+            //console.log("attestationInfo: ",JSON.stringify(attestationInfo));
             const newAuthenticator = {
                 credentialID: Buffer.from(attestationInfo.registrationInfo.credentialID),
                 credentialPublicKey: Buffer.from(attestationInfo.registrationInfo.credentialPublicKey),
