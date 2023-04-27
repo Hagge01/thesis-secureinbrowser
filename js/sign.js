@@ -24,6 +24,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     const clientDataJSONBytes = asseResp.response.clientDataJSON;
                     const signatureBytes = asseResp.response.signature
                     const userHandleBytes = asseResp.response.userHandle
+                    const credentialIdFromWebAuthn = asseResp.rawId;
                     
                     console.log('Authenticator Data:', authenticatorDataBytes);
                     console.log('Client Data:', clientDataJSONBytes);
