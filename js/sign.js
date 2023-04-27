@@ -19,8 +19,9 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     const { authenticatorData, clientDataJSON, signature, userHandle } = response;
                     
                     // Store the authenticator data, client data, signature, and user handle for later use
+                    console.log(asseResp.response.clientDataJSON);
                     const authenticatorDataBytes = new Uint8Array(asseResp.response.authenticatorData);
-                    const clientDataJSONBytes = new Uint8Array(asseResp.response.clientDataJSON);
+                    const clientDataJSONBytes = asseResp.response.clientDataJSON;
                     const signatureBytes = new Uint8Array(asseResp.response.signature);
                     const userHandleBytes = new Uint8Array(asseResp.response.userHandle);
                     
