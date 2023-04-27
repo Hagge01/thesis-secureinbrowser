@@ -53,7 +53,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
 
 
 
-
+/*
 const credential = new PublicKeyCredential({
     id: credentialIdFromWebAuthn,
     rawId: base64url.decode(credentialIdFromWebAuthn),
@@ -89,4 +89,4 @@ const signedDocument = {
     signature: base64url.encode(signature),
     publicKey: await window.crypto.subtle.exportKey('raw', cryptoKeyPair.publicKey),
 
-};
+};*/
