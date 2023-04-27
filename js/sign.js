@@ -32,6 +32,7 @@ document.getElementById('authUsername').addEventListener('click', async () => {
         }
 
 });
+});
 
 
 
