@@ -1,4 +1,4 @@
-import {Buffer} from "./amazon-cognito-identity";
+
 
 document.getElementById('signUser').addEventListener('click', async () => {
     userPool = await getAmazonCognitoUserPool();
