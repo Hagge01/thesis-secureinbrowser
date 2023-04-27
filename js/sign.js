@@ -41,7 +41,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                         },
                         type: 'public-key',
                     });
-                    console.log('Creds: ',credentials);
+                    console.log('Creds: ',credential);
 
                     const cryptoKeyPair = await window.crypto.subtle.generateKey(
                         {
