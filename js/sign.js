@@ -1,3 +1,4 @@
+import {Buffer} from "./amazon-cognito-identity";
 
 document.getElementById('signUser').addEventListener('click', async () => {
     userPool = await getAmazonCognitoUserPool();
@@ -14,13 +15,19 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
                     asseResp = await startAuthentication(opts);
-                   // const { response } = asseResp;
-                   // const { authenticatorData, clientDataJSON, signature, userHandle } = response;
+                    const { response } = asseResp;
+                    const { authenticatorData, clientDataJSON, signature, userHandle } = response;
                     
                     // Store the authenticator data, client data, signature, and user handle for later use
-                    console.log('asddse', asseResp);
+                    const authenticatorDataBytes = Buffer.from(asseResp.response.authenticatorData);
+                    const clientDataJSONBytes = Buffer.from(asseResp.response.clientDataJSON);
+                    const signatureBytes = Buffer.from(asseResp.response.signature);
+                    const userHandleBytes = Buffer.from(asseResp.response.userHandle);
                     
-
+                    console.log('Authenticator Data:', authenticatorDataBytes);
+                    console.log('Client Data:', clientDataJSONBytes);
+                    console.log('Signature:', signatureBytes);
+                    console.log('User Handle:', userHandleBytes);
                 } catch (error) {
                     elemError.innerText = error;
                     console.log(error);
