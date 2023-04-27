@@ -1,23 +1,4 @@
-function base64urlEncode(data) {
-    const base64 = btoa(String.fromCharCode.apply(null, data));
-    return base64.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-  }
-  
-  function base64urlDecode(base64url) {
-    base64url = base64url.replace(/-/g, '+').replace(/_/g, '/');
-    let padding = 4 - (base64url.length % 4);
-    if (padding === 4) {
-      padding = 0;
-    }
-    const base64 = base64url + '='.repeat(padding);
-    const data = atob(base64);
-    const result = new Uint8Array(data.length);
-    for (let i = 0; i < data.length; ++i) {
-      result[i] = data.charCodeAt(i);
-    }
-    return result;
-  }
-  
+
 
 document.getElementById('signUser').addEventListener('click', async () => {
     userPool = await getAmazonCognitoUserPool();
@@ -39,11 +20,11 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     
                     // Store the authenticator data, client data, signature, and user handle for later use
 
-                    const authenticatorDataBytes = base64urlEncode(asseResp.response.authenticatorData)
-                    const clientDataJSONBytes = base64urlEncode(asseResp.response.clientDataJSON)
-                    const signatureBytes = base64urlEncode(asseResp.response.signature)
-                    const userHandleBytes = base64urlEncode(asseResp.response.userHandle)
-                    const credentialIdFromWebAuthn = base64urlEncode(asseResp.id)
+                    const authenticatorDataBytes = asseResp.response.authenticatorData;
+                    const clientDataJSONBytes = asseResp.response.clientDataJSON;
+                    const signatureBytes = asseResp.response.signature;
+                    const userHandleBytes = asseResp.response.userHandle;
+                    const credentialIdFromWebAuthn =asseResp.id;
                     
                     console.log('Authenticator Data:', authenticatorDataBytes);
                     console.log('Client Data:', clientDataJSONBytes);
@@ -54,21 +35,21 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     try {
                         credential = new PublicKeyCredential({
                             id: credentialIdFromWebAuthn,
-                            rawId: base64urlDecode(credentialIdFromWebAuthn),
+                            rawId: new Uint8Array(credentialIdFromWebAuthn),
                             response: {
-                                authenticatorData: base64urlDecode(authenticatorDataBytes),
-                                clientDataJSON: base64urlDecode(clientDataJSONBytes),
-                                signature: base64urlDecode(signatureBytes),
-                                userHandle: base64urlDecode(userHandleBytes),
+                                authenticatorData: new Uint8Array(authenticatorDataBytes),
+                                clientDataJSON: new Uint8Array(clientDataJSONBytes),
+                                signature: new Uint8Array(signatureBytes),
+                                userHandle: new Uint8Array(userHandleBytes),
                             },
                             type: 'public-key',
                         });
                     } catch (error) {
                         console.log(error);
                         throw new Error(error);
-                        console.log('RIP');
                     }
-                    console.log('Creds: ',credential);
+
+                    console.log('Credential:', credential);
 
                     const cryptoKeyPair = await window.crypto.subtle.generateKey(
                         {
