@@ -73,4 +73,5 @@ const signedDocument = {
     document: documentToSign,
     signature: base64url.encode(signature),
     publicKey: await window.crypto.subtle.exportKey('raw', cryptoKeyPair.publicKey),
+
 };
