@@ -30,8 +30,9 @@ document.getElementById('signUser').addEventListener('click', async () => {
                     console.log('Client Data:', clientDataJSONBytes);
                     console.log('Signature:', signatureBytes);
                     console.log('User Handle:', userHandleBytes);
+                    let credential;
                     try {
-                        const credential = new PublicKeyCredential({
+                        credential = new PublicKeyCredential({
                             id: credentialIdFromWebAuthn,
                             rawId: base64url.decode(credentialIdFromWebAuthn),
                             response: {
