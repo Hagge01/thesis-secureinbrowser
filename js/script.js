@@ -111,7 +111,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             }
 
                             // Send the authenticators response
-                            loadingBar.style.width = '75%'; // update the width to 25%
+                            loadingBar.style.width = '60%'; // update the width to 25%
                             cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
                             loadingBar.style.width = '90%'; // update the width to 25%
 
