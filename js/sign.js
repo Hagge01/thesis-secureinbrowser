@@ -24,9 +24,13 @@ document.getElementById('signUser').addEventListener('click', async () => {
                         success: function (result) {
                             console.log(result);
                             console.log('Success');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log('Error:', textStatus, errorThrown);
                         }
                     });
-                    
+
+
                 } catch (error) {
                     elemError.innerText = error;
                     console.log(error);
