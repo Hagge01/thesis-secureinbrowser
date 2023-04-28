@@ -5,7 +5,7 @@ const fs = require('fs');
 // Generate a random symmetric key to encrypt the document
 const symKey = crypto.randomBytes(32);
 
-exports.handler = async (event, context, callback) => {
+exports.handler = async (event, context) => {
     try {
         const path = event.path; // Convert path to lowercase for case-insensitive comparison
         const functionName = path.substring(path.lastIndexOf('/') + 1); // Extract function name from the path
@@ -27,6 +27,44 @@ exports.handler = async (event, context, callback) => {
             body: JSON.stringify({ error: "Failed to process request" }),
         };
     }
+};
+
+
+const myfunction = async (event, context) => {
+    try {
+        const requestBody = JSON.parse(event.body);
+        console.log('Data received:', requestBody);
+
+        // Your function code here
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message: "Success" }),
+        };
+    } catch (error) {
+        console.error("Error: ", error);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to process request" }),
+        };
+    }
+};
+
+const myfunction2 = async (event, context) => {
+    const key4 = event.key4;
+    const key5 = event.key5;
+    const key6 = event.key6;
+
+    console.log("Key4: ", key4);
+    console.log("Key5: ", key5);
+    console.log("Key6: ", key6);
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({ message: "Keys successfully accessed in myFunction2 YESSIR!" }, key4, key5, key6),
+    };
+};
+
 /*
     let credential;
     try {
@@ -68,12 +106,7 @@ exports.handler = async (event, context, callback) => {
     );
     console.log('Signature:', base64url.encode(signature2));*/
 
-};
 
-const myfunction = async (event, context) => {
-    console.log('myfunction called');
-    console.log(event);
-};
 
 
 
