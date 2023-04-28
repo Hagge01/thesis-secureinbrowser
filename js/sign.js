@@ -83,7 +83,7 @@ console.log('Signature:', base64url.encode(signature2));*/
 
 function callLambda(){
     $.ajax({
-        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myfunction",
+        url: "https://8sehj03dh7.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser-documentSign/documentsign/myfunction",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({
