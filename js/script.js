@@ -89,12 +89,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             let attResp;
                             try {
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
-                                let loadingBar = document.querySelector('#loading-bar');
-                                loadingBar.style.width = '25%';
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
-                                loadingBar = document.querySelector('#loading-bar');
-                                loadingBar.style.width = '50%';
                                 console.log('attResp2', attResp);
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                             } catch (error) {
@@ -110,11 +106,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             }
 
                             // Send the authenticators response
-                            loadingBar = document.querySelector('#loading-bar');
-                            loadingBar.style.width = '75%';
+
                             cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
-                            let loadingBar = document.querySelector('#loading-bar');
-                            loadingBar.style.width = '100%';
 
 
                         },
