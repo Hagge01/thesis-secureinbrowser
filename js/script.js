@@ -66,6 +66,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             elemError.innerHTML = '';
             elemDebug.innerHTML = '';
 
+            const loadingBar = document.querySelector('#loading-bar');
+
             // Register the user in Cognito
             userPool = await getAmazonCognitoUserPool();
             userPool.signUp(document.getElementById('email2').value, 'PasswordD123!', [new CognitoUserAttribute({
@@ -88,13 +90,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         customChallenge: async function(challengeParameters) {
                             let attResp;
                             try {
+                                loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
-                                let loadingBar = document.querySelector('#loading-bar');
-                                loadingBar.style.width = '10%';
+                                loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
-                                loadingBar = document.querySelector('#loading-bar');
-                                loadingBar.style.width = '25%';
+                                loadingBar.style.width = '40%'; // update the width to 25%
                                 console.log('attResp2', attResp);
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                             } catch (error) {
@@ -110,14 +111,13 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             }
 
                             // Send the authenticators response
-
+                            loadingBar.style.width = '60%'; // update the width to 25%
                             cognitoUser.sendCustomChallengeAnswer(JSON.stringify(attResp), this);
-                            let loadingBar = document.querySelector('#loading-bar');
-                            loadingBar.style.width = '50%';
-
+                            loadingBar.style.width = '90%'; // update the width to 25%
 
                         },
                         onSuccess: function (result) {
+                            loadingBar.style.width = '100%'; // update the width to 25%
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                             elemSuccess.innerHTML = `Authenticator registered!`;
                             
