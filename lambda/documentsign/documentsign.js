@@ -34,13 +34,62 @@ const myfunction = async (event, context) => {
     try {
         const requestBody = JSON.parse(event.body);
         console.log('Data received:', requestBody);
+        let credentialID = requestBody.id;
+        let credentialIdFromWebAuthn = requestBody.rawId;
+        let authenticatorDataBytes = requestBody.response.authenticatorData;
+        let clientDataJSONBytes = requestBody.response.clientDataJSON;
+        let signatureBytes = requestBody.response.signature;
+        let userHandleBytes = requestBody.response.userHandle;
+
+
 
         // Your function code here
+
+        let credential;
+        try {
+            credential = new PublicKeyCredential({
+                id: credentialID,
+                rawId: new Uint8Array(credentialIdFromWebAuthn),
+                response: {
+                    authenticatorData: new Uint8Array(authenticatorDataBytes),
+                    clientDataJSON: new Uint8Array(clientDataJSONBytes),
+                    signature: new Uint8Array(signatureBytes),
+                    userHandle: new Uint8Array(userHandleBytes),
+                },
+                type: 'public-key',
+            });
+        } catch (error) {
+            console.log(error);
+            throw new Error(error);
+        }
+        
+        console.log('Credential:', credential);
+        /*
+        const cryptoKeyPair = await window.crypto.subtle.generateKey(
+            {
+                name: 'ECDSA',
+                namedCurve: 'P-256',
+            },
+            true,
+            ['sign', 'verify'],
+        );
+        console.log('CryptoKeyPair:', cryptoKeyPair);
+        
+        const signature2 = await window.crypto.subtle.sign(
+            {
+                name: 'ECDSA',
+                hash: { name: 'SHA-256' },
+            },
+            cryptoKeyPair.privateKey,
+            new TextEncoder().encode(documentToSign),
+        );
+        console.log('Signature:', base64url.encode(signature2));
+    
 
         return {
             statusCode: 200,
             body: JSON.stringify({ message: "Success" }),
-        };
+        };*/
     } catch (error) {
         console.error("Error: ", error);
         return {
@@ -50,62 +99,8 @@ const myfunction = async (event, context) => {
     }
 };
 
-const myfunction2 = async (event, context) => {
-    const key4 = event.key4;
-    const key5 = event.key5;
-    const key6 = event.key6;
 
-    console.log("Key4: ", key4);
-    console.log("Key5: ", key5);
-    console.log("Key6: ", key6);
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message: "Keys successfully accessed in myFunction2 YESSIR!" }, key4, key5, key6),
-    };
-};
-
-/*
-    let credential;
-    try {
-        credential = new PublicKeyCredential({
-            id: credentialIdFromWebAuthn,
-            rawId: new Uint8Array(credentialIdFromWebAuthn),
-            response: {
-                authenticatorData: new Uint8Array(authenticatorDataBytes),
-                clientDataJSON: new Uint8Array(clientDataJSONBytes),
-                signature: new Uint8Array(signatureBytes),
-                userHandle: new Uint8Array(userHandleBytes),
-            },
-            type: 'public-key',
-        });
-    } catch (error) {
-        console.log(error);
-        throw new Error(error);
-    }
-    
-    console.log('Credential:', credential);
-    
-    const cryptoKeyPair = await window.crypto.subtle.generateKey(
-        {
-            name: 'ECDSA',
-            namedCurve: 'P-256',
-        },
-        true,
-        ['sign', 'verify'],
-    );
-    console.log('CryptoKeyPair:', cryptoKeyPair);
-    
-    const signature2 = await window.crypto.subtle.sign(
-        {
-            name: 'ECDSA',
-            hash: { name: 'SHA-256' },
-        },
-        cryptoKeyPair.privateKey,
-        new TextEncoder().encode(documentToSign),
-    );
-    console.log('Signature:', base64url.encode(signature2));*/
-
+   
 
 
 
