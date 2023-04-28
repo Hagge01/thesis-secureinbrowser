@@ -14,11 +14,5 @@
     height: 100%;
     background: linear-gradient(to right, #0077cc, #00bfff);
     transition: width 1s ease;
-    animation: loading 2s infinite;
-}
-
-@keyframes loading {
-    0% { width: 0%; }
-    50% { width: 50%; }
-    100% { width: 100%; }
+    box-shadow: 0px 0px 10px #0077cc;
 }
