@@ -15,20 +15,6 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
                     asseResp = await startAuthentication(opts);
-                    $.ajax({
-                        url: 'https://8sehj03dh7.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser-documentSign/documentsign/myfunction',
-                        type: 'POST',
-                        data: JSON.stringify(asseResp),
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        success: function (result) {
-                            console.log(result);
-                            console.log('Success');
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('Error:', textStatus, errorThrown);
-                        }
-                    });
 
 
                 } catch (error) {
@@ -95,4 +81,21 @@ console.log('Signature:', base64url.encode(signature2));*/
 
 
 
-
+function callLambda(){
+    $.ajax({
+        url: "https://0gmpdmznid.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser/lambda/myfunction",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            key1: "hello",
+            key2: "world",
+            key3: "testing"
+        }),
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}
