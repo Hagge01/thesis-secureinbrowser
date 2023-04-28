@@ -12,6 +12,13 @@
 #loading-bar {
     width: 0%;
     height: 100%;
-    background-color: #0077cc;
-    transition: width 0.5s ease;
+    background: linear-gradient(to right, #0077cc, #00bfff);
+    transition: width 1s ease;
+    animation: loading 2s infinite;
+}
+
+@keyframes loading {
+    0% { width: 0%; }
+    50% { width: 50%; }
+    100% { width: 100%; }
 }
