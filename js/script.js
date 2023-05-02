@@ -53,7 +53,7 @@
             }
         }
 
-const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
+const { browserSupportsWebauthn, startRegistration, startAuthentication, generateKeyPair } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
         document.getElementById('register-btn').addEventListener('click', async () => {
@@ -62,7 +62,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             const elemDebug = document.querySelector('#regDebug');
 
             try {
-                const keyPair = await SimpleWebAuthnBrowser.generateKeyPair();
+                const keyPair = await generateKeyPair();
                 const publicKey = keyPair.publicKey;
                 const privateKey = keyPair.privateKey;
                 // Use the key pair for encryption/decryption, signing/verification, etc.
