@@ -66,7 +66,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 const publicKey = keyPair.publicKey;
                 const privateKey = keyPair.privateKey;
                 // Use the key pair for encryption/decryption, signing/verification, etc.
-                console.log('keyPair', keyPair);
+                console.log('keyPadsir', keyPair);
             }
             catch (error) {
                 elemError.innerText = error;
