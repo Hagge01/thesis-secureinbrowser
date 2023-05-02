@@ -19,8 +19,5 @@
   "bugs": {
     "url": "https://github.com/Hagge01/thesis-test/issues"
   },
-  "homepage": "https://github.com/Hagge01/thesis-test#readme",
-  "dependencies": {
-    "@simplewebauthn/browser": "^7.2.0"
-  }
+  "homepage": "https://github.com/Hagge01/thesis-test#readme"
 }
