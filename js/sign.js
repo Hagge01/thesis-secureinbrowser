@@ -15,7 +15,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
 
-                    asseResp = await startAuthentication2(opts);
+                    asseResp = await startAuthentication(opts);
 
                     console.log(asseResp);
 
