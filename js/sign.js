@@ -16,7 +16,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
 
-                    asseResp = await startAuthentication(opts);
+                    asseResp = await startAuthentication2(opts);
 
                     console.log(asseResp);
 
@@ -39,7 +39,7 @@ document.getElementById('signUser').addEventListener('click', async () => {
 });
 });
 
-async function startAuthentication(opts) {
+async function startAuthentication2(opts) {
     // Make the WebAuthn request to the authenticator
     const assertion = await navigator.credentials.get({
         publicKey: {
