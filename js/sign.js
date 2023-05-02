@@ -1,3 +1,4 @@
+import * as assert from "assert";
 
 
 document.getElementById('signUser').addEventListener('click', async () => {
@@ -14,22 +15,49 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 const opts = JSON.parse(challengeParameters.assertionChallenge);
                 console.log('opts', opts);
                 try {
+
                     asseResp = await startAuthentication(opts);
-                    // Generate a random key for encryption
-                  const key = crypto.randomBytes(32).toString('hex');
+                    async function startAuthentication(opts) {
+                        // Make the WebAuthn request to the authenticator
+                        const assertion = await navigator.credentials.get({
+                            publicKey: {
+                                challenge: stringToBuffer(opts.challenge),
+                                allowCredentials: opts.allowCredentials.map((cred) => {
+                                    return {
+                                        id: base64UrlToBuffer(cred.id),
+                                        type: 'public-key',
+                                    };
+                                }),
+                            },
+                        });
 
-                  // Encrypt data
-                  const inputData = 'This is some test data';
-                  const cipher = crypto.createCipher('aes-256-cbc', key);
-                  const encryptedData = Buffer.concat([cipher.update(inputData), cipher.final()]);
+                        // Extract the private key from the credential
+                        const privateKey = await crypto.subtle.importKey(
+                            'raw',
+                            assertion.response.clientExtensionResults.privateKey,
+                            {
+                                name: 'RSASSA-PKCS1-v1_5',
+                                hash: 'SHA-256',
+                            },
+                            true,
+                            ['sign'],
+                        );
 
-                  console.log('Encrypted data:', encryptedData.toString('hex'));
+                        // Use the private key for encryption and decryption
+                        const iv = crypto.getRandomValues(new Uint8Array(16));
+                        const plaintext = stringToBuffer('Hello, world!');
+                        const ciphertext = await crypto.subtle.encrypt(
+                            {
+                                name: 'AES-CBC',
+                                iv: iv,
+                            },
+                            privateKey,
+                            plaintext,
+                        );
+                        console.log(bufferToBase64Url(ciphertext));
+                    }
 
-                  // Decrypt data
-                  const decipher = crypto.createDecipher('aes-256-cbc', key);
-                  const decryptedData = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
-
-                  console.log('Decrypted data:', decryptedData.toString());
+                    console.log(asseResp);
 
                 } catch (error) {
                     elemError.innerText = error;
