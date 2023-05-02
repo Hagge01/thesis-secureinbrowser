@@ -53,7 +53,7 @@
             }
         }
 
-const { browserSupportsWebauthn, startRegistration, startAuthentication, generateKeyPair } = SimpleWebAuthnBrowser;
+const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
         document.getElementById('register-btn').addEventListener('click', async () => {
