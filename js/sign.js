@@ -15,18 +15,21 @@ document.getElementById('signUser').addEventListener('click', async () => {
                 console.log('opts', opts);
                 try {
                     asseResp = await startAuthentication(opts);
-                    $.ajax({
-                        url: "https://8sehj03dh7.execute-api.eu-north-1.amazonaws.com/default/THESIS-secureinbrowser-documentSign/documentsign/myfunction",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify(asseResp),
-                        success: function (data) {
-                            console.log(data);
-                        },
-                        error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                        }
-                    });
+                    // Generate a random key for encryption
+                  const key = crypto.randomBytes(32).toString('hex');
+
+                  // Encrypt data
+                  const inputData = 'This is some test data';
+                  const cipher = crypto.createCipher('aes-256-cbc', key);
+                  const encryptedData = Buffer.concat([cipher.update(inputData), cipher.final()]);
+
+                  console.log('Encrypted data:', encryptedData.toString('hex'));
+
+                  // Decrypt data
+                  const decipher = crypto.createDecipher('aes-256-cbc', key);
+                  const decryptedData = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
+
+                  console.log('Decrypted data:', decryptedData.toString());
 
                 } catch (error) {
                     elemError.innerText = error;
