@@ -1,4 +1,3 @@
-import * as assert from "assert";
 
 
 document.getElementById('signUser').addEventListener('click', async () => {
