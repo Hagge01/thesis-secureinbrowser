@@ -61,6 +61,19 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             const elemError = document.querySelector('#regError');
             const elemDebug = document.querySelector('#regDebug');
 
+            try {
+                const keyPair = await SimpleWebAuthnBrowser.generateKeyPair();
+                const publicKey = keyPair.publicKey;
+                const privateKey = keyPair.privateKey;
+                // Use the key pair for encryption/decryption, signing/verification, etc.
+                console.log('keyPair', keyPair);
+            }
+            catch (error) {
+                elemError.innerText = error;
+                throw new Error(error);
+            }
+
+
             // Reset success/error messages
             elemSuccess.innerHTML = '';
             elemError.innerHTML = '';
