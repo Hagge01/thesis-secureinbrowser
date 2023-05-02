@@ -150,6 +150,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
           elemError.innerHTML = '';
           elemDebug.innerHTML = '';
 
+             const loadingBar = document.querySelector('#loading-bar');
+
           // Request the generated assertion options to begin webauthn authentication
           userPool = await getAmazonCognitoUserPool();
           var cognitoUser = new CognitoUser({
@@ -164,11 +166,14 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
                 let asseResp;
                 try {
+                    loadingBar.style.width = '10%'; // update the width to 25%
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', opts);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                     try {
+                        loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
+                        loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                     } catch (error) {
                         elemError.innerText = error;
@@ -180,12 +185,14 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   elemError.innerText = error;
                   throw new Error(error);
                 }
-
-                // Send the authenticators response
+                  loadingBar.style.width = '60%';
+                  // Send the authenticators response
                 cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+                  loadingBar.style.width = '80%';
               },
               onSuccess: function (result) {
-                printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                  loadingBar.style.width = '100%';
+                  printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
                 window.location.href = "../pages/auth.html";
               },
