@@ -1,5 +1,5 @@
 
-const { browserSupportsWebauthn, startRegistration, startAuthentication } = require ('@simplewebauthn/browser');
+import { browserSupportsWebauthn, startRegistration, startAuthentication } from '@simplewebauthn/browser';
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
