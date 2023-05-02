@@ -1,4 +1,5 @@
 
+const { browserSupportsWebauthn, startRegistration, startAuthentication } = require ('@simplewebauthn/browser');
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -53,7 +54,7 @@
             }
         }
 
-const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
+//const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
         document.getElementById('register-btn').addEventListener('click', async () => {

@@ -32,14 +32,14 @@ exports.handler = async (event, context) => {
 
 const myfunction = async (event, context) => {
     try {
-        const requestBody = JSON.parse(event.body);
-        console.log('Data received:', requestBody);
-        let credentialID = requestBody.id;
-        let credentialIdFromWebAuthn = requestBody.rawId;
-        let authenticatorDataBytes = requestBody.response.authenticatorData;
-        let clientDataJSONBytes = requestBody.response.clientDataJSON;
-        let signatureBytes = requestBody.response.signature;
-        let userHandleBytes = requestBody.response.userHandle;
+        
+        console.log('event', event.body);
+        let credentialID = Buffer.from(event.body.id, 'base64');
+        let credentialIdFromWebAuthn = Buffer.from(event.body.rawId, 'base64');
+        let authenticatorDataBytes = Buffer.from(event.body.response.authenticatorData, 'base64');
+        let clientDataJSONBytes = Buffer.from(event.body.response.clientDataJSON, 'base64');
+        let signatureBytes = Buffer.from(event.body.response.signature, 'base64');
+        let userHandleBytes = Buffer.from(event.body.response.userHandle, 'base64');
 
 
 
@@ -48,7 +48,7 @@ const myfunction = async (event, context) => {
         let credential;
         try {
             credential = new PublicKeyCredential({
-                id: credentialID,
+                id: new Uint8Array(credentialID),
                 rawId: new Uint8Array(credentialIdFromWebAuthn),
                 response: {
                     authenticatorData: new Uint8Array(authenticatorDataBytes),
