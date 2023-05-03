@@ -46,6 +46,7 @@ export default jsonData;
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
+                        console.log("public key: ", attResp);
                     }
                 });
             } else {
@@ -99,9 +100,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 loadingBar.style.width = '40%'; // update the width to 25%
                                 console.log('attResp2', attResp);
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
-                                let jsonData = {};
-                                jsonData.resp = attResp;
-                                
+                             
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
@@ -247,3 +246,20 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             });
         }
       
+        function isSignedIn(){
+            userPool = getAmazonCognitoUserPool();
+            var cognitoUser = userPool.getCurrentUser();
+            if (cognitoUser != null) {
+                cognitoUser.getSession(function(err, session) {
+                    if (err) {
+                        window.location.href = "../pages/index.html";
+                    } else {
+                        console.log("User is logged in.");
+                        console.log("attresp: ", attResp);
+                        console.log("asseResp: ", asseResp);
+                    }
+                });
+            } else {
+                window.location.href = "../pages/index.html";
+            }
+        }
