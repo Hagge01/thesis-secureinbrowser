@@ -99,7 +99,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
                                 console.log(attResp);
-                                console.log(attResp.getClientExtensionResults());
                                 loadingBar.style.width = '40%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                                 printResp = attResp;
