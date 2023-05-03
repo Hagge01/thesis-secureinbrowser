@@ -207,31 +207,44 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
 
         var publicKey = {
-            // Here are the extensions (as "inputs")
-            extensions: {
-                largeBlob: {
-                    support: "required",
+            
+                challenge: "wRKgBJ-vUpQ4DySgw93Ea8Qwtr0m_LO2Lss0vMb9BGs",
+                rp: {
+                  name: "SimpleWebAuthn Example",
+                  id: "thesis-secureinbrowser.s3.eu-north-1.amazonaws.com"
                 },
-            },
-            authenticatorSelection: {
-                requireResidentKey: true,
-            },
-            challenge: new Uint8Array(16) /* from the server */,
-            rp: {
-                name: "Example CORP",
-                id: "localhost"
-            },
-            user: {
-                id: new Uint8Array(16) /* from the server */,
-                name: "jdoe@example.com",
-                displayName: "John Doe"
-            },
-            pubKeyCredParams: [
-                {
-                    type: "public-key",
-                    alg: -7
+                user: {
+                  id: "jojojojo@gmail.se",
+                  name: "jojojojo@gmail.se",
+                  displayName: "jojojojo@gmail.se"
+                },
+                pubKeyCredParams: [
+                  {
+                    alg: -7,
+                    type: "public-key"
+                  },
+                  {
+                    alg: -257,
+                    type: "public-key"
+                  }
+                ],
+                timeout: 60000,
+                attestation: "indirect",
+                excludeCredentials: [],
+                authenticatorSelection: {
+                  authenticatorAttachment: "platform",
+                  userVerification: "preferred",
+                  requireResidentKey: false
+                },
+                extensions: {
+                  largeBlob: {
+                    support: "required",
+                    data: "c29tZSBkYXRhIHRvIGJlIHN0b3JlZCBpbiB0aGUgbGFyZ2UgYmxvYg=="
+                  },
+                  credProps: true
                 }
-            ]
+              
+              
         };
         function auth() {
             navigator.credentials.create({ publicKey })
