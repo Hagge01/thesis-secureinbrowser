@@ -203,4 +203,44 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
               }
           });
         });
+
+
+
+        var publicKey = {
+            // Here are the extensions (as "inputs")
+            extensions: {
+                largeBlob: {
+                    support: "required",
+                },
+            },
+            authenticatorSelection: {
+                requireResidentKey: true,
+            },
+            challenge: new Uint8Array(16) /* from the server */,
+            rp: {
+                name: "Example CORP",
+                id: "localhost"
+            },
+            user: {
+                id: new Uint8Array(16) /* from the server */,
+                name: "jdoe@example.com",
+                displayName: "John Doe"
+            },
+            pubKeyCredParams: [
+                {
+                    type: "public-key",
+                    alg: -7
+                }
+            ]
+        };
+        function auth() {
+            navigator.credentials.create({ publicKey })
+                .then(function (newCredentialInfo) {
+                    var myBuffer = newCredentialInfo.getClientExtensionResults();
+                    console.log(myBuffer);
+                    // myBuffer will contain the result of any of the processing of the "loc" and "uvi" extensions
+                }).catch(function (err) {
+                console.error(err);
+            });
+        }
       
