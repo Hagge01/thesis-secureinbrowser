@@ -90,6 +90,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         customChallenge: async function(challengeParameters) {
                             let attResp;
                             try {
+                                debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
                                 loadingBar.style.width = '25%'; // update the width to 25%
