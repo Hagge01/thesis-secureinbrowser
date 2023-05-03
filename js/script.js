@@ -10,9 +10,6 @@
             elemDebug.innerHTML += `${output}\n`;
         }
 
-let printResp;
-let printResp2;
-
     let userPool;
       function getAmazonCognitoUserPool() {
 
@@ -101,7 +98,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 loadingBar.style.width = '40%'; // update the width to 25%
                                 console.log('attResp2', attResp.getClientExtensionResults());
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
-                                printResp = attResp;
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
@@ -178,14 +174,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                        printResp2 = asseResp;
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                  printResp2 = asseResp;
                 } catch (error) {
                   elemError.innerText = error;
                   throw new Error(error);
@@ -258,8 +252,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
-                        console.log("attresp: ", printResp);
-                        console.log("asseResp: ", printResp2);
+                        console.log("attresp", attResp);
+                        console.log("asseresp", asseResp);
                     }
                 });
             } else {
