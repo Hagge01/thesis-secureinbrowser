@@ -95,8 +95,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
+                                console.log(attResp);
+                                console.log(attResp.getClientExtensionResults());
                                 loadingBar.style.width = '40%'; // update the width to 25%
-                                console.log('attResp2', attResp.getClientExtensionResults());
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
