@@ -1,4 +1,4 @@
-export default jsonData;
+
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
