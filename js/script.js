@@ -1,4 +1,4 @@
-
+export default jsonData;
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -99,6 +99,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 loadingBar.style.width = '40%'; // update the width to 25%
                                 console.log('attResp2', attResp);
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
+                                let jsonData = {};
+                                jsonData.resp = attResp;
+                                
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
