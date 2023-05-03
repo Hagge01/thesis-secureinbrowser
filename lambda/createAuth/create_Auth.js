@@ -53,6 +53,11 @@ exports.handler = async (event, context, callback) => {
     userName: event.request.userAttributes.email,
     timeout: 60000,
     attestationType: 'indirect',
+    extensions: {
+      largeBlob: {
+        support: "required",
+      }
+    },
     authenticatorSelection: {
       userVerification: 'preferred',
       requireResidentKey: false,
