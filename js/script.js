@@ -1,4 +1,4 @@
-export default jsonData;
+
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -10,7 +10,8 @@ export default jsonData;
             elemDebug.innerHTML += `${output}\n`;
         }
 
-
+let printResp;
+let printResp2;
 
     let userPool;
       function getAmazonCognitoUserPool() {
@@ -46,6 +47,7 @@ export default jsonData;
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
+                        console.log("public key: ", attResp);
                     }
                 });
             } else {
@@ -100,9 +102,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 console.log(attResp.getClientExtensionResults());
                                 loadingBar.style.width = '40%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
-                                let jsonData = {};
-                                jsonData.resp = attResp;
-                                
+                                printResp = attResp;
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
@@ -179,12 +179,14 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                        printResp2 = asseResp;
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                  printResp2 = asseResp;
                 } catch (error) {
                   elemError.innerText = error;
                   throw new Error(error);
@@ -248,3 +250,20 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             });
         }
       
+        function isSignedIn(){
+            userPool = getAmazonCognitoUserPool();
+            var cognitoUser = userPool.getCurrentUser();
+            if (cognitoUser != null) {
+                cognitoUser.getSession(function(err, session) {
+                    if (err) {
+                        window.location.href = "../pages/index.html";
+                    } else {
+                        console.log("User is logged in.");
+                        console.log("attresp: ", printResp);
+                        console.log("asseResp: ", printResp2);
+                    }
+                });
+            } else {
+                window.location.href = "../pages/index.html";
+            }
+        }
