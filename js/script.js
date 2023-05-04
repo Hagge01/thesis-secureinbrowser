@@ -257,7 +257,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             if (cognitoUser != null) {
                 cognitoUser.getSession(function(err, session) {
                     if (err) {
-                        window.location.href = "../pages/index.html";
+                        //window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
                         // Get the value of the loginOptions URL parameter
