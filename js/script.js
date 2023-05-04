@@ -111,11 +111,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                             userVerification: 'preferred',
                                             requireResidentKey: false,
                                         },
-                                        excludeCredentials: {
-                                            id: new Uint8Array(32),
-                                            type: 'public-key',
-                                            transports: ['internal', 'hybrid'],
-                                        },
                                         challenge: challenge,
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
