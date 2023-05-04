@@ -306,12 +306,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 return;
                             }
 
-                            const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
-                            if (authCreds) {
-                            console.log('Auth credentials:', authCreds.getValue());
-                            } else {
-                            console.log('Auth credentials not found.');
-                            }
+                    const authCreds = attributes.find(attr => attr.getName() === 'authCreds');
+                    if (authCreds) {
+                    console.log('Auth credentials:', authCreds.getValue());
+                    } else {
+                    console.log('Auth credentials not found.');
+                    }
 
                         });
                         // Now you can use the loginOptions variable on the new page
