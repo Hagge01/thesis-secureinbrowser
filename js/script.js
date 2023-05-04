@@ -97,28 +97,31 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
                                 const challenge = new Uint8Array(32); // generate a challenge
                                 window.crypto.getRandomValues(challenge);
+                                const rpName = 'SimpleWebAuthn Example';
+                                const rpID = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com'
                                 const options = {
                                     publicKey: {
-                                        rp: {
-                                            name: 'KNIGHTEC.',
+                                        rpName,
+                                        rpID,
+                                        userID: document.getElementById('email2').value,
+                                        userName: document.getElementById('email2').value,
+                                        timeout: 60000,
+                                        attestationType: 'indirect',
+                                        authenticatorSelection: {
+                                            userVerification: 'preferred',
+                                            requireResidentKey: false,
                                         },
-                                        user: {
-                                            name: 'KNIGHTEC user',
-                                            displayName: 'KNIGHTEC user',
-                                            id: 'knightec@gmail.com',
+                                        excludeCredentials: {
+                                            id: new Uint8Array(32),
+                                            type: 'public-key',
+                                            transports: ['internal', 'hybrid'],
                                         },
                                         challenge: challenge,
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
                                             { type: 'public-key', alg: -257 },
                                         ],
-                                        timeout: 60000,
                                         attestation: 'direct',
-                                        authenticatorSelection: {
-                                            authenticatorAttachment: 'platform',
-                                            requireResidentKey: true,
-                                            userVerification: 'preferred',
-                                        },
                                     },
                                 };
                                 const credential = await navigator.credentials.create(options);
