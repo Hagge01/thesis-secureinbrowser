@@ -105,7 +105,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         user: {
                                             name: 'KNIGHTEC user',
                                             displayName: 'KNIGHTEC user',
-                                            id: new Uint8Array(32),
+                                            id: 'knightec@gmail.com',
                                         },
                                         challenge: challenge,
                                         pubKeyCredParams: [
