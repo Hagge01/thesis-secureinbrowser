@@ -154,7 +154,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         }
                                     ]
                                 };
-                                const credential = await navigator.credentials.create(publicKey);
+                                const credential = await navigator.credentials.create(opts);
                                 console.log(credential);
 
                                /* loadingBar.style.width = '25%'; // update the width to 25%
