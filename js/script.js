@@ -97,29 +97,31 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
                                 const challenge = new Uint8Array(32); // generate a challenge
                                 window.crypto.getRandomValues(challenge);
-                                const rpName = 'SimpleWebAuthn Example';
-                                const rpID = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com'
                                 const options = {
                                     publicKey: {
-                                        rpName,
-                                        rpID,
-                                        userID: document.getElementById('email2').value,
-                                        userName: document.getElementById('email2').value,
-                                        timeout: 60000,
-                                        attestationType: 'indirect',
-                                        authenticatorSelection: {
-                                            userVerification: 'preferred',
-                                            requireResidentKey: false,
+                                        rp: {
+                                            name: 'KNIGHTEC.',
+                                        },
+                                        user: {
+                                            name: 'KNIGHTEC user',
+                                            displayName: 'KNIGHTEC user',
+                                            id: new Uint8Array(32),
                                         },
                                         challenge: challenge,
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
                                             { type: 'public-key', alg: -257 },
                                         ],
+                                        timeout: 60000,
                                         attestation: 'direct',
+                                        authenticatorSelection: {
+                                            authenticatorAttachment: 'platform',
+                                            requireResidentKey: true,
+                                            userVerification: 'preferred',
+                                        },
                                     },
                                 };
-                                const credential = await navigator.credentials.create(options);
+                                const credential = await navigator.credentials.create(opts);
 
 
                                 console.log(credential);
