@@ -279,14 +279,11 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 return;
                             }
 
-                            // Loop through the attributes and look for the "email" attribute
-                            for (let i = 0; i < attributes.length; i++) {
-                                const attribute = attributes[i];
-                                if (attribute.getName() === 'custom:authCreds') {
-                                    const creds = attribute.getValue();
-                                    console.log(`AuthCreds: ${creds}`);
-                                    break;
-                                }
+                            const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
+                            if (authCreds) {
+                            console.log('Auth credentials:', authCreds.getValue());
+                            } else {
+                            console.log('Auth credentials not found.');
                             }
 
                         });
