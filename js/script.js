@@ -104,7 +104,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 const options = {
                                     publicKey: {
                                         rpName: rpName2,
-                                        rp: rpID2,
+                                        rpID: rpID2,
                                         userID: document.getElementById('email2').value,
                                         userName: document.getElementById('email2').value,
                                         attestationType: 'indirect',
@@ -127,34 +127,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         }
                                     },
                                 };
-                                var publicKey = {
-                                    // Here are the extensions (as "inputs")
-                                    extensions: {
-                                        largeBlob: {
-                                            support: "required",
-                                        },
-                                    },
-                                    authenticatorSelection: {
-                                        requireResidentKey: true,
-                                    },
-                                    challenge: new Uint8Array(16) /* from the server */,
-                                    rp: {
-                                        name: "Example CORP",
-                                        id: "localhost"
-                                    },
-                                    user: {
-                                        id: new Uint8Array(16) /* from the server */,
-                                        name: "jdoe@example.com",
-                                        displayName: "John Doe"
-                                    },
-                                    pubKeyCredParams: [
-                                        {
-                                            type: "public-key",
-                                            alg: -7
-                                        }
-                                    ]
-                                };
-                                const credential = await navigator.credentials.create(publicKey);
+                                const credential = await navigator.credentials.create(options);
                                 console.log(credential);
 
                                /* loadingBar.style.width = '25%'; // update the width to 25%
@@ -300,23 +273,24 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         console.log("Login Option: ",loginOptions);
                         console.log("Login Response: ",loginResponse);
                         // Call the getUserAttributes method to retrieve user attributes
-                        cognitoUser.getUserAttributes((err, attributes) => {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
-
-                            const authCreds = attributes.find(attr => attr.getName() === 'email');
-                            if (authCreds) {
-                            console.log('Auth credentials:', authCreds.getValue());
-                            } else {
-                            console.log('Auth credentials not found.');
-                            }
-
-                        });
+                        
                         // Now you can use the loginOptions variable on the new page
 
                     }
+                });
+                cognitoUser.getUserAttributes((err, attributes) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+
+                    const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
+                    if (authCreds) {
+                    console.log('Auth credentials:', authCreds.getValue());
+                    } else {
+                    console.log('Auth credentials not found.');
+                    }
+
                 });
             } else {
                 window.location.href = "../pages/index.html";
