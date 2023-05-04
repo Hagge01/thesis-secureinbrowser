@@ -1,6 +1,6 @@
 
         let loginOptions;
-
+        let loginResponse;
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -208,6 +208,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                  loginResponse = JSON.stringify(asseResp);
                 } catch (error) {
                   elemError.innerText = error;
                   throw new Error(error);
@@ -221,7 +222,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
-                const url = "../pages/auth.html?loginOptions=" + encodeURIComponent(loginOptions);
+                const url = "../pages/auth.html?loginOptions=" + encodeURIComponent(loginOptions) + "&loginResponse=" + encodeURIComponent(loginResponse);
                 window.location.href = url;
               },
               onFailure: function (error) {
@@ -297,7 +298,10 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         // Get the value of the loginOptions URL parameter
                         const searchParams = new URLSearchParams(window.location.search);
                         const loginOptions = JSON.parse(decodeURIComponent(searchParams.get('loginOptions')));
-                        console.log(loginOptions);
+                        const loginResponse = JSON.parse(decodeURIComponent(searchParams.get('loginResponse')));
+                        console.log("Login Option: ",loginOptions);
+                        console.log("Login Response: ",loginResponse);
+
 
                         // Now you can use the loginOptions variable on the new page
 
