@@ -95,7 +95,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
-                                const challenge = new Uint8Array(32); // generate a challenge
+                                /*const challenge = new Uint8Array(32); // generate a challenge
                                 window.crypto.getRandomValues(challenge);
                                 const encoder = new TextEncoder();
                                 const largeBlobData = encoder.encode("Your large blob data here");
@@ -137,13 +137,13 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                     authenticatorSelection: {
                                         requireResidentKey: true,
                                     },
-                                    challenge: new Uint8Array(16) /* from the server */,
+                                    challenge: new Uint8Array(16) /* from the server ,
                                     rp: {
                                         name: "Example CORP",
                                         id: "localhost"
                                     },
                                     user: {
-                                        id: new Uint8Array(16) /* from the server */,
+                                        id: new Uint8Array(16) /* from the server ,
                                         name: "jdoe@examdple.com",
                                         displayName: "Johnd Doe"
                                     },
@@ -153,7 +153,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                             alg: -7
                                         }
                                     ]
-                                };
+                                };*/
                                 //const credential = await navigator.credentials.create(opts);
                                 //console.log(credential);
 
