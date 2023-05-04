@@ -279,7 +279,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 return;
                             }
 
-                            const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
+                            const authCreds = attributes.find(attr => attr.getName() === 'email');
                             if (authCreds) {
                             console.log('Auth credentials:', authCreds.getValue());
                             } else {
