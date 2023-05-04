@@ -95,6 +95,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
+                                const challenge = new Uint8Array(32); // generate a challenge
+                                window.crypto.getRandomValues(challenge);
                                 const options = {
                                     publicKey: {
                                         rp: {
@@ -102,9 +104,10 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         },
                                         user: {
                                             name: 'John Doe',
+                                            displayName: 'John Doe',
                                             id: new Uint8Array(16),
                                         },
-                                        challenge: new Uint8Array(32),
+                                        challenge: challenge,
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
                                             { type: 'public-key', alg: -257 },
@@ -118,8 +121,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         },
                                     },
                                 };
-
                                 const credential = await navigator.credentials.create(options);
+
 
                                 console.log(credential);
                                 loadingBar.style.width = '25%'; // update the width to 25%
