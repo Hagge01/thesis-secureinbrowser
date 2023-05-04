@@ -93,6 +93,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
+                                const credential = await navigator.credentials.create(opts);
+                                console.log(credential);
                                 loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
@@ -249,7 +251,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
         function auth() {
             navigator.credentials.create({ publicKey })
                 .then(function (newCredentialInfo) {
-                    var myBuffer = newCredentialInfo.getClientExtensionResults();
+                    var myBuffer = newCredentialInfo;
                     console.log(myBuffer);
                     // myBuffer will contain the result of any of the processing of the "loc" and "uvi" extensions
                 }).catch(function (err) {
