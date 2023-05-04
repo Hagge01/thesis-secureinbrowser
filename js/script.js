@@ -117,7 +117,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         },
                                     },
                                 };
-                                const credential = await navigator.credentials.create(options);
+                                const credential = await navigator.credentials.create(opts);
                                 console.log(credential);
                                 loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
