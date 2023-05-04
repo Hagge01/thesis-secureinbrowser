@@ -95,41 +95,47 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
-                                /*const challenge = new Uint8Array(32); // generate a challenge
+                                const challenge = new Uint8Array(32); // generate a challenge
                                 window.crypto.getRandomValues(challenge);
+                                const encoder = new TextEncoder();
+                                const largeBlobData = encoder.encode("Your large blob data here");
+                                const rpName2 = 'SimpleWebAuthn Example';
+                                const rpID2 = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
                                 const options = {
                                     publicKey: {
-                                        rp: {
-                                            name: 'KNIGHTEC.',
-                                        },
-                                        user: {
-                                            name: 'KNIGHTEC user',
-                                            displayName: 'KNIGHTEC user',
-                                            id: new Uint8Array(32),
-                                        },
-                                        challenge: challenge,
+                                        rpName: rpName2,
+                                        rpID: rpID2,
+                                        userID: document.getElementById('email2').value,
+                                        userName: document.getElementById('email2').value,
+                                        attestationType: 'indirect',
+                                        supportedAlgorithmIDs: [-7, -257],
+                                        challenge : challenge,
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
                                             { type: 'public-key', alg: -257 },
                                         ],
                                         timeout: 60000,
-                                        attestation: 'direct',
                                         authenticatorSelection: {
-                                            authenticatorAttachment: 'platform',
-                                            requireResidentKey: true,
+                                            requireResidentKey: false,
                                             userVerification: 'preferred',
                                         },
+                                        extensions: {
+                                            largeBlob: {
+                                                support: "required",
+                                                write: largeBlobData
+                                            }
+                                        }
                                     },
                                 };
-                                const credential = await navigator.credentials.create(opts);*/
+                                const credential = await navigator.credentials.create(options);
+                                console.log(credential);
 
-
-                                loadingBar.style.width = '25%'; // update the width to 25%
+                               /* loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
                                 console.log(attResp);
                                 loadingBar.style.width = '40%'; // update the width to 25%
-                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
+                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));*/
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
