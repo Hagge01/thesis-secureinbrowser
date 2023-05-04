@@ -145,7 +145,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                     user: {
                                         id: new Uint8Array(16) /* from the server */,
                                         name: "jdoe@examdple.com",
-                                        displayName: "John Doe"
+                                        displayName: "Johnd Doe"
                                     },
                                     pubKeyCredParams: [
                                         {
