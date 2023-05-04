@@ -104,6 +104,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                             name: 'John Doe',
                                             id: new Uint8Array(16),
                                         },
+                                        challenge: new Uint8Array(32),
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
                                             { type: 'public-key', alg: -257 },
@@ -117,7 +118,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         },
                                     },
                                 };
-                                const credential = await navigator.credentials.create(opts);
+
+                                const credential = await navigator.credentials.create(options);
+
                                 console.log(credential);
                                 loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
