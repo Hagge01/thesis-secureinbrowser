@@ -1,4 +1,6 @@
 
+        let loginOptions;
+
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -171,6 +173,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     loadingBar.style.width = '10%'; // update the width to 25%
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', JSON.stringify(opts));
+                  loginOptions = JSON.stringify(opts);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                     try {
                         loadingBar.style.width = '25%';
@@ -268,6 +271,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
+                        console.log(loginOptions);
                     }
                 });
             } else {
