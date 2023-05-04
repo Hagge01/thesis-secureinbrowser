@@ -278,6 +278,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
                     }
                 });
+                console.log(cognitoUser.getSignInUserSession());
                 cognitoUser.getUserAttributes((err, attributes) => {
                     if (err) {
                         console.error(err);
