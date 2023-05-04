@@ -154,15 +154,15 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         }
                                     ]
                                 };
-                                const credential = await navigator.credentials.create(opts);
-                                console.log(credential);
+                                //const credential = await navigator.credentials.create(opts);
+                                //console.log(credential);
 
-                               /* loadingBar.style.width = '25%'; // update the width to 25%
+                               loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
                                 console.log(attResp);
                                 loadingBar.style.width = '40%'; // update the width to 25%
-                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));*/
+                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
