@@ -202,13 +202,14 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                        loginResponse = JSON.stringify(asseResp);
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                  loginResponse = JSON.stringify(asseResp);
+                  
                 } catch (error) {
                   elemError.innerText = error;
                   throw new Error(error);
@@ -234,47 +235,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
         });
 
 
-
-        var publicKey = {
-            
-                challenge: "wRKgBJ-vUpQ4DySgw93Ea8Qwtr0m_LO2Lss0vMb9BGs",
-                rp: {
-                  name: "SimpleWebAuthn Example",
-                  id: "thesis-secureinbrowser.s3.eu-north-1.amazonaws.com"
-                },
-                user: {
-                  id: "jojojojo@gmail.se",
-                  name: "jojojojo@gmail.se",
-                  displayName: "jojojojo@gmail.se"
-                },
-                pubKeyCredParams: [
-                  {
-                    alg: -7,
-                    type: "public-key"
-                  },
-                  {
-                    alg: -257,
-                    type: "public-key"
-                  }
-                ],
-                timeout: 60000,
-                attestation: "indirect",
-                excludeCredentials: [],
-                authenticatorSelection: {
-                  authenticatorAttachment: "platform",
-                  userVerification: "preferred",
-                  requireResidentKey: false
-                },
-                extensions: {
-                  largeBlob: {
-                    support: "required",
-                    data: "c29tZSBkYXRhIHRvIGJlIHN0b3JlZCBpbiB0aGUgbGFyZ2UgYmxvYg=="
-                  },
-                  credProps: true
-                }
-              
-              
-        };
         function auth() {
             navigator.credentials.create({ publicKey })
                 .then(function (newCredentialInfo) {
@@ -300,7 +260,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         const loginOptions = JSON.parse(decodeURIComponent(searchParams.get('loginOptions')));
                         const loginResponse = JSON.parse(decodeURIComponent(searchParams.get('loginResponse')));
                         console.log("Login Option: ",loginOptions);
-                        console.log("Login Response: ",loginResponse);
+                        console.log("Login Response: ",loginResponse.response.publicKey);
 
 
                         // Now you can use the loginOptions variable on the new page
