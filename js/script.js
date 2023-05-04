@@ -104,7 +104,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 const options = {
                                     publicKey: {
                                         rpName: rpName2,
-                                        rpID: rpID2,
+                                        rp: rpID2,
                                         userID: document.getElementById('email2').value,
                                         userName: document.getElementById('email2').value,
                                         attestationType: 'indirect',
@@ -127,15 +127,42 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         }
                                     },
                                 };
-                                const credential = await navigator.credentials.create(options);
-                                console.log(credential);
+                                var publicKey = {
+                                    // Here are the extensions (as "inputs")
+                                    extensions: {
+                                        largeBlob: {
+                                            support: "required",
+                                        },
+                                    },
+                                    authenticatorSelection: {
+                                        requireResidentKey: true,
+                                    },
+                                    challenge: new Uint8Array(16) /* from the server */,
+                                    rp: {
+                                        name: "Example CORP",
+                                        id: "localhost"
+                                    },
+                                    user: {
+                                        id: new Uint8Array(16) /* from the server */,
+                                        name: "jdoe@examdple.com",
+                                        displayName: "Johnd Doe"
+                                    },
+                                    pubKeyCredParams: [
+                                        {
+                                            type: "public-key",
+                                            alg: -7
+                                        }
+                                    ]
+                                };
+                                //const credential = await navigator.credentials.create(opts);
+                                //console.log(credential);
 
-                               /* loadingBar.style.width = '25%'; // update the width to 25%
+                               loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
                                 console.log(attResp);
                                 loadingBar.style.width = '40%'; // update the width to 25%
-                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));*/
+                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';

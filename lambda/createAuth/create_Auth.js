@@ -38,6 +38,11 @@ exports.handler = async (event, context, callback) => {
         transports: authenticator.transports,
       })),
       userVerification: 'preferred',
+        extensions: {
+            largeBlob: {
+                read: true
+            }
+        },
     });
       //console.log("options Auth: ", JSON.stringify(options));
 
@@ -45,30 +50,38 @@ exports.handler = async (event, context, callback) => {
     event.response.privateChallengeParameters.assertionChallenge = options.challenge;
     return callback(null, event);
   }
+  const encoder = new TextEncoder();
+  const largeBlobData = encoder.encode("Your large blob data here");
 
   const options = generateRegistrationOptions({
-    rpName,
-    rpID,
-    userID: event.request.userAttributes.email,
-    userName: event.request.userAttributes.email,
-    timeout: 60000,
-    attestationType: 'indirect',
-    extensions: {
-      largeBlob: {
-        support: "required",
+        rpName,
+        rpID,
+        userID: event.request.userAttributes.email,
+        userName: event.request.userAttributes.email,
+        attestationType: 'indirect',
+        supportedAlgorithmIDs: [-7, -257],
+        excludeCredentials: userAuthenticators.map((authenticator) => ({
+          id: authenticator.credentialID,
+          type: 'public-key',
+          transports: ['internal', 'hybrid'],
+        })),
+        pubKeyCredParams: [
+            { type: 'public-key', alg: -7 },
+            { type: 'public-key', alg: -257 },
+        ],
+        timeout: 60000,
+        authenticatorSelection: {
+            requireResidentKey: false,
+            userVerification: 'preferred',
+        },
+      extensions: {
+          largeBlob: {
+              support: "required",
+              write: largeBlobData
+          }
       }
-    },
-    authenticatorSelection: {
-      userVerification: 'preferred',
-      requireResidentKey: false,
-    },
-    supportedAlgorithmIDs: [-7, -257],
-    excludeCredentials: userAuthenticators.map((authenticator) => ({
-      id: authenticator.credentialID,
-      type: 'public-key',
-      transports: ['internal', 'hybrid'],
-    })),
   });
+
   //console.log("option: ", JSON.stringify(options));
   
 
