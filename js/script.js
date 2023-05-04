@@ -104,7 +104,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 const options = {
                                     publicKey: {
                                         rpName: rpName2,
-                                        rpID: rpID2,
+                                        rp: rpID2,
                                         userID: document.getElementById('email2').value,
                                         userName: document.getElementById('email2').value,
                                         attestationType: 'indirect',
