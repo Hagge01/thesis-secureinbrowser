@@ -300,11 +300,17 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         console.log("Login Option: ",loginOptions);
                         console.log("Login Response: ",loginResponse);
                         // Call the getUserAttributes method to retrieve user attributes
-                        cognitoUser.getUserAttributes((err, attributes) => {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
+                        
+                        // Now you can use the loginOptions variable on the new page
+
+                    }
+                });
+                console.log(cognitoUser.getSignInUserSession());
+                cognitoUser.getUserAttributes((err, attributes) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
 
                     const authCreds = attributes.find(attr => attr.getName() === 'authCreds');
                     if (authCreds) {
@@ -313,10 +319,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     console.log('Auth credentials not found.');
                     }
 
-                        });
-                        // Now you can use the loginOptions variable on the new page
-
-                    }
                 });
             } else {
                 window.location.href = "../pages/index.html";
