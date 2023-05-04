@@ -95,15 +95,19 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
+                                /*const challenge = new Uint8Array(32); // generate a challenge
+                                window.crypto.getRandomValues(challenge);
                                 const options = {
                                     publicKey: {
                                         rp: {
-                                            name: 'Example Inc.',
+                                            name: 'KNIGHTEC.',
                                         },
                                         user: {
-                                            name: 'John Doe',
-                                            id: new Uint8Array(16),
+                                            name: 'KNIGHTEC user',
+                                            displayName: 'KNIGHTEC user',
+                                            id: new Uint8Array(32),
                                         },
+                                        challenge: challenge,
                                         pubKeyCredParams: [
                                             { type: 'public-key', alg: -7 },
                                             { type: 'public-key', alg: -257 },
@@ -117,8 +121,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         },
                                     },
                                 };
-                                const credential = await navigator.credentials.create(options);
-                                console.log(credential);
+                                const credential = await navigator.credentials.create(opts);*/
+
+
                                 loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
