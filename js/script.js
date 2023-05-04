@@ -266,8 +266,24 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         const loginResponse = JSON.parse(decodeURIComponent(searchParams.get('loginResponse')));
                         console.log("Login Option: ",loginOptions);
                         console.log("Login Response: ",loginResponse.response.publicKey);
+                        // Call the getUserAttributes method to retrieve user attributes
+                        cognitoUser.getUserAttributes((err, attributes) => {
+                            if (err) {
+                                console.error(err);
+                                return;
+                            }
 
+                            // Loop through the attributes and look for the "email" attribute
+                            for (let i = 0; i < attributes.length; i++) {
+                                const attribute = attributes[i];
+                                if (attribute.getName() === 'email') {
+                                    const email = attribute.getValue();
+                                    console.log(`User email: ${email}`);
+                                    break;
+                                }
+                            }
 
+                        });
                         // Now you can use the loginOptions variable on the new page
 
                     }
