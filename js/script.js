@@ -99,12 +99,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 window.crypto.getRandomValues(challenge);
                                 const encoder = new TextEncoder();
                                 const largeBlobData = encoder.encode("Your large blob data here");
-                                const rpName = 'SimpleWebAuthn Example';
-                                const rpID = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
+                                const rpName2 = 'SimpleWebAuthn Example';
+                                const rpID2 = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
                                 const options = {
                                     publicKey: {
-                                        rpName,
-                                        rpID,
+                                        rpName: rpName2,
+                                        rpID: rpID2,
                                         userID: document.getElementById('email2').value,
                                         userName: document.getElementById('email2').value,
                                         attestationType: 'indirect',
