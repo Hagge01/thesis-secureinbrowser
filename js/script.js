@@ -1,4 +1,6 @@
 
+        let loginOptions;
+
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -192,7 +194,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 try {
                     loadingBar.style.width = '10%'; // update the width to 25%
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
-                  console.log('opts', opts);
+                  console.log('opts', JSON.stringify(opts));
+                  loginOptions = JSON.stringify(opts);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                     try {
                         loadingBar.style.width = '25%';
@@ -218,7 +221,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
-                window.location.href = "../pages/auth.html";
+                const url = "../pages/auth.html?loginOptions=" + encodeURIComponent(loginOptions);
+                window.location.href = url;
               },
               onFailure: function (error) {
                 elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
@@ -290,8 +294,13 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
-                        console.log("attresp", attResp);
-                        console.log("asseresp", asseResp);
+                        // Get the value of the loginOptions URL parameter
+                        const searchParams = new URLSearchParams(window.location.search);
+                        const loginOptions = JSON.parse(decodeURIComponent(searchParams.get('loginOptions')));
+                        console.log(loginOptions);
+
+                        // Now you can use the loginOptions variable on the new page
+
                     }
                 });
             } else {
