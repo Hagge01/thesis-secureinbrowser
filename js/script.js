@@ -265,7 +265,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         const loginOptions = JSON.parse(decodeURIComponent(searchParams.get('loginOptions')));
                         const loginResponse = JSON.parse(decodeURIComponent(searchParams.get('loginResponse')));
                         console.log("Login Option: ",loginOptions);
-                        console.log("Login Response: ",loginResponse.response.publicKey);
+                        console.log("Login Response: ",loginResponse);
                         // Call the getUserAttributes method to retrieve user attributes
                         cognitoUser.getUserAttributes((err, attributes) => {
                             if (err) {
@@ -276,9 +276,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             // Loop through the attributes and look for the "email" attribute
                             for (let i = 0; i < attributes.length; i++) {
                                 const attribute = attributes[i];
-                                if (attribute.getName() === 'email') {
-                                    const email = attribute.getValue();
-                                    console.log(`User email: ${email}`);
+                                if (attribute.getName() === 'custom:authCreds') {
+                                    const creds = attribute.getValue();
+                                    console.log(`AuthCreds: ${creds}`);
                                     break;
                                 }
                             }
