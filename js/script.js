@@ -100,12 +100,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 const options = {
                                     publicKey: {
                                         rp: {
-                                            name: 'Example Inc.',
+                                            name: 'KNIGHTEC.',
                                         },
                                         user: {
-                                            name: 'John Doe',
-                                            displayName: 'John Doe',
-                                            id: new Uint8Array(16),
+                                            name: 'KNIGHTEC user',
+                                            displayName: 'KNIGHTEC user',
+                                            id: new Uint8Array(32),
                                         },
                                         challenge: challenge,
                                         pubKeyCredParams: [
