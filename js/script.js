@@ -168,7 +168,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 try {
                     loadingBar.style.width = '10%'; // update the width to 25%
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
-                  console.log('opts', opts);
+                  console.log('opts', json.stringify(opts));
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                     try {
                         loadingBar.style.width = '25%';
@@ -266,8 +266,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
-                        console.log("attresp", attResp);
-                        console.log("asseresp", asseResp);
                     }
                 });
             } else {
