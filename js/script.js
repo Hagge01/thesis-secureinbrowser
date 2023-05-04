@@ -127,7 +127,34 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         }
                                     },
                                 };
-                                const credential = await navigator.credentials.create(options);
+                                var publicKey = {
+                                    // Here are the extensions (as "inputs")
+                                    extensions: {
+                                        largeBlob: {
+                                            support: "required",
+                                        },
+                                    },
+                                    authenticatorSelection: {
+                                        requireResidentKey: true,
+                                    },
+                                    challenge: new Uint8Array(16) /* from the server */,
+                                    rp: {
+                                        name: "Example CORP",
+                                        id: "localhost"
+                                    },
+                                    user: {
+                                        id: new Uint8Array(16) /* from the server */,
+                                        name: "jdoe@example.com",
+                                        displayName: "John Doe"
+                                    },
+                                    pubKeyCredParams: [
+                                        {
+                                            type: "public-key",
+                                            alg: -7
+                                        }
+                                    ]
+                                };
+                                const credential = await navigator.credentials.create(publicKey);
                                 console.log(credential);
 
                                /* loadingBar.style.width = '25%'; // update the width to 25%
