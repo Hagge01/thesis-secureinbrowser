@@ -199,7 +199,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
-                window.location.href = "../pages/auth.html";
+                const url = "../pages/auth.html?loginOptions=" + encodeURIComponent(loginOptions);
+                window.location.href = url;
               },
               onFailure: function (error) {
                 elemError.innerHTML = `Oh no, something went wrong! Response: <pre>${JSON.stringify(
@@ -271,7 +272,13 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
+                        // Get the value of the loginOptions URL parameter
+                        const searchParams = new URLSearchParams(window.location.search);
+                        const loginOptions = JSON.parse(decodeURIComponent(searchParams.get('loginOptions')));
                         console.log(loginOptions);
+
+                        // Now you can use the loginOptions variable on the new page
+
                     }
                 });
             } else {
