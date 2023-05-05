@@ -1,3 +1,5 @@
+const getAmazonCognitoUserPool = require('./script.js');
+
 userPool = await getAmazonCognitoUserPool();
 var cognitoUser= userPool.getCurrentUser();
 
