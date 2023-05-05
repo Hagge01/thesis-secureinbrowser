@@ -24,7 +24,6 @@
 
         return userPool;
       }
-      module.exports = getAmazonCognitoUserPool;
         function signOut() {
             userPool = getAmazonCognitoUserPool();
             var cognitoUser = userPool.getCurrentUser();
