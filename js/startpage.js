@@ -1,6 +1,7 @@
+
 isSignedIn();
 
-async function myAsyncFunction() {
+async function getCredentials() {
     userPool = getAmazonCognitoUserPool();
             var cognitoUser = userPool.getCurrentUser();
             if (cognitoUser != null) {
@@ -13,8 +14,9 @@ async function myAsyncFunction() {
                             console.error(err);
                             return;
                         }
-                
+                        
                         const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
+                        const userName = attributes.find(attr => attr.getName() === 'email');
                         if (authCreds) {
                             credsString = JSON.parse(authCreds.getValue());
                             console.log('Auth credentials:', authCreds.getValue());
@@ -22,11 +24,16 @@ async function myAsyncFunction() {
                         } else {
                             console.log('Auth credentials not found.');
                         }
+                        if (userName) {
+                            console.log('Username:', userName.getValue());
+                        }else {
+                            console.log('Username not found.');
+                        }
                         });
                     }
             });
             }
 }
   
-  myAsyncFunction();
+  getCredentials();
   
