@@ -281,6 +281,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
       
         function isSignedIn(){
             userPool = getAmazonCognitoUserPool();
+            localStorage.setItem("userPool", userPool);
             var cognitoUser = userPool.getCurrentUser();
             if (cognitoUser != null) {
                 cognitoUser.getSession(function(err, session) {

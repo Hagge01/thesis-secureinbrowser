@@ -1,7 +1,7 @@
 
 
 async function myAsyncFunction() {
-    userPool = await getAmazonCognitoUserPool();
+    const userPool = JSON.parse(localStorage.getItem('userPool'));
     var cognitoUser= userPool.getCurrentUser();
   
     console.log(cognitoUser.getSignInUserSession());
