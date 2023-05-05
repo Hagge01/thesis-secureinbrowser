@@ -297,7 +297,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 window.location.href = "../pages/index.html";
             }
         }
-
+/*
         function getCredentials(){
             userPool = getAmazonCognitoUserPool();
             var cognitoUser = userPool.getCurrentUser();
@@ -324,4 +324,4 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     }
             });
             }
-        }
+        }*/
