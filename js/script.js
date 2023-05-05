@@ -282,7 +282,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
         // FUNCTIONS ON STARTPAGE
         function isSignedIn(){
             userPool = getAmazonCognitoUserPool();
-            localStorage.setItem("userPool", userPool);
             var cognitoUser = userPool.getCurrentUser();
             if (cognitoUser != null) {
                 cognitoUser.getSession(function(err, session) {
@@ -291,25 +290,30 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     } else {
                         console.log("User is logged in.");
                         //Hämtar användarinfo osv
-                        cognitoUser.getUserAttributes((err, attributes) => {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-                    
-                        const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
-                        if (authCreds) {
-                            credsString = JSON.parse(authCreds.getValue());
-                            localStorage.setItem("credsString", JSON.stringify(credsString));
-                            //console.log('Auth credentials:', authCreds.getValue());
-                            //console.log('publika: ', credsString[0].credentialPublicKey.data.toString('utf8'));
-                        } else {
-                            console.log('Auth credentials not found.');
-                        }
-                        });
+                        
                     }
                 });
             } else {
                 window.location.href = "../pages/index.html";
             }
+        }
+
+        function getCredentials(){
+            userPool = getAmazonCognitoUserPool();
+            var cognitoUser = userPool.getCurrentUser();
+            cognitoUser.getUserAttributes((err, attributes) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+            
+                const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
+                if (authCreds) {
+                    credsString = JSON.parse(authCreds.getValue());
+                    console.log('Auth credentials:', authCreds.getValue());
+                    console.log('publika: ', credsString[0].credentialPublicKey.data.toString('utf8'));
+                } else {
+                    console.log('Auth credentials not found.');
+                }
+                });
         }
