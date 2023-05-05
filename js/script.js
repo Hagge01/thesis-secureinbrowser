@@ -256,7 +256,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
-                const url = "../pages/auth.html";
+                const url = "../pages/startpage.html";
                 window.location.href = url;
               },
               onFailure: function (error) {
@@ -289,23 +289,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     } else {
                         console.log("User is logged in.");
                     }
-                });
-                console.log(cognitoUser.getSignInUserSession());
-                cognitoUser.getUserAttributes((err, attributes) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-
-                    const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
-                    if (authCreds) {
-                    credsString = JSON.parse(authCreds.getValue());
-                    console.log('Auth credentials:', authCreds.getValue());
-                    console.log(credsString[0].credentialPublicKey);
-                    } else {
-                    console.log('Auth credentials not found.');
-                    }
-
                 });
             } else {
                 window.location.href = "../pages/index.html";
