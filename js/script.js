@@ -1,6 +1,3 @@
-
-        let loginOptions;
-        let loginResponse;
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -233,14 +230,12 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                     loadingBar.style.width = '10%'; // update the width to 25%
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', JSON.stringify(opts));
-                  loginOptions = JSON.stringify(opts);
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                     try {
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                        loginResponse = JSON.stringify(asseResp);
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
@@ -261,7 +256,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
-                const url = "../pages/auth.html?loginOptions=" + encodeURIComponent(loginOptions) + "&loginResponse=" + encodeURIComponent(loginResponse);
+                const url = "../pages/auth.html";
                 window.location.href = url;
               },
               onFailure: function (error) {
@@ -293,16 +288,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         //window.location.href = "../pages/index.html";
                     } else {
                         console.log("User is logged in.");
-                        // Get the value of the loginOptions URL parameter
-                        const searchParams = new URLSearchParams(window.location.search);
-                        const loginOptions = JSON.parse(decodeURIComponent(searchParams.get('loginOptions')));
-                        const loginResponse = JSON.parse(decodeURIComponent(searchParams.get('loginResponse')));
-                        console.log("Login Option: ",loginOptions);
-                        console.log("Login Response: ",loginResponse);
-                        // Call the getUserAttributes method to retrieve user attributes
-                        
-                        // Now you can use the loginOptions variable on the new page
-
                     }
                 });
                 console.log(cognitoUser.getSignInUserSession());
