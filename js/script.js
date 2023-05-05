@@ -300,8 +300,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
                         if (authCreds) {
                             credsString = JSON.parse(authCreds.getValue());
-                            console.log('Auth credentials:', authCreds.getValue());
-                            console.log('publika: ', credsString[0].credentialPublicKey);
+                            //console.log('Auth credentials:', authCreds.getValue());
+                            console.log('publika: ', credsString[0].credentialPublicKey.toString('utf8'));
                         } else {
                             console.log('Auth credentials not found.');
                         }
