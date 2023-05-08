@@ -38,14 +38,13 @@ async function getCredentials() {
 
             let authinfo = JSON.parse(localStorage.getItem('authinfo'));
             if (authinfo) {
-                console.log("Authinfo: ", authinfo);
-            let textarea = document.getElementById("authinfo");
-            
-            for (let i = 0; i < authinfo.length; i++) {
-                const obj = JSON.parse(authinfo[i]);
-                textarea.value += JSON.stringify(obj, null, 2) + '\n\n';
-              }
+                let textarea = document.getElementById("authinfo");
+                textarea.value = '';
+                for(let i = 0; i < authinfo.length; i++) {
+                    textarea.value += authinfo[i] + '\n';
+                }
             }
+
 
 }
   
