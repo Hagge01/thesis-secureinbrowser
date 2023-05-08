@@ -1,3 +1,5 @@
+        let authinfo = [];
+        
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -231,17 +233,20 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', JSON.stringify(opts));
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
+                  authinfo.push(JSON.stringify(opts, null, 2));
                     try {
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                        
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                  authinfo.push(JSON.stringify(asseResp, null, 2));
                   
                 } catch (error) {
                   elemError.innerText = error;
@@ -255,7 +260,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
               onSuccess: function (result) {
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                  authinfo.push(JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
+                localStorage.setItem('authinfo', JSON.stringify(authinfo));
                 const url = "../pages/startpage.html";
                 window.location.href = url;
               },
