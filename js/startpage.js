@@ -21,7 +21,7 @@ async function getCredentials() {
                             credsString = JSON.parse(authCreds.getValue());
                             console.log('Auth credentials:', authCreds.getValue());
                             console.log('publika: ', credsString[0].credentialPublicKey.data.toString('utf8'));
-                            document.getElementById("publickey").innerHTML = '"' + credsString[0].credentialPublicKey.data.toString('utf8') + '"';
+                            document.getElementById("publicKey").innerHTML = '"' + credsString[0].credentialPublicKey.data.toString('utf8') + '"';
                         } else {
                             console.log('Auth credentials not found.');
                         }
