@@ -32,6 +32,7 @@
 
             if (cognitoUser) {
                 cognitoUser.signOut();
+                window.location.href = "../pages/index.html";
                 console.log('User signed out');
             }
         }
@@ -183,6 +184,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         onSuccess: function (result) {
                             loadingBar.style.width = '100%'; // update the width to 25%
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                            alert("Registration successful and autheticator registered! Try to sign in now.")
                             elemSuccess.innerHTML = `Authenticator registered!`;
                             
                         },
