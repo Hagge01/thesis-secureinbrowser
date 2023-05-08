@@ -76,8 +76,7 @@ exports.handler = async (event, context, callback) => {
         },
       extensions: {
           largeBlob: {
-              support: "required",
-              write: largeBlobData
+              support: "preferred",
           }
       }
   });
