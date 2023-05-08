@@ -36,17 +36,10 @@ async function getCredentials() {
             });
             }
 
-            let authinfo = JSON.parse(localStorage.getItem('authinfo'));
-            if (authinfo) {
-                let textarea = document.getElementById("authinfo");
-                textarea.value = '';
-                for(let i = 0; i < authinfo.length; i++) {
-                    textarea.value += authinfo[i] + '\n';
-                }
-            }
-
+            
 
 }
   
   getCredentials();
   
+ 
