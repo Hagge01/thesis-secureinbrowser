@@ -1,3 +1,5 @@
+        let authinfo = [];
+        
         /**
          * A simple way to control how debug content is writteddn to a debug console element
          */
@@ -30,6 +32,7 @@
 
             if (cognitoUser) {
                 cognitoUser.signOut();
+                window.location.href = "../pages/index.html";
                 console.log('User signed out');
             }
         }
@@ -155,6 +158,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         onSuccess: function (result) {
                             loadingBar.style.width = '100%'; // update the width to 25%
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                            alert("Registration successful and autheticator registered! Try to sign in now.")
                             elemSuccess.innerHTML = `Authenticator registered!`;
                             
                         },
@@ -205,17 +209,20 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', JSON.stringify(opts));
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
+                  authinfo.push(JSON.stringify(opts, null, 2));
                     try {
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
                         printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                        
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
                         throw new Error(error);
                     }
                   printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                  authinfo.push(JSON.stringify(asseResp, null, 2));
                   
                 } catch (error) {
                   elemError.innerText = error;
@@ -229,7 +236,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
               onSuccess: function (result) {
                   loadingBar.style.width = '100%';
                   printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
+                  authinfo.push(JSON.stringify(result, null, 2));
                 elemSuccess.innerHTML = `User authenticated!`;
+                localStorage.setItem('authinfo', JSON.stringify(authinfo));
                 const url = "../pages/startpage.html";
                 window.location.href = url;
               },
@@ -271,31 +280,3 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 window.location.href = "../pages/index.html";
             }
         }
-/*
-        function getCredentials(){
-            userPool = getAmazonCognitoUserPool();
-            var cognitoUser = userPool.getCurrentUser();
-            if (cognitoUser != null) {
-                cognitoUser.getSession(function(err, session) {
-                    if (err) {
-                        window.location.href = "../pages/index.html";
-                    } else {
-                        cognitoUser.getUserAttributes((err, attributes) => {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-                
-                        const authCreds = attributes.find(attr => attr.getName() === 'custom:authCreds');
-                        if (authCreds) {
-                            credsString = JSON.parse(authCreds.getValue());
-                            console.log('Auth credentials:', authCreds.getValue());
-                            console.log('publika: ', credsString[0].credentialPublicKey.data.toString('utf8'));
-                        } else {
-                            console.log('Auth credentials not found.');
-                        }
-                        });
-                    }
-            });
-            }
-        }*/
