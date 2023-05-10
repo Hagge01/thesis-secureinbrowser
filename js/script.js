@@ -53,17 +53,7 @@
                 window.location.href = "../pages/index.html";
             }
         }
-        function base64url(source) {
-            // Remove padding characters
-            let base64 = source.replace(/=/g, '');
-            // Replace non-url-safe characters
-            base64 = base64.replace(/\+/g, '-').replace(/\//g, '_');
-            // Decode base64 string
-            const decoded = atob(base64);
-            // Convert to UTF-8
-            const utf8 = unescape(encodeURIComponent(decoded));
-            return utf8;
-        }
+
 
 
         const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
@@ -108,40 +98,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                 loadingBar.style.width = '10%'; // update the width to 25%
 
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
-
-                                const credential = await navigator.credentials.create({
-                                    publicKey: {
-                                        challenge: base64url.decode(opts.challenge),
-                                        user:  {
-                                            id: base64url.decode(opts.user.id),
-                                            name: opts.user.name,
-                                            displayName: opts.user.displayName
-
-                                        },
-                                        rp: {
-                                            name: opts.rp.name
-                                        },
-                                        authenticatorSelection: {
-                                            residentKey: "preferred",  // Or "required".
-                                        },
-                                        extensions: {
-                                            largeBlob: {
-                                                support: "preferred",  // Or "required".
-                                            },
-                                        },
-                                    }
-                                });
-
-                                if (!credential.getClientExtensionResults().largeBlob) {
-                                    console.log("not supported");
-                                    return;
-                                }
-
-                                if (credential.getClientExtensionResults().largeBlob.supported) {
-                                    console.log("supported");
-                                } else {
-                                    console.log("not supported");
-                                }
 
                                loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
