@@ -53,8 +53,20 @@
                 window.location.href = "../pages/index.html";
             }
         }
+        function base64url(source) {
+            // Remove padding characters
+            let base64 = source.replace(/=/g, '');
+            // Replace non-url-safe characters
+            base64 = base64.replace(/\+/g, '-').replace(/\//g, '_');
+            // Decode base64 string
+            const decoded = atob(base64);
+            // Convert to UTF-8
+            const utf8 = unescape(encodeURIComponent(decoded));
+            return utf8;
+        }
 
-const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
+
+        const { browserSupportsWebauthn, startRegistration, startAuthentication } = SimpleWebAuthnBrowser;
 const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } = AmazonCognitoIdentity;
 
         document.getElementById('register-btn').addEventListener('click', async () => {
