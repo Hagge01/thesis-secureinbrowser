@@ -91,68 +91,42 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             try {
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
+
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
-                                /*const challenge = new Uint8Array(32); // generate a challenge
-                                window.crypto.getRandomValues(challenge);
-                                const encoder = new TextEncoder();
-                                const largeBlobData = encoder.encode("Your large blob data here");
-                                const rpName2 = 'SimpleWebAuthn Example';
-                                const rpID2 = 'thesis-secureinbrowser.s3.eu-north-1.amazonaws.com';
-                                const options = {
+
+                                const credential = await navigator.credentials.create({
                                     publicKey: {
-                                        rpName: rpName2,
-                                        rp: rpID2,
-                                        userID: document.getElementById('email2').value,
-                                        userName: document.getElementById('email2').value,
-                                        attestationType: 'indirect',
-                                        supportedAlgorithmIDs: [-7, -257],
-                                        challenge : challenge,
-                                        pubKeyCredParams: [
-                                            { type: 'public-key', alg: -7 },
-                                            { type: 'public-key', alg: -257 },
-                                        ],
-                                        timeout: 60000,
+                                        challenge: base64url.decode(opts.challenge),
+                                        user:  {
+                                            id: base64url.decode(opts.user.id),
+                                            name: opts.user.name,
+                                            displayName: opts.user.displayName
+
+                                        },
+                                        rp: {
+                                            name: opts.rp.name
+                                        },
                                         authenticatorSelection: {
-                                            requireResidentKey: false,
-                                            userVerification: 'preferred',
+                                            residentKey: "preferred",  // Or "required".
                                         },
                                         extensions: {
                                             largeBlob: {
-                                                support: "required",
-                                                write: largeBlobData
-                                            }
-                                        }
-                                    },
-                                };
-                                var publicKey = {
-                                    // Here are the extensions (as "inputs")
-                                    extensions: {
-                                        largeBlob: {
-                                            support: "required",
+                                                support: "preferred",  // Or "required".
+                                            },
                                         },
-                                    },
-                                    authenticatorSelection: {
-                                        requireResidentKey: true,
-                                    },
-                                    challenge: new Uint8Array(16) /* from the server ,
-                                    rp: {
-                                        name: "Example CORP",
-                                        id: "localhost"
-                                    },
-                                    user: {
-                                        id: new Uint8Array(16) /* from the server ,
-                                        name: "jdoe@examdple.com",
-                                        displayName: "Johnd Doe"
-                                    },
-                                    pubKeyCredParams: [
-                                        {
-                                            type: "public-key",
-                                            alg: -7
-                                        }
-                                    ]
-                                };*/
-                                //const credential = await navigator.credentials.create(opts);
-                                //console.log(credential);
+                                    }
+                                });
+
+                                if (!credential.getClientExtensionResults().largeBlob) {
+                                    console.log("not supported");
+                                    return;
+                                }
+
+                                if (credential.getClientExtensionResults().largeBlob.supported) {
+                                    console.log("supported");
+                                } else {
+                                    console.log("not supported");
+                                }
 
                                loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
