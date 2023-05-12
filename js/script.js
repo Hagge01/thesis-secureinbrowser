@@ -182,7 +182,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
-                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(btoa(String.fromCharCode.apply(null, new Uint8Array(
+                        printDebug(elemDebug, 'PRF RESP', JSON.stringify(btoa(String.fromCharCode.apply(null, new Uint8Array(
                             asseResp.getClientExtensionResults().prf.results.first))), null, 2));
                         
                     } catch (error) {
@@ -190,8 +190,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         console.log(error);
                         throw new Error(error);
                     }
-                  printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                  authinfo.push(JSON.stringify(asseResp, null, 2));
+                  //printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                  //authinfo.push(JSON.stringify(asseResp, null, 2));
                   
                 } catch (error) {
                   elemError.innerText = error;
@@ -199,7 +199,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 }
                   loadingBar.style.width = '60%';
                   // Send the authenticators response
-                cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
+                  cognitoUser.sendCustomChallengeAnswer(JSON.stringify(asseResp), this);
                   loadingBar.style.width = '80%';
               },
               onSuccess: function (result) {
