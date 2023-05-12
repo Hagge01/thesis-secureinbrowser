@@ -102,12 +102,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
-                                console.log(btoa(String.fromCharCode.apply(null, new Uint8Array(
-                                    attResp.getClientExtensionResults().prf.results.first))));
                                 console.log(attResp);
                                 loadingBar.style.width = '40%'; // update the width to 25%
-                                printDebug(elemDebug, 'Registration Response', JSON.stringify(btoa(String.fromCharCode.apply(null, new Uint8Array(
-                                    attResp.getClientExtensionResults().prf.results.first))), null, 2));
+                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
@@ -185,7 +182,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
-                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(btoa(String.fromCharCode.apply(null, new Uint8Array(
+                            asseResp.getClientExtensionResults().prf.results.first))), null, 2));
                         
                     } catch (error) {
                         elemError.innerText = error;
