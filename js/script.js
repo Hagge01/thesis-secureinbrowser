@@ -106,7 +106,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                     attResp.getClientExtensionResults().prf.results.first))));
                                 console.log(attResp);
                                 loadingBar.style.width = '40%'; // update the width to 25%
-                                printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
+                                printDebug(elemDebug, 'Registration Response', JSON.stringify(btoa(String.fromCharCode.apply(null, new Uint8Array(
+                                    attResp.getClientExtensionResults().prf.results.first))), null, 2));
                             } catch (error) {
                                 if (error.name === 'InvalidStateError') {
                                     elemError.innerText = 'Error: Authenticator was probably already registered by user';
