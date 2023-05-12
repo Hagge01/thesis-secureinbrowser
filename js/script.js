@@ -102,6 +102,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                loadingBar.style.width = '25%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Options', JSON.stringify(opts, null, 2));
                                 attResp = await startRegistration(opts);
+                                console.log(btoa(String.fromCharCode.apply(null, new Uint8Array(
+                                    attResp.getClientExtensionResults().prf.results.first))));
                                 console.log(attResp);
                                 loadingBar.style.width = '40%'; // update the width to 25%
                                 printDebug(elemDebug, 'Registration Response', JSON.stringify(attResp, null, 2));
