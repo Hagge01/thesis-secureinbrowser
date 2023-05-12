@@ -95,6 +95,26 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             let attResp;
                             try {
                                 debugger;
+                                var credid = null;
+                                navigator.credentials.create({
+                                    publicKey: {
+                                        challenge: new Uint8Array([1, 2, 3, 4]),
+                                        pubKeyCredParams: [{type: 'public-key', alg: -7}],
+                                        rp: { name: 'Test' },
+                                        user: { id: new Uint8Array([5, 6, 7, 8]), name: 'test', displayName: 'Test' },
+                                        extensions: {
+                                            prf: {
+                                                eval: {
+                                                    first: new Uint8Array([1, 2, 3, 4]).buffer,
+                                                },
+                                            },
+                                        },
+                                    },
+                                }).then(cred => {
+                                    console.log(cred);
+                                    console.log(cred.getClientExtensionResults());
+                                    credid = cred.rawId;
+                                });
                                 loadingBar.style.width = '10%'; // update the width to 25%
 
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
@@ -179,26 +199,6 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                   printDebug(elemDebug, 'Authentication Options', JSON.stringify(opts, null, 2));
                   authinfo.push(JSON.stringify(opts, null, 2));
                     try {
-                        var credid = null;
-                        navigator.credentials.create({
-                            publicKey: {
-                                challenge: new Uint8Array([1, 2, 3, 4]),
-                                pubKeyCredParams: [{type: 'public-key', alg: -7}],
-                                rp: { name: 'Test' },
-                                user: { id: new Uint8Array([5, 6, 7, 8]), name: 'test', displayName: 'Test' },
-                                extensions: {
-                                    prf: {
-                                        eval: {
-                                            first: new Uint8Array([1, 2, 3, 4]).buffer,
-                                        },
-                                    },
-                                },
-                            },
-                        }).then(cred => {
-                            console.log(cred);
-                            console.log(cred.getClientExtensionResults());
-                            credid = cred.rawId;
-                        });
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
