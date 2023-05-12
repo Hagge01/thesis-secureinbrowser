@@ -105,7 +105,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                                         extensions: {
                                             prf: {
                                                 eval: {
-                                                    first: new Uint8Array([1, 2, 3, 4]).buffer,
+                                                    first: new Uint8Array([1, 2, 3, 4]),
                                                 },
                                             },
                                         },
