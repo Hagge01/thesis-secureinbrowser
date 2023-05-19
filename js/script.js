@@ -70,6 +70,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
             elemError.innerHTML = '';
             elemDebug.innerHTML = '';
 
+            let start = null;
+
             const loadingBar = document.querySelector('#loading-bar');
 
             // Register the user in Cognito
@@ -96,7 +98,8 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             try {
                                 debugger;
                                 loadingBar.style.width = '10%'; // update the width to 25%
-
+                                //timer
+                                start = Date.now();
                                 const opts = JSON.parse(challengeParameters.attestationChallenge);
 
                                loadingBar.style.width = '25%'; // update the width to 25%
@@ -124,6 +127,11 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
 
                         },
                         onSuccess: function (result) {
+                            //end timer
+                            let end = Date.now();
+                            let time = end - start;
+                            // timer in ms
+                            console.log('time: ', time);
                             loadingBar.style.width = '100%'; // update the width to 25%
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                             alert("Registration successful and autheticator registered! Try to sign in now.")
