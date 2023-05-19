@@ -131,7 +131,9 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                             let end = Date.now();
                             let time = end - start;
                             // timer in ms
-                            console.log('time: ', time);
+                            console.log('time: ', time, " ms");
+                            // time in seconds
+                            console.log('time: ', time / 1000, " s");
                             loadingBar.style.width = '100%'; // update the width to 25%
                             printDebug(elemDebug, 'Server Response', JSON.stringify(result, null, 2));
                             alert("Registration successful and autheticator registered! Try to sign in now.")
