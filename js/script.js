@@ -182,16 +182,15 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                         loadingBar.style.width = '25%';
                         asseResp = await startAuthentication(opts);
                         loadingBar.style.width = '40%';
-                        printDebug(elemDebug, 'PRF RESP', JSON.stringify(btoa(String.fromCharCode.apply(null, new Uint8Array(
-                            asseResp.getClientExtensionResults().prf.results.first))), null, 2));
+                        printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
                         
                     } catch (error) {
                         elemError.innerText = error;
                         console.log(error);
                         throw new Error(error);
                     }
-                  //printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
-                  //authinfo.push(JSON.stringify(asseResp, null, 2));
+                  printDebug(elemDebug, 'Authentication Response', JSON.stringify(asseResp, null, 2));
+                  authinfo.push(JSON.stringify(asseResp, null, 2));
                   
                 } catch (error) {
                   elemError.innerText = error;
