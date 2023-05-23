@@ -83,11 +83,13 @@ exports.handler = async function(event, context, callback) {
         // Can register new authenticator?
         if (verification.verified) {
             let attestationInfo = verification;
+            console.log("test", attestationInfo.registrationInfo);
             const newAuthenticator = {
                 credentialID: Buffer.from(attestationInfo.registrationInfo.credentialID),
                 credentialPublicKey: Buffer.from(attestationInfo.registrationInfo.credentialPublicKey),
                 counter: attestationInfo.registrationInfo ? attestationInfo.registrationInfo.counter : 0,
                 transports: ['internal', 'hybrid'],
+
             };
         
             // Add the new authenticator to the list of stored authenticators for the Cognito user
