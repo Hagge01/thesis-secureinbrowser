@@ -183,6 +183,7 @@ const { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetail
                 let asseResp;
                 try {
                     debugger;
+
                     loadingBar.style.width = '10%'; // update the width to 25%
                   const opts = JSON.parse(challengeParameters.assertionChallenge);
                   console.log('opts', JSON.stringify(opts));
